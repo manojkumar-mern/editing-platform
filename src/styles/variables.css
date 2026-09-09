@@ -1,0 +1,43 @@
+:root {
+  /* Strictly Monochrome Color System */
+  --bg-primary: #000000;
+  --bg-secondary: #0A0A0A;
+  --bg-tertiary: #141414;
+  
+  --text-primary: #FFFFFF;
+  --text-secondary: #A0A0A0;
+  --text-muted: #666666;
+  
+  --border-subtle: rgba(255, 255, 255, 0.18);
+  --border-strong: rgba(255, 255, 255, 0.4);
+  --border-focus: #FFFFFF;
+  
+  /* Typography System */
+  --font-display: 'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* Fluid Spacing Scale */
+  --space-3xs: clamp(0.25rem, 0.2vw + 0.2rem, 0.375rem);
+  --space-2xs: clamp(0.5rem, 0.4vw + 0.4rem, 0.75rem);
+  --space-xs:  clamp(0.75rem, 0.6vw + 0.6rem, 1.125rem);
+  --space-sm:  clamp(1rem, 0.8vw + 0.8rem, 1.5rem);
+  --space-md:  clamp(1.5rem, 1.2vw + 1.2rem, 2.25rem);
+  --space-lg:  clamp(2rem, 2vw + 1.5rem, 3.5rem);
+  --space-xl:  clamp(3rem, 3vw + 2rem, 5.5rem);
+  --space-2xl: clamp(4rem, 5vw + 3rem, 8rem);
+  --space-3xl: clamp(6rem, 8vw + 4rem, 12rem);
+  
+  /* Layout Bounds */
+  --max-width-site: 1600px;
+  --max-width-narrow: 900px;
+  --gutter-mobile: 1.25rem;
+  --gutter-desktop: 3.5rem;
+  
+  /* Motion & Transitions */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+  --transition-fast: 0.2s var(--ease-out-expo);
+  --transition-medium: 0.4s var(--ease-out-expo);
+  --transition-slow: 0.8s var(--ease-out-expo);
+}

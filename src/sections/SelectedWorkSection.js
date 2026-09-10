@@ -102,7 +102,6 @@ export default function SelectedWorkSection({ onOpenModal }) {
           </div>
           <div className="flex-row items-center" style={{ gap: '0.75rem' }}>
             <span className="meta-tag">PROJECT 0{activeProjectIndex + 1} / 03</span>
-            <span className="status-dot"></span>
           </div>
         </div>
 
@@ -163,7 +162,6 @@ export default function SelectedWorkSection({ onOpenModal }) {
                     <span className="badge-tag" style={{ borderRadius: '20px', padding: '0.3rem 0.8rem' }}>
                       0{index + 1} // {project.category.toUpperCase()}
                     </span>
-                    <span className="status-dot"></span>
                   </div>
                   <div className="flex-row items-center" style={{ gap: '0.5rem', flexWrap: 'wrap' }}>
                     <span className="timecode-tag">24FPS // 4K DCI</span>

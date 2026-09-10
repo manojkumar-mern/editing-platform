@@ -85,11 +85,12 @@ export default function WhatWeDoSection() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          padding: 'var(--space-md) 0',
+          paddingTop: 'clamp(4.5rem, 8vh, 6rem)',
+          paddingBottom: 'clamp(1.5rem, 3vh, 2.5rem)',
         }}
       >
         {/* Header Ribbon */}
-        <div className="site-container flex-row items-center justify-between" style={{ marginBottom: 'var(--space-md)', flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
+        <div className="site-container flex-row items-center justify-between" style={{ marginBottom: 'clamp(0.35rem, 1vh, 0.75rem)', flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
           <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
             <span className="subheading" style={{ color: 'var(--text-dark-primary)' }}>[ WHAT WE DO ]</span>
             <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>03 CAPABILITIES</span>
@@ -101,7 +102,7 @@ export default function WhatWeDoSection() {
 
         {/* Section Headline */}
         <div className="site-container">
-          <h2 className="heading-lg" style={{ maxWidth: '1000px', fontSize: 'clamp(1.5rem, 4vw, 3.25rem)', color: 'var(--text-dark-primary)' }}>
+          <h2 className="heading-lg" style={{ maxWidth: '1000px', fontSize: 'clamp(1.25rem, 2.8vw, 2.5rem)', color: 'var(--text-dark-primary)', lineHeight: 1.15 }}>
             Crafting visual narratives with mathematical editing precision.
           </h2>
         </div>
@@ -114,7 +115,7 @@ export default function WhatWeDoSection() {
             gap: '1.5rem',
             paddingLeft: 'var(--space-md)',
             paddingRight: 'var(--space-lg)',
-            marginTop: 'var(--space-md)',
+            marginTop: 'clamp(0.75rem, 2vh, 1.5rem)',
             willChange: 'transform',
           }}
         >
@@ -123,11 +124,12 @@ export default function WhatWeDoSection() {
               key={cap.number}
               className="capability-card film-crop-marks silver-sheen flex-col justify-between"
               style={{
-                minWidth: 'clamp(280px, 85vw, 620px)',
+                minWidth: 'clamp(280px, 40vw, 560px)',
+                maxHeight: 'calc(100vh - 220px)',
                 backgroundColor: 'var(--bg-light-card)',
                 border: '1px solid var(--border-light-subtle)',
                 borderRadius: '20px',
-                padding: 'var(--space-md)',
+                padding: 'clamp(1rem, 1.8vw, 1.5rem)',
                 boxShadow: '0 15px 40px rgba(0,0,0,0.06)',
                 transition: 'border-color 0.3s ease, transform 0.3s ease',
               }}
@@ -135,7 +137,7 @@ export default function WhatWeDoSection() {
             >
               {/* Card Top Metadata */}
               <div className="flex-row items-center justify-between" style={{ flexWrap: 'wrap', gap: '0.4rem' }}>
-                <span className="badge-tag" style={{ backgroundColor: 'rgba(0,0,0,0.04)', color: 'var(--text-dark-primary)', border: '1px solid rgba(0,0,0,0.1)' }}>
+                <span className="badge-tag" style={{ backgroundColor: 'rgba(0,0,0,0.04)', color: 'var(--text-dark-primary)', border: '1px solid rgba(0,0,0,0.1)', padding: '0.3rem 0.7rem' }}>
                   {cap.number} // {cap.title}
                 </span>
                 <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>{cap.timecode}</span>
@@ -146,12 +148,13 @@ export default function WhatWeDoSection() {
                 className="video-container film-crop-marks"
                 style={{
                   width: '100%',
-                  height: '240px',
-                  margin: '1.25rem 0',
+                  height: 'clamp(140px, 18vh, 210px)',
+                  margin: 'clamp(0.5rem, 1.2vh, 0.85rem) 0',
                   borderRadius: '14px',
                   border: '1px solid rgba(0,0,0,0.08)',
                   overflow: 'hidden',
                   position: 'relative',
+                  flexShrink: 0,
                 }}
               >
                 <video
@@ -179,33 +182,32 @@ export default function WhatWeDoSection() {
                   className="flex-row items-center justify-between"
                   style={{
                     position: 'absolute',
-                    bottom: '0.75rem',
-                    left: '0.75rem',
-                    right: '0.75rem',
+                    bottom: '0.6rem',
+                    left: '0.6rem',
+                    right: '0.6rem',
                     zIndex: 2,
                   }}
                 >
-                  <span className="meta-tag" style={{ color: '#fff' }}>{cap.format}</span>
-                  <span className="status-dot"></span>
+                  <span className="meta-tag" style={{ color: '#fff', fontSize: '0.6875rem' }}>{cap.format}</span>
                 </div>
               </div>
 
               {/* Text & Specs */}
-              <div className="flex-col" style={{ gap: '0.5rem' }}>
-                <h3 className="display-title" style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.5rem)', color: 'var(--text-dark-primary)' }}>
+              <div className="flex-col" style={{ gap: '0.35rem' }}>
+                <h3 className="display-title" style={{ fontSize: 'clamp(1.2rem, 2vw, 2rem)', color: 'var(--text-dark-primary)', lineHeight: 1.1 }}>
                   {cap.title}
                 </h3>
-                <span className="subheading" style={{ fontSize: '0.8125rem', color: 'var(--text-dark-secondary)' }}>
+                <span className="subheading" style={{ fontSize: '0.75rem', color: 'var(--text-dark-secondary)' }}>
                   {cap.subtitle}
                 </span>
-                <p className="body-regular" style={{ fontSize: '0.9375rem', color: 'var(--text-dark-secondary)', marginTop: '0.25rem' }}>
+                <p className="body-regular" style={{ fontSize: 'clamp(0.8125rem, 0.95vw, 0.9375rem)', color: 'var(--text-dark-secondary)', marginTop: '0.15rem', lineHeight: 1.45 }}>
                   {cap.description}
                 </p>
 
                 {/* Specs Pills */}
-                <div className="flex-row items-center" style={{ gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.75rem' }}>
+                <div className="flex-row items-center" style={{ gap: '0.4rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
                   {cap.specs.map((spec, i) => (
-                    <span key={i} className="meta-tag" style={{ backgroundColor: 'rgba(0,0,0,0.05)', color: 'var(--text-dark-primary)', padding: '0.25rem 0.6rem', borderRadius: '4px' }}>
+                    <span key={i} className="meta-tag" style={{ backgroundColor: 'rgba(0,0,0,0.05)', color: 'var(--text-dark-primary)', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.65rem' }}>
                       ✓ {spec}
                     </span>
                   ))}

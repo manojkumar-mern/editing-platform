@@ -90,9 +90,8 @@ export default function PreloaderSection({ onComplete }) {
       <div className="flex-col items-center" style={{ gap: '0.75rem', textAlign: 'center' }}>
         {/* REC & Timecode Header */}
         <div ref={recRef} className="flex-row items-center" style={{ gap: '1rem', opacity: 0 }}>
-          <span className="status-dot"></span>
           <span className="timecode-tag" style={{ color: 'var(--text-primary)', fontSize: '0.8125rem' }}>
-            REC [●] // {timecodeStr}
+            REC // {timecodeStr}
           </span>
           <span className="meta-tag">4K DCI</span>
         </div>

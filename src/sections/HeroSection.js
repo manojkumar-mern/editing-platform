@@ -145,7 +145,6 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
           style={{ opacity: isLoaded ? 1 : 0, flexWrap: 'wrap', gap: '0.5rem 1rem' }}
         >
           <div className="badge-tag" style={{ fontSize: 'clamp(0.65rem, 2.2vw, 0.75rem)' }}>
-            <span className="status-dot"></span>
             <span>CREATIVE VIDEO EDITING STUDIO</span>
           </div>
 
@@ -162,7 +161,6 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
           <div className="hero-title-line">
             <h1 className="display-hero" style={{ opacity: isLoaded ? 1 : 0 }}>
               {typedLine1 || targetLine1}
-              {typedLine1.length < targetLine1.length && <span className="status-dot" style={{ marginLeft: '6px' }}></span>}
             </h1>
           </div>
           <div className="hero-title-line" style={{ alignSelf: 'flex-end', marginTop: '-0.12em' }}>
@@ -175,9 +173,6 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
               }}
             >
               {typedLine2 || targetLine2}
-              {typedLine2.length < targetLine2.length && typedLine1.length >= targetLine1.length && (
-                <span className="status-dot" style={{ marginLeft: '6px' }}></span>
-              )}
             </h1>
           </div>
         </div>

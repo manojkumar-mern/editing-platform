@@ -129,7 +129,6 @@ export default function AboutSection() {
             />
             <div className="flex-row items-center justify-between" style={{ position: 'absolute', bottom: '1rem', left: '1.25rem', right: '1.25rem', zIndex: 3 }}>
               <span className="badge-tag" style={{ color: '#fff', backgroundColor: 'rgba(0,0,0,0.8)' }}>SUITE 01 // EDITORIAL BAY</span>
-              <span className="status-dot"></span>
             </div>
           </div>
 

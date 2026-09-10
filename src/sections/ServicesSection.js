@@ -24,7 +24,6 @@ export default function ServicesSection() {
           </div>
           <div className="flex-row items-center" style={{ gap: '1rem' }}>
             <span className="meta-tag">INTERACTIVE CANVAS</span>
-            <span className="status-dot"></span>
           </div>
         </div>
 

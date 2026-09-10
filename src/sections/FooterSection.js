@@ -14,12 +14,15 @@ export default function FooterSection() {
             <span className="subheading" style={{ fontSize: '0.75rem' }}>{siteData.tagline}</span>
           </div>
 
-          <div className="flex-row" style={{ gap: '2rem' }}>
+          <div className="flex-row items-center" style={{ gap: '1.5rem', flexWrap: 'wrap' }}>
             <a href={`mailto:${siteData.contact.email}`} className="meta-tag" style={{ textDecoration: 'underline' }}>
               {siteData.contact.email}
             </a>
             <a href={siteData.contact.whatsappUrl} target="_blank" rel="noopener noreferrer" className="meta-tag" style={{ textDecoration: 'underline' }}>
               {siteData.contact.phone}
+            </a>
+            <a href={siteData.contact.whatsappUrlSecondary} target="_blank" rel="noopener noreferrer" className="meta-tag" style={{ textDecoration: 'underline' }}>
+              {siteData.contact.phoneSecondary}
             </a>
           </div>
         </div>

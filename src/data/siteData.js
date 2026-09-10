@@ -1,12 +1,15 @@
 export const siteData = {
-  name: "ATZYNC MEDIA",
+  name: "ATZINC MEDIA",
   tagline: "A Mint of Creativity",
   statement: "IDEAS → VISUALS → IMPACT",
   description: "A creative video editing and visual content studio specializing in high-impact Branding Films, Commercials, and Social Media Videos.",
   contact: {
     phone: "+91 9597127710",
+    phoneSecondary: "+91 8838737598",
+    phones: ["+91 9597127710", "+91 8838737598"],
     whatsappUrl: "https://wa.me/919597127710",
-    email: "atzyncmedia@gmail.com",
+    whatsappUrlSecondary: "https://wa.me/918838737598",
+    email: "atzincmedia@gmail.com",
     location: "Global Remote Studio",
   },
   services: [

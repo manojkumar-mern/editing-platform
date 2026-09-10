@@ -4,215 +4,215 @@ import { useState, useRef, useEffect } from 'react';
 import { gsap } from '@/lib/gsap';
 
 export default function WhatWeDoSection() {
-  const [activeSceneIndex, setActiveSceneIndex] = useState(0);
   const sectionRef = useRef(null);
-  const viewportRef = useRef(null);
-  const layersRef = useRef([]);
-  const mediaRef = useRef(null);
+  const triggerRef = useRef(null);
+  const trackRef = useRef(null);
 
   const capabilities = [
     {
       number: '01',
       title: 'EDITORIAL VISION',
-      subtitle: 'Creative Direction & Pacing',
+      subtitle: 'Creative Direction & Narrative Pacing',
       timecode: '00:01:24:12',
       format: '24FPS // CINEMATIC CUT',
-      description: 'Pacing choreography, narrative structure, and thematic sequence design engineered to capture viewer attention.',
+      description: 'Pacing choreography, narrative structure, and sequence design engineered to capture viewer attention within seconds.',
+      poster: '/images/hero-poster.jpg',
+      video: 'https://assets.mixkit.co/videos/preview/mixkit-cinematic-shot-of-a-man-in-the-rain-43098-large.mp4',
+      specs: ['Pacing Choreography', 'Rhythm Sequencing', 'Audience Retention'],
     },
     {
       number: '02',
       title: 'POST-PRODUCTION',
       subtitle: 'Visual & Audio Architecture',
       timecode: '00:02:48:06',
-      format: '4K DCI // COLOR GRADED',
+      format: '4K DCI // ARRI COLOR',
       description: 'Advanced color grading, bespoke sound architecture, dynamic rhythm transitions, and cutting precision.',
+      poster: '/images/color-after.jpg',
+      video: 'https://assets.mixkit.co/videos/preview/mixkit-car-driving-fast-on-a-tunnel-at-night-41555-large.mp4',
+      specs: ['Color Grading (ARRI/LOG)', 'Spatial Audio Design', 'VFX & Motion Cleanup'],
     },
     {
       number: '03',
       title: 'CONTENT SCALING',
       subtitle: 'Multi-Platform Optimization',
       timecode: '00:04:12:00',
-      format: 'ASPECT 16:9 // 9:16 REEL',
-      description: 'Optimized format adaptation tailored for cinema displays, broadcast commercials, and viral social engagement.',
+      format: '16:9 CINEMA // 9:16 REEL',
+      description: 'Optimized format adaptation tailored for cinema displays, broadcast commercials, and high-retention viral social reels.',
+      poster: '/images/studio-suite.jpg',
+      video: 'https://assets.mixkit.co/videos/preview/mixkit-dj-playing-music-at-a-club-41544-large.mp4',
+      specs: ['9:16 & 16:9 Mastering', 'Sound Loudness Norms', 'Multi-Export Suites'],
     },
   ];
 
   useEffect(() => {
-    if (!sectionRef.current || !viewportRef.current) return;
+    if (!sectionRef.current || !trackRef.current) return;
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    // Responsive GSAP Master ScrollTrigger Timeline for BOTH Desktop & Mobile
     const ctx = gsap.context(() => {
-      const layers = layersRef.current;
-      const isMobile = window.innerWidth < 768;
+      const track = trackRef.current;
+      const totalWidth = track.scrollWidth - window.innerWidth + 100;
 
-      const masterTl = gsap.timeline({
+      gsap.to(track, {
+        x: () => -totalWidth,
+        ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
-          pin: viewportRef.current,
+          pin: true,
+          scrub: 1,
           start: 'top top',
-          end: isMobile ? '+=120%' : '+=200%',
-          scrub: 0.7,
-          anticipatePin: 1,
+          end: () => `+=${totalWidth}`,
           invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const idx = Math.min(capabilities.length - 1, Math.floor(self.progress * capabilities.length * 0.99));
-            setActiveSceneIndex(idx);
-          },
         },
       });
-
-      // Initial state
-      gsap.set(layers[0], { opacity: 1, y: 0 });
-      gsap.set([layers[1], layers[2]], { opacity: 0, y: 20 });
-
-      // In-place crossfades
-      masterTl
-        .to(layers[0], { opacity: 0, y: -20, ease: 'power2.inOut', duration: 1 })
-        .to(layers[1], { opacity: 1, y: 0, ease: 'power2.inOut', duration: 1 }, '-=0.5')
-        .fromTo(mediaRef.current, { scale: 0.96 }, { scale: 1, duration: 0.8, ease: 'power2.out' }, '-=0.8');
-
-      masterTl
-        .to(layers[1], { opacity: 0, y: -20, ease: 'power2.inOut', duration: 1 })
-        .to(layers[2], { opacity: 1, y: 0, ease: 'power2.inOut', duration: 1 }, '-=0.5')
-        .fromTo(mediaRef.current, { scale: 0.96 }, { scale: 1, duration: 0.8, ease: 'power2.out' }, '-=0.8');
-
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [capabilities.length]);
+  }, []);
 
   return (
-    <section ref={sectionRef} className="border-bottom" id="what-we-do" style={{ backgroundColor: 'var(--bg-primary)' }}>
-      <div ref={viewportRef} className="pinned-scene-viewport site-container">
-        {/* Top Header Ribbon */}
-        <div className="flex-row items-center justify-between" style={{ zIndex: 10 }}>
+    <section
+      ref={sectionRef}
+      className="border-bottom"
+      id="what-we-do"
+      style={{ backgroundColor: 'var(--bg-light)', color: 'var(--text-dark-primary)', overflow: 'hidden' }}
+    >
+      <div
+        ref={triggerRef}
+        style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          padding: 'var(--space-md) 0',
+        }}
+      >
+        {/* Header Ribbon */}
+        <div className="site-container flex-row items-center justify-between" style={{ marginBottom: 'var(--space-md)' }}>
           <div className="flex-row items-center" style={{ gap: '1rem' }}>
-            <span className="subheading">[ CAPABILITIES ]</span>
-            <span className="timecode-tag">TIMELINE // EDITORIAL</span>
+            <span className="subheading" style={{ color: 'var(--text-dark-primary)' }}>[ WHAT WE DO ]</span>
+            <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>03 CAPABILITIES</span>
           </div>
-          <div className="flex-row items-center" style={{ gap: '1rem' }}>
-            <span className="meta-tag">SCENE 0{activeSceneIndex + 1} / 03</span>
-            <span className="status-dot"></span>
+          <div className="flex-row items-center" style={{ gap: '0.5rem' }}>
+            <span className="meta-tag" style={{ color: 'var(--text-dark-secondary)' }}>SCROLL HORIZONTALLY →</span>
           </div>
         </div>
 
         {/* Section Headline */}
-        <h2 className="heading-lg" style={{ maxWidth: '1100px', zIndex: 10, marginTop: 'var(--space-2xs)' }}>
-          Crafting visual narratives with mathematical editing precision.
-        </h2>
+        <div className="site-container">
+          <h2 className="heading-lg" style={{ maxWidth: '1000px', fontSize: 'clamp(1.75rem, 4vw, 3.25rem)', color: 'var(--text-dark-primary)' }}>
+            Crafting visual narratives with mathematical editing precision.
+          </h2>
+        </div>
 
-        {/* Main Stage: In-Place Layer Grid */}
-        <div className="scene-stage-container grid-2col" style={{ gap: 'var(--space-md)', marginTop: 'var(--space-2xs)' }}>
-          {/* Left Column: Stacked In-Place Layers */}
-          <div style={{ position: 'relative', width: '100%', minHeight: '260px' }}>
-            {capabilities.map((cap, index) => (
+        {/* Horizontal Track Slider with Light Cards */}
+        <div
+          ref={trackRef}
+          className="flex-row items-stretch"
+          style={{
+            gap: '2rem',
+            paddingLeft: 'var(--space-md)',
+            paddingRight: 'var(--space-lg)',
+            marginTop: 'var(--space-md)',
+            willChange: 'transform',
+          }}
+        >
+          {capabilities.map((cap) => (
+            <div
+              key={cap.number}
+              className="capability-card film-crop-marks flex-col justify-between"
+              style={{
+                minWidth: 'clamp(300px, 42vw, 620px)',
+                backgroundColor: 'var(--bg-light-card)',
+                border: '1px solid var(--border-light-subtle)',
+                borderRadius: '20px',
+                padding: 'var(--space-md)',
+                boxShadow: '0 15px 40px rgba(0,0,0,0.06)',
+                transition: 'border-color 0.3s ease, transform 0.3s ease',
+              }}
+              data-cursor="CAPABILITY"
+            >
+              {/* Card Top Metadata */}
+              <div className="flex-row items-center justify-between">
+                <span className="badge-tag" style={{ backgroundColor: 'rgba(0,0,0,0.04)', color: 'var(--text-dark-primary)', border: '1px solid rgba(0,0,0,0.1)' }}>
+                  {cap.number} // {cap.title}
+                </span>
+                <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>{cap.timecode}</span>
+              </div>
+
+              {/* Live Looping Video Frame */}
               <div
-                key={cap.number}
-                ref={(el) => (layersRef.current[index] = el)}
-                className="scene-layer-in-place flex-col"
-                style={{ gap: '0.5rem' }}
+                className="video-container film-crop-marks"
+                style={{
+                  width: '100%',
+                  height: '240px',
+                  margin: '1.25rem 0',
+                  borderRadius: '14px',
+                  border: '1px solid rgba(0,0,0,0.08)',
+                  overflow: 'hidden',
+                  position: 'relative',
+                }}
               >
-                <div className="flex-row items-center" style={{ gap: '0.75rem' }}>
-                  <span className="badge-tag">{cap.number} // {cap.title}</span>
-                  <span className="timecode-tag">{cap.timecode}</span>
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  src={cap.video}
+                  poster={cap.poster}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                  }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%)',
+                  }}
+                />
+                <div
+                  className="flex-row items-center justify-between"
+                  style={{
+                    position: 'absolute',
+                    bottom: '0.75rem',
+                    left: '0.75rem',
+                    right: '0.75rem',
+                    zIndex: 2,
+                  }}
+                >
+                  <span className="meta-tag" style={{ color: '#fff' }}>{cap.format}</span>
+                  <span className="status-dot"></span>
                 </div>
+              </div>
 
-                <h3 className="display-title" style={{ fontSize: 'clamp(1.75rem, 4.5vw, 4rem)' }}>
+              {/* Text & Specs */}
+              <div className="flex-col" style={{ gap: '0.5rem' }}>
+                <h3 className="display-title" style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.5rem)', color: 'var(--text-dark-primary)' }}>
                   {cap.title}
                 </h3>
-
-                <span className="subheading" style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+                <span className="subheading" style={{ fontSize: '0.8125rem', color: 'var(--text-dark-secondary)' }}>
                   {cap.subtitle}
                 </span>
-
-                <p className="body-lead" style={{ fontSize: 'clamp(0.9375rem, 1.2vw, 1.125rem)', marginTop: '0.25rem', maxWidth: '550px' }}>
+                <p className="body-regular" style={{ fontSize: '0.9375rem', color: 'var(--text-dark-secondary)', marginTop: '0.25rem' }}>
                   {cap.description}
                 </p>
 
-                <div className="flex-row items-center" style={{ gap: '1rem', marginTop: '0.5rem' }}>
-                  <span className="meta-tag" style={{ color: 'var(--text-primary)' }}>FORMAT: {cap.format}</span>
+                {/* Specs Pills */}
+                <div className="flex-row items-center" style={{ gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.75rem' }}>
+                  {cap.specs.map((spec, i) => (
+                    <span key={i} className="meta-tag" style={{ backgroundColor: 'rgba(0,0,0,0.05)', color: 'var(--text-dark-primary)', padding: '0.25rem 0.6rem', borderRadius: '4px' }}>
+                      ✓ {spec}
+                    </span>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
-
-          {/* Right Column: Dynamic Pinned Media Monitor Stage */}
-          <div
-            ref={mediaRef}
-            className="video-container film-crop-marks"
-            style={{
-              width: '100%',
-              minHeight: '220px',
-              border: '1px solid var(--border-strong)',
-              backgroundColor: 'var(--bg-secondary)',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              padding: 'var(--space-md)',
-              overflow: 'hidden',
-            }}
-            data-cursor="MONITOR"
-          >
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'radial-gradient(circle at center, rgba(255,255,255,0.06) 0%, rgba(0,0,0,0.92) 100%)',
-                zIndex: 1,
-                pointerEvents: 'none',
-              }}
-            />
-
-            <div className="flex-row items-center justify-between" style={{ position: 'relative', zIndex: 2 }}>
-              <span className="badge-tag">MONITOR 0{activeSceneIndex + 1}</span>
-              <span className="timecode-tag">{capabilities[activeSceneIndex].timecode}</span>
             </div>
-
-            <div
-              className="flex-col items-center"
-              style={{ position: 'relative', zIndex: 2, textAlign: 'center', margin: 'auto 0' }}
-            >
-              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-                <circle cx="12" cy="12" r="10" />
-                <polygon points="10 8 16 12 10 16 10 8" fill="currentColor" />
-              </svg>
-              <h4 className="heading-md" style={{ marginTop: '0.75rem', textTransform: 'uppercase', fontSize: '1.125rem' }}>
-                {capabilities[activeSceneIndex].title}
-              </h4>
-              <p className="subheading" style={{ fontSize: '0.75rem', marginTop: '0.25rem', opacity: 0.75 }}>
-                {capabilities[activeSceneIndex].subtitle}
-              </p>
-            </div>
-
-            <div className="flex-row items-center justify-between" style={{ position: 'relative', zIndex: 2 }}>
-              <span className="meta-tag">STATE: ACTIVE SCENE</span>
-              <span className="meta-tag">{capabilities[activeSceneIndex].format}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Scene Progress Navigation */}
-        <div className="scene-progress-nav" style={{ zIndex: 10 }}>
-          {capabilities.map((cap, idx) => (
-            <span
-              key={cap.number}
-              className={`scene-progress-item ${activeSceneIndex === idx ? 'active' : ''}`}
-            >
-              0{idx + 1}
-            </span>
           ))}
-
-          <div className="scene-progress-bar-fill">
-            <div
-              className="scene-progress-bar-inner"
-              style={{ width: `${((activeSceneIndex + 1) / capabilities.length) * 100}%` }}
-            />
-          </div>
-
-          <span className="meta-tag">0{activeSceneIndex + 1} / 03</span>
         </div>
       </div>
     </section>

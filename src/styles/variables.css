@@ -1,16 +1,27 @@
 :root {
-  /* Strictly Monochrome Color System */
-  --bg-primary: #000000;
-  --bg-secondary: #0A0A0A;
-  --bg-tertiary: #141414;
+  /* Dark & Light High-Contrast Color System (Inspired by CrazyPencilz) */
+  --bg-primary: #0A0A0C;
+  --bg-secondary: #121215;
+  --bg-tertiary: #1A1A1E;
+  
+  --bg-light: #F4F4F6;
+  --bg-light-secondary: #EBEBEF;
+  --bg-light-card: #FFFFFF;
   
   --text-primary: #FFFFFF;
-  --text-secondary: #A0A0A0;
-  --text-muted: #666666;
+  --text-secondary: #A0A0A8;
+  --text-muted: #666670;
   
-  --border-subtle: rgba(255, 255, 255, 0.18);
-  --border-strong: rgba(255, 255, 255, 0.4);
+  --text-dark-primary: #0A0A0C;
+  --text-dark-secondary: #4A4A52;
+  --text-dark-muted: #888892;
+  
+  --border-subtle: rgba(255, 255, 255, 0.14);
+  --border-strong: rgba(255, 255, 255, 0.35);
   --border-focus: #FFFFFF;
+  
+  --border-light-subtle: rgba(0, 0, 0, 0.1);
+  --border-light-strong: rgba(0, 0, 0, 0.25);
   
   /* Typography System */
   --font-display: 'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

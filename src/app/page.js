@@ -12,25 +12,39 @@ import ProcessSection from '@/sections/ProcessSection';
 import AboutSection from '@/sections/AboutSection';
 import CTASection from '@/sections/CTASection';
 import FooterSection from '@/sections/FooterSection';
+import VideoModal from '@/components/VideoModal';
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalData, setModalData] = useState({ title: 'SHOWREEL 2026', posterSrc: '/images/hero-poster.jpg' });
+
+  const handleOpenModal = (data) => {
+    if (data) setModalData(data);
+    setIsModalOpen(true);
+  };
 
   return (
     <main className="main-viewport">
       <PreloaderSection onComplete={() => setIsLoaded(true)} />
       <NavbarSection isLoaded={isLoaded} />
-      <HeroSection isLoaded={isLoaded} />
-      
-      {/* Remaining sections maintained for scroll flow without redesign */}
+
+      <HeroSection isLoaded={isLoaded} onOpenModal={handleOpenModal} />
       <StatementSection />
       <WhatWeDoSection />
       <ServicesSection />
-      <SelectedWorkSection />
+      <SelectedWorkSection onOpenModal={handleOpenModal} />
       <ProcessSection />
       <AboutSection />
-      <CTASection />
+      <CTASection onOpenModal={handleOpenModal} />
       <FooterSection />
+
+      <VideoModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={modalData.title}
+        posterSrc={modalData.posterSrc}
+      />
     </main>
   );
 }

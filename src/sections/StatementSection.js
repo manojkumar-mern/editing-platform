@@ -18,37 +18,53 @@ export default function StatementSection() {
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
+      // 1. Initial Dimmed State
+      gsap.set([word1Ref.current, word2Ref.current, word3Ref.current], {
+        opacity: 0.2,
+        color: 'rgba(255, 255, 255, 0.22)',
+        y: 15,
+      });
+
+      // 2. Smooth Interactive ScrollTrigger Timeline starting at 25% from bottom (top 75%)
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top 75%',
-          end: 'bottom 20%',
+          end: 'bottom 45%',
           scrub: 0.8,
         },
       });
 
-      tl.fromTo(
-        word1Ref.current,
-        { opacity: 0.2, y: 30, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, ease: 'none' }
-      )
-      .fromTo(
-        word2Ref.current,
-        { opacity: 0.2, y: 30, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, ease: 'none' },
-        '+=0.1'
-      )
-      .fromTo(
-        word3Ref.current,
-        { opacity: 0.2, y: 30, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1.05, color: '#ffffff', ease: 'none' },
-        '+=0.1'
-      )
+      tl.to(word1Ref.current, {
+        opacity: 1,
+        color: '#ffffff',
+        y: 0,
+        textShadow: '0 0 20px rgba(255,255,255,0.4)',
+        ease: 'power1.inOut',
+        duration: 1,
+      })
+      .to(word2Ref.current, {
+        opacity: 1,
+        color: '#ffffff',
+        y: 0,
+        textShadow: '0 0 20px rgba(255,255,255,0.4)',
+        ease: 'power1.inOut',
+        duration: 1,
+      }, '-=0.2')
+      .to(word3Ref.current, {
+        opacity: 1,
+        color: '#ffffff',
+        y: 0,
+        textShadow: '0 0 30px rgba(255,255,255,0.7)',
+        scale: 1.02,
+        ease: 'power1.inOut',
+        duration: 1,
+      }, '-=0.2')
       .fromTo(
         paragraphRef.current,
-        { opacity: 0.3, y: 20 },
-        { opacity: 1, y: 0, ease: 'none' },
-        '-=0.1'
+        { opacity: 0.3, y: 15 },
+        { opacity: 1, y: 0, ease: 'power1.out', duration: 0.8 },
+        '-=0.2'
       );
     }, sectionRef);
 
@@ -76,7 +92,7 @@ export default function StatementSection() {
           <h2
             ref={word1Ref}
             className="display-title"
-            style={{ fontSize: 'clamp(2.5rem, 7.5vw, 7.5rem)', letterSpacing: '-0.03em' }}
+            style={{ fontSize: 'clamp(2.5rem, 7.5vw, 7.5rem)', letterSpacing: '-0.03em', transition: 'text-shadow 0.3s' }}
           >
             IDEAS
           </h2>
@@ -86,8 +102,8 @@ export default function StatementSection() {
             style={{
               fontSize: 'clamp(2.5rem, 7.5vw, 7.5rem)',
               letterSpacing: '-0.03em',
-              color: 'var(--text-secondary)',
               paddingLeft: 'clamp(1rem, 6vw, 7rem)',
+              transition: 'text-shadow 0.3s',
             }}
           >
             → VISUALS
@@ -99,6 +115,7 @@ export default function StatementSection() {
               fontSize: 'clamp(2.5rem, 7.5vw, 7.5rem)',
               letterSpacing: '-0.03em',
               paddingLeft: 'clamp(2rem, 12vw, 14rem)',
+              transition: 'text-shadow 0.3s',
             }}
           >
             → IMPACT
@@ -111,7 +128,7 @@ export default function StatementSection() {
             className="body-lead"
             style={{ maxWidth: 'var(--max-width-narrow)', opacity: 0.9 }}
           >
-            We don&apos;t just cut video. We sculpt rhythm, visual tone, and audience retention. From high-pacing commercials to editorial branding films, ATZYNC MEDIA translates raw vision into compelling motion.
+            We don&apos;t just cut video. We sculpt rhythm, visual tone, and audience retention. From high-pacing commercials to editorial branding films, ATZINC MEDIA translates raw vision into compelling motion.
           </p>
 
           <div className="flex-col" style={{ gap: '0.35rem' }}>

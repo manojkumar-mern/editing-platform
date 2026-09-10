@@ -4,7 +4,7 @@ import { useRef, useEffect } from 'react';
 import { gsap } from '@/lib/gsap';
 import { siteData } from '@/data/siteData';
 
-export default function HeroSection({ isLoaded }) {
+export default function HeroSection({ isLoaded, onOpenModal }) {
   const sectionRef = useRef(null);
   const mediaRef = useRef(null);
   const line1Ref = useRef(null);
@@ -91,7 +91,7 @@ export default function HeroSection({ isLoaded }) {
         );
       }
 
-      // 2. Hero Scroll Transformation & Bridge
+      // 2. Hero Scroll Parallax
       if (!prefersReducedMotion) {
         const isMobile = window.innerWidth < 768;
 
@@ -109,9 +109,8 @@ export default function HeroSection({ isLoaded }) {
           .to(
             line1Ref.current,
             {
-              xPercent: isMobile ? -8 : -20,
-              yPercent: -45,
-              opacity: 0.15,
+              xPercent: isMobile ? -6 : -15,
+              opacity: 0.35,
               ease: 'none',
             },
             0
@@ -119,9 +118,8 @@ export default function HeroSection({ isLoaded }) {
           .to(
             line2Ref.current,
             {
-              xPercent: isMobile ? 8 : 20,
-              yPercent: -45,
-              opacity: 0.15,
+              xPercent: isMobile ? 6 : 15,
+              opacity: 0.35,
               ease: 'none',
             },
             0
@@ -129,26 +127,7 @@ export default function HeroSection({ isLoaded }) {
           .to(
             mediaRef.current,
             {
-              scale: isMobile ? 1.03 : 1.12,
-              yPercent: 15,
-              borderColor: 'rgba(255, 255, 255, 0.55)',
-              ease: 'none',
-            },
-            0
-          )
-          .to(
-            statementRef.current,
-            {
-              opacity: 0.25,
-              yPercent: -25,
-              ease: 'none',
-            },
-            0
-          )
-          .to(
-            scrollCueRef.current,
-            {
-              opacity: 0,
+              scale: isMobile ? 1.01 : 1.03,
               ease: 'none',
             },
             0
@@ -160,8 +139,33 @@ export default function HeroSection({ isLoaded }) {
   }, [isLoaded]);
 
   return (
-    <section ref={sectionRef} className="hero-section border-bottom" id="hero">
-      <div className="site-container flex-col" style={{ gap: 'var(--space-md)' }}>
+    <section ref={sectionRef} className="hero-section border-bottom" id="hero" style={{ position: 'relative' }}>
+      {/* Poster Image Lighter View Background Backdrop */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          opacity: 0.25,
+          pointerEvents: 'none',
+          overflow: 'hidden',
+          zIndex: 0,
+        }}
+      >
+        <img
+          src="/images/brand-poster.jpg"
+          alt="ATZINC Media Studio Workspace"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.75)' }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(10,10,12,0.92) 90%)',
+          }}
+        />
+      </div>
+
+      <div className="site-container flex-col" style={{ gap: 'var(--space-md)', position: 'relative', zIndex: 1 }}>
         {/* Header Metadata Ribbon */}
         <div
           ref={metaRef}
@@ -173,21 +177,17 @@ export default function HeroSection({ isLoaded }) {
             <span>CREATIVE VIDEO EDITING STUDIO</span>
           </div>
 
-          <div className="flex-row items-center" style={{ gap: '1.5rem' }}>
-            <span className="timecode-tag">TIMELINE // 00:00:01:00</span>
-            <span className="meta-tag">[ BRANDING FILMS // COMMERCIALS // SOCIAL MEDIA ]</span>
+          <div className="flex-row items-center" style={{ gap: '1.5rem', flexWrap: 'wrap' }}>
+            <span className="timecode-tag">PH: {siteData.contact.phone} // {siteData.contact.phoneSecondary}</span>
+            <span className="meta-tag">[ {siteData.contact.email} ]</span>
           </div>
         </div>
 
-        {/* Editorial Oversized Display Title */}
+        {/* Oversized Kinetic Display Title */}
         <div className="hero-display-wrapper film-crop-marks" style={{ marginTop: 'var(--space-xs)' }}>
           <div className="hero-title-line">
-            <h1
-              ref={line1Ref}
-              className="display-hero"
-              style={{ opacity: isLoaded ? 1 : 0 }}
-            >
-              ATZYNC
+            <h1 ref={line1Ref} className="display-hero" style={{ opacity: isLoaded ? 1 : 0 }}>
+              ATZINC
             </h1>
           </div>
           <div className="hero-title-line" style={{ alignSelf: 'flex-end', marginTop: '-0.12em' }}>
@@ -221,11 +221,11 @@ export default function HeroSection({ isLoaded }) {
           </div>
 
           <p className="body-lead" style={{ opacity: 0.85 }}>
-            Transforming raw concept footage into high-impact editorial stories. Specialized post-production, precision cuts, and sound architecture engineered for modern screens.
+            Transforming raw concept footage into high-impact editorial stories. Precision choreography, color grading, and bespoke sound architecture engineered for modern screens.
           </p>
         </div>
 
-        {/* Hero CTA Actions & Scroll Cue */}
+        {/* Hero CTA Buttons */}
         <div
           ref={ctaRef}
           className="flex-row items-center justify-between"
@@ -235,8 +235,8 @@ export default function HeroSection({ isLoaded }) {
             <a href="#services" className="btn-primary">
               EXPLORE SERVICES
             </a>
-            <a
-              href="#work"
+            <button
+              onClick={() => onOpenModal && onOpenModal({ title: 'ATZINC SHOWREEL 2026', posterSrc: '/images/hero-poster.jpg' })}
               className="btn-secondary flex-row items-center"
               style={{ gap: '0.5rem' }}
               data-cursor="PLAY REEL"
@@ -245,81 +245,99 @@ export default function HeroSection({ isLoaded }) {
                 <polygon points="5 3 19 12 5 21 5 3" />
               </svg>
               <span>WATCH SHOWREEL</span>
-            </a>
+            </button>
           </div>
 
           {/* Scroll Cue Indicator */}
           <div ref={scrollCueRef} className="flex-row items-center" style={{ gap: '0.5rem', opacity: 0.7 }}>
-            <span className="meta-tag" style={{ fontSize: '0.6875rem' }}>SCROLL TO EXPLORE</span>
+            <span className="meta-tag" style={{ fontSize: '0.6875rem' }}>SCROLL FOR CINEMATIC MOTIONS</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M12 5v14M19 12l-7 7-7-7" />
             </svg>
           </div>
         </div>
 
-        {/* Cinematic Video Showreel Monitor */}
+        {/* Cinematic Live Video Monitor Container */}
         <div
           ref={mediaRef}
           className="hero-media-wrapper film-crop-marks"
-          style={{ opacity: isLoaded ? 1 : 0 }}
-          data-cursor="SHOWREEL"
+          style={{ opacity: isLoaded ? 1 : 0, cursor: 'pointer', marginTop: 'var(--space-md)' }}
+          onClick={() => onOpenModal && onOpenModal({ title: 'ATZINC SHOWREEL 2026', posterSrc: '/images/hero-poster.jpg' })}
+          data-cursor="PLAY SHOWREEL"
         >
-          <div className="hero-media-content">
+          <div className="hero-media-content" style={{ position: 'relative', width: '100%', height: '100%' }}>
+            {/* Live Looping Video Frame */}
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              src="https://assets.mixkit.co/videos/preview/mixkit-cinematic-shot-of-a-man-in-the-rain-43098-large.mp4"
+              poster="/images/hero-poster.jpg"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center center',
+                display: 'block',
+                filter: 'brightness(0.9)',
+              }}
+            />
+
             <div
               style={{
                 position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                background: 'radial-gradient(circle at center, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.88) 100%)',
+                inset: 0,
+                background: 'radial-gradient(circle at center, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.8) 100%)',
                 zIndex: 2,
                 pointerEvents: 'none',
               }}
             />
 
-            <video
-              className="hero-video-element"
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster="/images/hero-poster.jpg"
-            >
-              {/* <source src="/videos/atzync-showreel.mp4" type="video/mp4" /> */}
-            </video>
-
-            <div className="hero-play-badge">
+            <div className="hero-play-badge" style={{ zIndex: 3 }}>
               <span className="status-dot"></span>
-              <span>SHOWREEL 2026 // ATZYNC EDITORIAL REEL</span>
+              <span>SHOWREEL 2026 // CLICK TO PLAY FULLSCREEN</span>
             </div>
 
-            {/* Visual Center Graphic / Graphic Fallback */}
+            {/* Glowing Center Play Icon */}
             <div
-              className="flex-col items-center justify-between"
+              className="flex-col items-center justify-center"
               style={{
                 position: 'absolute',
+                inset: 0,
                 zIndex: 3,
                 textAlign: 'center',
                 padding: 'var(--space-md)',
                 pointerEvents: 'none',
               }}
             >
-              <span className="meta-tag" style={{ letterSpacing: '0.2em' }}>[ EDITORIAL CUT SHOWCASE ]</span>
-              <div style={{ margin: 'var(--space-md) 0' }}>
-                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-                  <circle cx="12" cy="12" r="10" />
-                  <polygon points="10 8 16 12 10 16 10 8" fill="currentColor" />
+              <div
+                style={{
+                  width: '72px',
+                  height: '72px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(255,255,255,0.92)',
+                  color: '#000',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingLeft: '5px',
+                  boxShadow: '0 0 35px rgba(255,255,255,0.5)',
+                  transition: 'transform 0.3s ease',
+                }}
+              >
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3" />
                 </svg>
               </div>
-              <span className="subheading" style={{ fontSize: '0.75rem', opacity: 0.75 }}>
+              <span className="subheading" style={{ fontSize: '0.75rem', marginTop: '1rem', letterSpacing: '0.15em' }}>
                 IDEAS → VISUALS → IMPACT
               </span>
             </div>
           </div>
         </div>
 
-        {/* Editing Timeline Control Track Bar */}
+        {/* Audio Track Bar */}
         <div
           ref={timelineBarRef}
           className="flex-row items-center justify-between"
@@ -332,20 +350,21 @@ export default function HeroSection({ isLoaded }) {
           }}
         >
           <div className="flex-row items-center" style={{ gap: '1rem' }}>
-            <span className="timecode-tag">V1 // TRACK</span>
-            <span className="meta-tag" style={{ color: 'var(--text-primary)' }}>ATZYNC_SHOWREEL_4K_CUT.MP4</span>
+            <span className="timecode-tag">V1 // AUDIO MASTER</span>
+            <span className="meta-tag" style={{ color: 'var(--text-primary)' }}>ATZINC_SHOWREEL_4K_CUT.MP4</span>
           </div>
 
           <div className="flex-row items-center" style={{ gap: '0.25rem' }}>
             <div className="audio-bar" style={{ height: '14px' }}></div>
             <div className="audio-bar" style={{ height: '18px' }}></div>
             <div className="audio-bar" style={{ height: '10px' }}></div>
-            <div className="audio-bar" style={{ height: '22px' }}></div>
+            <div className="audio-bar" style={{ height: '24px' }}></div>
             <div className="audio-bar" style={{ height: '12px' }}></div>
+            <div className="audio-bar" style={{ height: '20px' }}></div>
           </div>
 
           <div className="flex-row items-center" style={{ gap: '1rem' }}>
-            <span className="timecode-tag">-12dB // STEREO AUDIO</span>
+            <span className="timecode-tag">-12dB // STEREO</span>
             <span className="meta-tag">[ 24 FPS ]</span>
           </div>
         </div>

@@ -87,12 +87,12 @@ export default function StatementSection() {
           </div>
         </div>
 
-        {/* Choreographed Editorial Words */}
-        <div className="flex-col film-crop-marks" style={{ gap: 'var(--space-xs)' }}>
+        {/* Choreographed Editorial Words with Responsive Spacing */}
+        <div className="flex-col film-crop-marks" style={{ gap: 'var(--space-2xs)' }}>
           <h2
             ref={word1Ref}
             className="display-title"
-            style={{ fontSize: 'clamp(2.5rem, 7.5vw, 7.5rem)', letterSpacing: '-0.03em', transition: 'text-shadow 0.3s' }}
+            style={{ fontSize: 'clamp(2.2rem, 7vw, 7rem)', letterSpacing: '-0.02em', transition: 'text-shadow 0.3s' }}
           >
             IDEAS
           </h2>
@@ -100,9 +100,9 @@ export default function StatementSection() {
             ref={word2Ref}
             className="display-title"
             style={{
-              fontSize: 'clamp(2.5rem, 7.5vw, 7.5rem)',
-              letterSpacing: '-0.03em',
-              paddingLeft: 'clamp(1rem, 6vw, 7rem)',
+              fontSize: 'clamp(2.2rem, 7vw, 7rem)',
+              letterSpacing: '-0.02em',
+              paddingLeft: 'clamp(0.5rem, 5vw, 6rem)',
               transition: 'text-shadow 0.3s',
             }}
           >
@@ -112,9 +112,9 @@ export default function StatementSection() {
             ref={word3Ref}
             className="display-title"
             style={{
-              fontSize: 'clamp(2.5rem, 7.5vw, 7.5rem)',
-              letterSpacing: '-0.03em',
-              paddingLeft: 'clamp(2rem, 12vw, 14rem)',
+              fontSize: 'clamp(2.2rem, 7vw, 7rem)',
+              letterSpacing: '-0.02em',
+              paddingLeft: 'clamp(1rem, 10vw, 12rem)',
               transition: 'text-shadow 0.3s',
             }}
           >

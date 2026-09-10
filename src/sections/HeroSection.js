@@ -1,19 +1,52 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { gsap } from '@/lib/gsap';
 import { siteData } from '@/data/siteData';
+import { soundManager } from '@/lib/audioManager';
 
 export default function HeroSection({ isLoaded, onOpenModal }) {
   const sectionRef = useRef(null);
   const mediaRef = useRef(null);
-  const line1Ref = useRef(null);
-  const line2Ref = useRef(null);
   const metaRef = useRef(null);
   const ctaRef = useRef(null);
   const statementRef = useRef(null);
   const scrollCueRef = useRef(null);
   const timelineBarRef = useRef(null);
+
+  // Typewriter effect state for ATZINC MEDIA title
+  const targetLine1 = 'ATZINC';
+  const targetLine2 = 'MEDIA';
+  const [typedLine1, setTypedLine1] = useState('');
+  const [typedLine2, setTypedLine2] = useState('');
+
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    let idx1 = 0;
+    let idx2 = 0;
+
+    const timer1 = setInterval(() => {
+      if (idx1 <= targetLine1.length) {
+        setTypedLine1(targetLine1.slice(0, idx1));
+        idx1++;
+      } else {
+        clearInterval(timer1);
+        const timer2 = setInterval(() => {
+          if (idx2 <= targetLine2.length) {
+            setTypedLine2(targetLine2.slice(0, idx2));
+            idx2++;
+          } else {
+            clearInterval(timer2);
+          }
+        }, 70);
+      }
+    }, 60);
+
+    return () => {
+      clearInterval(timer1);
+    };
+  }, [isLoaded]);
 
   useEffect(() => {
     if (!isLoaded || !sectionRef.current) return;
@@ -21,7 +54,6 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const ctx = gsap.context(() => {
-      // 1. Cinematic Opening Timeline
       if (!prefersReducedMotion) {
         const entranceTl = gsap.timeline({
           defaults: { ease: 'power3.out' },
@@ -32,18 +64,6 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
             mediaRef.current,
             { clipPath: 'inset(10% 10% 10% 10%)', scale: 0.9, opacity: 0 },
             { clipPath: 'inset(0% 0% 0% 0%)', scale: 1, opacity: 1, duration: 1.15 }
-          )
-          .fromTo(
-            line1Ref.current,
-            { yPercent: 100, opacity: 0 },
-            { yPercent: 0, opacity: 1, duration: 0.85 },
-            '-=0.75'
-          )
-          .fromTo(
-            line2Ref.current,
-            { yPercent: 100, opacity: 0 },
-            { yPercent: 0, opacity: 1, duration: 0.85 },
-            '-=0.75'
           )
           .fromTo(
             metaRef.current,
@@ -79,8 +99,6 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
         gsap.set(
           [
             mediaRef.current,
-            line1Ref.current,
-            line2Ref.current,
             metaRef.current,
             statementRef.current,
             ctaRef.current,
@@ -90,49 +108,6 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
           { opacity: 1, y: 0, scale: 1, yPercent: 0, scaleX: 1, clipPath: 'inset(0% 0% 0% 0%)' }
         );
       }
-
-      // 2. Hero Scroll Parallax
-      if (!prefersReducedMotion) {
-        const isMobile = window.innerWidth < 768;
-
-        const scrollTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1,
-            invalidateOnRefresh: true,
-          },
-        });
-
-        scrollTl
-          .to(
-            line1Ref.current,
-            {
-              xPercent: isMobile ? -6 : -15,
-              opacity: 0.35,
-              ease: 'none',
-            },
-            0
-          )
-          .to(
-            line2Ref.current,
-            {
-              xPercent: isMobile ? 6 : 15,
-              opacity: 0.35,
-              ease: 'none',
-            },
-            0
-          )
-          .to(
-            mediaRef.current,
-            {
-              scale: isMobile ? 1.01 : 1.03,
-              ease: 'none',
-            },
-            0
-          );
-      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -140,28 +115,25 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
 
   return (
     <section ref={sectionRef} className="hero-section border-bottom" id="hero" style={{ position: 'relative' }}>
-      {/* Poster Image Lighter View Background Backdrop */}
+      {/* Real Local Video Ambient Backdrop */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          opacity: 0.25,
+          opacity: 0.2,
           pointerEvents: 'none',
           overflow: 'hidden',
           zIndex: 0,
         }}
       >
-        <img
-          src="/images/brand-poster.jpg"
-          alt="ATZINC Media Studio Workspace"
-          style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.75)' }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(10,10,12,0.92) 90%)',
-          }}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          src="/videos/showreel.mp4"
+          poster="/images/hero-poster.jpg"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(24px) brightness(0.7)' }}
         />
       </div>
 
@@ -183,16 +155,16 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
           </div>
         </div>
 
-        {/* Oversized Kinetic Display Title */}
+        {/* Oversized Kinetic Display Title with Typewriter Effect */}
         <div className="hero-display-wrapper film-crop-marks" style={{ marginTop: 'var(--space-xs)' }}>
           <div className="hero-title-line">
-            <h1 ref={line1Ref} className="display-hero" style={{ opacity: isLoaded ? 1 : 0 }}>
-              ATZINC
+            <h1 className="display-hero" style={{ opacity: isLoaded ? 1 : 0 }}>
+              {typedLine1 || targetLine1}
+              {typedLine1.length < targetLine1.length && <span className="status-dot" style={{ marginLeft: '6px' }}></span>}
             </h1>
           </div>
           <div className="hero-title-line" style={{ alignSelf: 'flex-end', marginTop: '-0.12em' }}>
             <h1
-              ref={line2Ref}
               className="display-hero"
               style={{
                 opacity: isLoaded ? 1 : 0,
@@ -200,7 +172,10 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
                 WebkitTextStroke: '1.5px var(--text-primary)',
               }}
             >
-              MEDIA
+              {typedLine2 || targetLine2}
+              {typedLine2.length < targetLine2.length && typedLine1.length >= targetLine1.length && (
+                <span className="status-dot" style={{ marginLeft: '6px' }}></span>
+              )}
             </h1>
           </div>
         </div>
@@ -232,11 +207,14 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
           style={{ opacity: isLoaded ? 1 : 0, marginTop: 'var(--space-xs)', flexWrap: 'wrap', gap: '1.25rem' }}
         >
           <div className="flex-row items-center" style={{ gap: '1.25rem', flexWrap: 'wrap' }}>
-            <a href="#services" className="btn-primary">
+            <a href="#services" className="btn-primary" onClick={() => soundManager.playWhoosh()}>
               EXPLORE SERVICES
             </a>
             <button
-              onClick={() => onOpenModal && onOpenModal({ title: 'ATZINC SHOWREEL 2026', posterSrc: '/images/hero-poster.jpg' })}
+              onClick={() => {
+                soundManager.playSubBoom();
+                if (onOpenModal) onOpenModal({ title: 'ATZINC SHOWREEL 2026', videoSrc: '/videos/showreel.mp4', posterSrc: '/images/hero-poster.jpg' });
+              }}
               className="btn-secondary flex-row items-center"
               style={{ gap: '0.5rem' }}
               data-cursor="PLAY REEL"
@@ -257,22 +235,25 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
           </div>
         </div>
 
-        {/* Cinematic Live Video Monitor Container */}
+        {/* Real Local Video Monitor */}
         <div
           ref={mediaRef}
-          className="hero-media-wrapper film-crop-marks"
+          className="hero-media-wrapper film-crop-marks silver-sheen"
           style={{ opacity: isLoaded ? 1 : 0, cursor: 'pointer', marginTop: 'var(--space-md)' }}
-          onClick={() => onOpenModal && onOpenModal({ title: 'ATZINC SHOWREEL 2026', posterSrc: '/images/hero-poster.jpg' })}
+          onClick={() => {
+            soundManager.playSubBoom();
+            if (onOpenModal) onOpenModal({ title: 'ATZINC SHOWREEL 2026', videoSrc: '/videos/showreel.mp4', posterSrc: '/images/hero-poster.jpg' });
+          }}
           data-cursor="PLAY SHOWREEL"
         >
           <div className="hero-media-content" style={{ position: 'relative', width: '100%', height: '100%' }}>
-            {/* Live Looping Video Frame */}
+            {/* Local Video Stream */}
             <video
               autoPlay
               muted
               loop
               playsInline
-              src="https://assets.mixkit.co/videos/preview/mixkit-cinematic-shot-of-a-man-in-the-rain-43098-large.mp4"
+              src="/videos/showreel.mp4"
               poster="/images/hero-poster.jpg"
               style={{
                 width: '100%',
@@ -280,7 +261,7 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
                 objectFit: 'cover',
                 objectPosition: 'center center',
                 display: 'block',
-                filter: 'brightness(0.9)',
+                filter: 'brightness(0.92)',
               }}
             />
 

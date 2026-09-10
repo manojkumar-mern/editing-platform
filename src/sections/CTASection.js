@@ -3,6 +3,7 @@
 import { useRef, useEffect } from 'react';
 import { gsap } from '@/lib/gsap';
 import { siteData } from '@/data/siteData';
+import { soundManager } from '@/lib/audioManager';
 
 export default function CTASection({ onOpenModal }) {
   const sectionRef = useRef(null);
@@ -98,9 +99,10 @@ export default function CTASection({ onOpenModal }) {
               href={siteData.contact.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => soundManager.playClick()}
               className="btn-primary"
               style={{ padding: '0.85rem 1.6rem', fontSize: '0.8125rem' }}
-              data-cursor="WHATSAPP"
+              data-cursor="WHATSAPP 1"
             >
               WHATSAPP 1: {siteData.contact.phone}
             </a>
@@ -109,8 +111,9 @@ export default function CTASection({ onOpenModal }) {
               href={siteData.contact.whatsappUrlSecondary}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary"
-              style={{ padding: '0.85rem 1.6rem', fontSize: '0.8125rem', backgroundColor: 'transparent', color: 'var(--text-primary)', borderColor: 'var(--text-primary)' }}
+              onClick={() => soundManager.playClick()}
+              className="btn-secondary"
+              style={{ padding: '0.85rem 1.6rem', fontSize: '0.8125rem' }}
               data-cursor="WHATSAPP 2"
             >
               WHATSAPP 2: {siteData.contact.phoneSecondary}
@@ -118,6 +121,7 @@ export default function CTASection({ onOpenModal }) {
 
             <a
               href={`mailto:${siteData.contact.email}`}
+              onClick={() => soundManager.playClick()}
               className="btn-secondary"
               style={{ padding: '0.85rem 1.6rem', fontSize: '0.8125rem' }}
               data-cursor="EMAIL"

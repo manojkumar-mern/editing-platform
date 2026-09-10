@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { gsap } from '@/lib/gsap';
 import { projects } from '@/data/projects';
+import { soundManager } from '@/lib/audioManager';
 
 export default function SelectedWorkSection({ onOpenModal }) {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
@@ -11,9 +12,9 @@ export default function SelectedWorkSection({ onOpenModal }) {
   const cardsRef = useRef([]);
 
   const videoSources = [
-    'https://assets.mixkit.co/videos/preview/mixkit-cinematic-shot-of-a-man-in-the-rain-43098-large.mp4',
-    'https://assets.mixkit.co/videos/preview/mixkit-car-driving-fast-on-a-tunnel-at-night-41555-large.mp4',
-    'https://assets.mixkit.co/videos/preview/mixkit-dj-playing-music-at-a-club-41544-large.mp4',
+    '/videos/project-01.mp4',
+    '/videos/project-02.mp4',
+    '/videos/project-03.mp4',
   ];
 
   useEffect(() => {
@@ -135,7 +136,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
               <div
                 key={project.id}
                 ref={(el) => (cardsRef.current[index] = el)}
-                className="crazy-card-item film-crop-marks"
+                className="crazy-card-item film-crop-marks silver-sheen"
                 style={{
                   position: index === 0 ? 'relative' : 'absolute',
                   top: 0,
@@ -188,9 +189,11 @@ export default function SelectedWorkSection({ onOpenModal }) {
                       <h3
                         className="display-title"
                         style={{
-                          fontSize: 'clamp(2rem, 4vw, 4rem)',
+                          fontSize: 'clamp(1.75rem, 3.5vw, 3.5rem)',
                           lineHeight: 1.05,
-                          letterSpacing: '-0.02em',
+                          letterSpacing: '-0.01em',
+                          wordBreak: 'keep-all',
+                          overflowWrap: 'normal',
                         }}
                       >
                         {project.title}
@@ -200,7 +203,10 @@ export default function SelectedWorkSection({ onOpenModal }) {
                       </p>
                       <div style={{ marginTop: '0.75rem' }}>
                         <button
-                          onClick={() => onOpenModal && onOpenModal({ title: project.title, posterSrc: project.poster })}
+                          onClick={() => {
+                            soundManager.playWhoosh();
+                            onOpenModal && onOpenModal({ title: project.title, videoSrc: videoSources[index % videoSources.length], posterSrc: project.poster });
+                          }}
                           className="btn-primary"
                           style={{ borderRadius: '30px', padding: '0.75rem 1.75rem', fontSize: '0.75rem' }}
                         >
@@ -224,7 +230,10 @@ export default function SelectedWorkSection({ onOpenModal }) {
                         boxShadow: '0 10px 30px rgba(0,0,0,0.6)',
                         cursor: 'pointer',
                       }}
-                      onClick={() => onOpenModal && onOpenModal({ title: project.title, posterSrc: project.poster })}
+                      onClick={() => {
+                        soundManager.playWhoosh();
+                        onOpenModal && onOpenModal({ title: project.title, videoSrc: videoSources[index % videoSources.length], posterSrc: project.poster });
+                      }}
                     >
                       <video
                         autoPlay
@@ -284,7 +293,10 @@ export default function SelectedWorkSection({ onOpenModal }) {
                         boxShadow: '0 10px 30px rgba(0,0,0,0.6)',
                         cursor: 'pointer',
                       }}
-                      onClick={() => onOpenModal && onOpenModal({ title: project.title, posterSrc: project.poster })}
+                      onClick={() => {
+                        soundManager.playWhoosh();
+                        onOpenModal && onOpenModal({ title: project.title, videoSrc: videoSources[index % videoSources.length], posterSrc: project.poster });
+                      }}
                     >
                       <video
                         autoPlay
@@ -334,9 +346,11 @@ export default function SelectedWorkSection({ onOpenModal }) {
                       <h3
                         className="display-title"
                         style={{
-                          fontSize: 'clamp(2rem, 4vw, 4rem)',
+                          fontSize: 'clamp(1.75rem, 3.5vw, 3.5rem)',
                           lineHeight: 1.05,
-                          letterSpacing: '-0.02em',
+                          letterSpacing: '-0.01em',
+                          wordBreak: 'keep-all',
+                          overflowWrap: 'normal',
                         }}
                       >
                         {project.title}
@@ -346,7 +360,10 @@ export default function SelectedWorkSection({ onOpenModal }) {
                       </p>
                       <div style={{ marginTop: '0.75rem' }}>
                         <button
-                          onClick={() => onOpenModal && onOpenModal({ title: project.title, posterSrc: project.poster })}
+                          onClick={() => {
+                            soundManager.playWhoosh();
+                            onOpenModal && onOpenModal({ title: project.title, videoSrc: videoSources[index % videoSources.length], posterSrc: project.poster });
+                          }}
                           className="btn-primary"
                           style={{ borderRadius: '30px', padding: '0.75rem 1.75rem', fontSize: '0.75rem' }}
                         >

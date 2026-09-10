@@ -1,12 +1,17 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import { soundManager } from '@/lib/audioManager';
 
 export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title = 'SHOWREEL 2026' }) {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
-  const [progress, setProgress] = useState(15);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const videoRef = useRef(null);
+
+  const activeVideo = videoSrc || '/videos/showreel.mp4';
+  const activePoster = posterSrc || '/images/hero-poster.jpg';
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -15,6 +20,7 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', handleKeyDown);
+      soundManager.playSubBoom();
     } else {
       document.body.style.overflow = 'auto';
     }
@@ -24,15 +30,39 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
     };
   }, [isOpen, onClose]);
 
-  useEffect(() => {
-    let interval;
-    if (isOpen && isPlaying) {
-      interval = setInterval(() => {
-        setProgress((prev) => (prev >= 100 ? 0 : prev + 0.5));
-      }, 200);
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+      soundManager.playClick();
     }
-    return () => clearInterval(interval);
-  }, [isOpen, isPlaying]);
+  };
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+      soundManager.playClick();
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime);
+      setDuration(videoRef.current.duration || 0);
+    }
+  };
+
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+    const frames = Math.floor((timeInSeconds % 1) * 24);
+    return `00:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${frames.toString().padStart(2, '0')}`;
+  };
 
   if (!isOpen) return null;
 
@@ -54,13 +84,14 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
       onClick={onClose}
     >
       <div
-        className="video-modal-content film-crop-marks"
+        className="video-modal-content film-crop-marks silver-sheen"
         style={{
           position: 'relative',
           width: '100%',
           maxWidth: '1100px',
           backgroundColor: '#0a0a0c',
           border: '1px solid var(--border-strong)',
+          borderRadius: '16px',
           boxShadow: '0 25px 80px rgba(0,0,0,0.95)',
           overflow: 'hidden',
           display: 'flex',
@@ -79,12 +110,12 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
         >
           <div className="flex-row items-center" style={{ gap: '0.75rem' }}>
             <span className="status-dot"></span>
-            <span className="badge-tag">CINEMATIC PLAYER</span>
+            <span className="badge-tag">CINEMATIC REAL PLAYER</span>
             <span className="meta-tag" style={{ color: 'var(--text-primary)' }}>{title}</span>
           </div>
 
           <button
-            onClick={onClose}
+            onClick={() => { soundManager.playClick(); onClose(); }}
             style={{
               background: 'none',
               border: 'none',
@@ -113,15 +144,21 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
             overflow: 'hidden',
           }}
         >
-          <img
-            src={posterSrc || '/images/hero-poster.jpg'}
-            alt={title}
+          <video
+            ref={videoRef}
+            src={activeVideo}
+            poster={activePoster}
+            autoPlay
+            playsInline
+            muted={isMuted}
+            onTimeUpdate={handleTimeUpdate}
+            onEnded={() => setIsPlaying(false)}
+            onClick={togglePlay}
             style={{
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              filter: isPlaying ? 'brightness(0.95)' : 'brightness(0.5)',
-              transition: 'filter 0.3s ease',
+              cursor: 'pointer',
             }}
           />
 
@@ -135,7 +172,7 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
             }}
           />
 
-          {/* Center Play/Pause Big Button Overlay */}
+          {/* Center Play/Pause Overlay */}
           {!isPlaying && (
             <div
               style={{
@@ -146,7 +183,7 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
                 justifyContent: 'center',
                 cursor: 'pointer',
               }}
-              onClick={() => setIsPlaying(true)}
+              onClick={togglePlay}
             >
               <div
                 style={{
@@ -184,24 +221,28 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
           <div
             style={{
               width: '100%',
-              height: '4px',
+              height: '6px',
               backgroundColor: 'rgba(255,255,255,0.15)',
               position: 'relative',
               cursor: 'pointer',
+              borderRadius: '3px',
+              overflow: 'hidden',
             }}
             onClick={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              const clickX = e.clientX - rect.left;
-              const pct = (clickX / rect.width) * 100;
-              setProgress(pct);
+              if (videoRef.current && duration > 0) {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const pct = clickX / rect.width;
+                videoRef.current.currentTime = pct * duration;
+              }
             }}
           >
             <div
               style={{
-                width: `${progress}%`,
+                width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%`,
                 height: '100%',
                 backgroundColor: 'var(--text-primary)',
-                transition: 'width 0.2s linear',
+                boxShadow: '0 0 10px rgba(255,255,255,0.8)',
               }}
             />
           </div>
@@ -209,27 +250,27 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
           <div className="flex-row items-center justify-between">
             <div className="flex-row items-center" style={{ gap: '1rem' }}>
               <button
-                onClick={() => setIsPlaying(!isPlaying)}
-                className="btn-secondary"
-                style={{ padding: '0.4rem 0.8rem', fontSize: '0.75rem' }}
+                onClick={togglePlay}
+                className="btn-primary"
+                style={{ padding: '0.4rem 1rem', fontSize: '0.75rem', borderRadius: '20px' }}
               >
                 {isPlaying ? 'PAUSE' : 'PLAY'}
               </button>
               <button
-                onClick={() => setIsMuted(!isMuted)}
+                onClick={toggleMute}
                 className="btn-secondary"
-                style={{ padding: '0.4rem 0.8rem', fontSize: '0.75rem' }}
+                style={{ padding: '0.4rem 1rem', fontSize: '0.75rem', borderRadius: '20px' }}
               >
-                {isMuted ? 'UNMUTE' : 'MUTE AUDIO'}
+                {isMuted ? 'UNMUTE AUDIO' : 'MUTE AUDIO 🔊'}
               </button>
               <span className="timecode-tag">
-                00:00:{Math.floor(progress * 0.6).toString().padStart(2, '0')}:12 // 00:01:45:00
+                {formatTime(currentTime)} // {formatTime(duration)}
               </span>
             </div>
 
             <div className="flex-row items-center" style={{ gap: '1rem' }}>
               <span className="meta-tag">4K DCI // 24FPS</span>
-              <span className="badge-tag">STEREO MASTER</span>
+              <span className="badge-tag" style={{ borderRadius: '20px' }}>REAL EDITORIAL CUT</span>
             </div>
           </div>
         </div>

@@ -43,6 +43,7 @@ export default function Home() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title={modalData.title}
+        videoSrc={modalData.videoSrc}
         posterSrc={modalData.posterSrc}
       />
     </main>

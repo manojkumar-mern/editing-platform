@@ -17,7 +17,7 @@ export default function WhatWeDoSection() {
       format: '24FPS // CINEMATIC CUT',
       description: 'Pacing choreography, narrative structure, and sequence design engineered to capture viewer attention within seconds.',
       poster: '/images/hero-poster.jpg',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-cinematic-shot-of-a-man-in-the-rain-43098-large.mp4',
+      video: '/videos/showreel.mp4',
       specs: ['Pacing Choreography', 'Rhythm Sequencing', 'Audience Retention'],
     },
     {
@@ -28,7 +28,7 @@ export default function WhatWeDoSection() {
       format: '4K DCI // ARRI COLOR',
       description: 'Advanced color grading, bespoke sound architecture, dynamic rhythm transitions, and cutting precision.',
       poster: '/images/color-after.jpg',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-car-driving-fast-on-a-tunnel-at-night-41555-large.mp4',
+      video: '/videos/project-01.mp4',
       specs: ['Color Grading (ARRI/LOG)', 'Spatial Audio Design', 'VFX & Motion Cleanup'],
     },
     {
@@ -39,7 +39,7 @@ export default function WhatWeDoSection() {
       format: '16:9 CINEMA // 9:16 REEL',
       description: 'Optimized format adaptation tailored for cinema displays, broadcast commercials, and high-retention viral social reels.',
       poster: '/images/studio-suite.jpg',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-dj-playing-music-at-a-club-41544-large.mp4',
+      video: '/videos/project-02.mp4',
       specs: ['9:16 & 16:9 Mastering', 'Sound Loudness Norms', 'Multi-Export Suites'],
     },
   ];
@@ -121,7 +121,7 @@ export default function WhatWeDoSection() {
           {capabilities.map((cap) => (
             <div
               key={cap.number}
-              className="capability-card film-crop-marks flex-col justify-between"
+              className="capability-card film-crop-marks silver-sheen flex-col justify-between"
               style={{
                 minWidth: 'clamp(300px, 42vw, 620px)',
                 backgroundColor: 'var(--bg-light-card)',

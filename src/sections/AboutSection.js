@@ -121,7 +121,7 @@ export default function AboutSection() {
           <div className="video-container film-crop-marks" style={{ height: '360px', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.12)', overflow: 'hidden' }}>
             <img
               src="/images/studio-suite.jpg"
-              alt="ATZINC Media Editing Studio Suite"
+              alt="ATZYNC Media Editing Studio Suite"
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
             <div

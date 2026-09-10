@@ -77,7 +77,7 @@ export default function NavbarSection({ isLoaded }) {
                   textTransform: 'uppercase',
                 }}
               >
-                ATZINC
+                ATZYNC
               </span>
               <span
                 style={{

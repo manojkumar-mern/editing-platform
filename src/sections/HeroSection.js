@@ -14,8 +14,8 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
   const scrollCueRef = useRef(null);
   const timelineBarRef = useRef(null);
 
-  // Typewriter effect state for ATZINC MEDIA title
-  const targetLine1 = 'ATZINC';
+  // Typewriter effect state for ATZYNC MEDIA title
+  const targetLine1 = 'ATZYNC';
   const targetLine2 = 'MEDIA';
   const [typedLine1, setTypedLine1] = useState('');
   const [typedLine2, setTypedLine2] = useState('');
@@ -141,14 +141,14 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
         {/* Header Metadata Ribbon */}
         <div
           ref={metaRef}
-          className="flex-row items-center justify-between"
+          className="flex-row items-center justify-between hero-meta-ribbon"
           style={{ opacity: isLoaded ? 1 : 0, flexWrap: 'wrap', gap: '0.5rem 1rem' }}
         >
           <div className="badge-tag" style={{ fontSize: 'clamp(0.65rem, 2.2vw, 0.75rem)' }}>
             <span>CREATIVE VIDEO EDITING STUDIO</span>
           </div>
 
-          <div className="flex-row items-center" style={{ gap: '0.75rem 1.25rem', flexWrap: 'wrap' }}>
+          <div className="flex-row items-center hero-meta-contact" style={{ gap: '0.75rem 1.25rem', flexWrap: 'wrap' }}>
             <span className="timecode-tag" style={{ fontSize: 'clamp(0.65rem, 2.2vw, 0.75rem)' }}>
               PH: {siteData.contact.phone} / {siteData.contact.phoneSecondary}
             </span>
@@ -163,7 +163,7 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
               {typedLine1 || targetLine1}
             </h1>
           </div>
-          <div className="hero-title-line" style={{ alignSelf: 'flex-end', marginTop: '-0.12em' }}>
+          <div className="hero-title-line hero-title-line-secondary" style={{ marginTop: '-0.12em' }}>
             <h1
               className="display-hero"
               style={{
@@ -180,10 +180,10 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
         {/* Subtitle & Brand Statement */}
         <div
           ref={statementRef}
-          className="grid-2col items-center"
+          className="grid-2col items-center hero-statement-grid"
           style={{ opacity: isLoaded ? 1 : 0, marginTop: 'var(--space-xs)' }}
         >
-          <div className="flex-col" style={{ gap: '0.5rem' }}>
+          <div className="flex-col hero-text-col" style={{ gap: '0.5rem' }}>
             <span className="subheading" style={{ color: 'var(--text-primary)' }}>
               {siteData.tagline}
             </span>
@@ -192,7 +192,7 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
             </h2>
           </div>
 
-          <p className="body-lead" style={{ opacity: 0.85 }}>
+          <p className="body-lead hero-paragraph" style={{ opacity: 0.85 }}>
             Transforming raw concept footage into high-impact editorial stories. Precision choreography, color grading, and digital marketing suites engineered for modern screens.
           </p>
         </div>
@@ -200,10 +200,10 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
         {/* Hero CTA Buttons */}
         <div
           ref={ctaRef}
-          className="flex-row items-center justify-between"
+          className="flex-row items-center justify-between hero-cta-wrapper"
           style={{ opacity: isLoaded ? 1 : 0, marginTop: 'var(--space-xs)', flexWrap: 'wrap', gap: '1.25rem' }}
         >
-          <div className="flex-row items-center" style={{ gap: '1rem', flexWrap: 'wrap' }}>
+          <div className="flex-row items-center hero-cta-group" style={{ gap: '1rem', flexWrap: 'wrap' }}>
             <a href="#work" className="btn-primary" onClick={() => soundManager.playWhoosh()}>
               VIEW OUR WORK
             </a>
@@ -213,7 +213,7 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
             <button
               onClick={() => {
                 soundManager.playSubBoom();
-                if (onOpenModal) onOpenModal({ title: 'ATZINC SHOWREEL 2026', videoSrc: '/videos/showreel.mp4', posterSrc: '/images/hero-poster.jpg' });
+                if (onOpenModal) onOpenModal({ title: 'ATZYNC SHOWREEL 2026', videoSrc: '/videos/showreel.mp4', posterSrc: '/images/hero-poster.jpg' });
               }}
               className="btn-secondary flex-row items-center"
               style={{ gap: '0.5rem' }}
@@ -227,7 +227,7 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
           </div>
 
           {/* Scroll Cue Indicator */}
-          <div ref={scrollCueRef} className="flex-row items-center" style={{ gap: '0.5rem', opacity: 0.7 }}>
+          <div ref={scrollCueRef} className="flex-row items-center hero-scroll-cue" style={{ gap: '0.5rem', opacity: 0.7 }}>
             <span className="meta-tag" style={{ fontSize: '0.6875rem' }}>SCROLL FOR CINEMATIC MOTIONS</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M12 5v14M19 12l-7 7-7-7" />
@@ -242,7 +242,7 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
           style={{ opacity: isLoaded ? 1 : 0, cursor: 'pointer', marginTop: 'var(--space-md)' }}
           onClick={() => {
             soundManager.playSubBoom();
-            if (onOpenModal) onOpenModal({ title: 'ATZINC SHOWREEL 2026', videoSrc: '/videos/showreel.mp4', posterSrc: '/images/hero-poster.jpg' });
+            if (onOpenModal) onOpenModal({ title: 'ATZYNC SHOWREEL 2026', videoSrc: '/videos/showreel.mp4', posterSrc: '/images/hero-poster.jpg' });
           }}
           data-cursor="PLAY SHOWREEL"
         >
@@ -335,7 +335,7 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
           <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
             <span className="timecode-tag" style={{ fontSize: '0.7rem' }}>V1 // AUDIO MASTER</span>
             <span className="meta-tag desktop-nav" style={{ color: 'var(--text-primary)', fontSize: '0.7rem' }}>
-              ATZINC_SHOWREEL_4K.MP4
+              ATZYNC_SHOWREEL_4K.MP4
             </span>
           </div>
 

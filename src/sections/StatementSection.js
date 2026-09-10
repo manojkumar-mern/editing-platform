@@ -128,7 +128,7 @@ export default function StatementSection() {
             className="body-lead"
             style={{ maxWidth: 'var(--max-width-narrow)', opacity: 0.9 }}
           >
-            We don&apos;t just cut video. We sculpt rhythm, visual tone, and audience retention. From high-pacing commercials to editorial branding films, ATZINC MEDIA translates raw vision into compelling motion.
+            We don&apos;t just cut video. We sculpt rhythm, visual tone, and audience retention. From high-pacing commercials to editorial branding films, ATZYNC MEDIA translates raw vision into compelling motion.
           </p>
 
           <div className="flex-col" style={{ gap: '0.35rem' }}>

@@ -13,7 +13,7 @@ export default function ServicesSection() {
       afterImage: '/images/color-after.jpg',
       beforeLabel: '[ RAW LOG FOOTAGE ]',
       afterLabel: '[ ARRI CINEMA GRADE ]',
-      lutTag: 'LUT: ATZINC_BRAND_ARRI',
+      lutTag: 'LUT: ATZYNC_BRAND_ARRI',
       filterBefore: 'contrast(0.65) saturate(0.35) brightness(1.15)',
       hudHeader: 'ARRI ALEXA LUT',
     },

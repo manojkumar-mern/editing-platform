@@ -136,7 +136,7 @@ export default function CTASection({ onOpenModal }) {
             style={{ width: '100%', borderTop: '1px solid var(--border-subtle)', paddingTop: '1rem', marginTop: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}
           >
             <span className="meta-tag">RESPONSE TIME: &lt; 2 HOURS</span>
-            <span className="timecode-tag">ATZINC MEDIA STUDIO</span>
+            <span className="timecode-tag">ATZYNC MEDIA STUDIO</span>
             <span className="meta-tag">GLOBAL POST-PRODUCTION</span>
           </div>
         </div>

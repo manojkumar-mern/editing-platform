@@ -1,5 +1,5 @@
 export const siteData = {
-  name: "ATZINC MEDIA",
+  name: "ATZYNC MEDIA",
   brandTitle: "ATZYNCMEDIA",
   headline: "WE CREATE. WE PROMOTE. WE GROW BRANDS.",
   tagline: "Creative Video Production & Digital Marketing",

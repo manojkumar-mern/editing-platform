@@ -1,5 +1,5 @@
 /**
- * ATZINC MEDIA - Project Portfolio Data Architecture
+ * ATZYNC MEDIA - Project Portfolio Data Architecture
  */
 
 export const projects = [

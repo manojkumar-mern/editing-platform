@@ -7,7 +7,7 @@ export default function ColorGradeSlider({
   afterImage = '/images/color-after.jpg',
   beforeLabel = '[ RAW LOG FOOTAGE ]',
   afterLabel = '[ ARRI CINEMA GRADE ]',
-  lutTag = 'LUT: ATZINC_FILM_V3',
+  lutTag = 'LUT: ATZYNC_FILM_V3',
   filterBefore = 'contrast(0.65) saturate(0.35) brightness(1.15)',
 }) {
   const [sliderPos, setSliderPos] = useState(50);

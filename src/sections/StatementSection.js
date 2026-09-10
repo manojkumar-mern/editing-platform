@@ -74,16 +74,16 @@ export default function StatementSection() {
   return (
     <section ref={sectionRef} className="section-wrapper section-wrapper--alt border-bottom" id="statement">
       <div className="site-container flex-col" style={{ gap: 'var(--space-lg)' }}>
-        <div className="flex-row items-center justify-between">
-          <div className="flex-row items-center" style={{ gap: '1rem' }}>
+        <div className="flex-row items-center justify-between" style={{ flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
+          <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
             <span className="subheading">[ BRAND MANIFESTO ]</span>
             <span className="timecode-tag">SCENE 01 // MANIFESTO CUT</span>
           </div>
-          <div className="flex-row items-center" style={{ gap: '0.25rem' }}>
-            <div className="audio-bar" style={{ height: '12px' }}></div>
-            <div className="audio-bar" style={{ height: '16px' }}></div>
-            <div className="audio-bar" style={{ height: '20px' }}></div>
+          <div className="flex-row items-center" style={{ gap: '0.2rem' }}>
+            <div className="audio-bar" style={{ height: '10px' }}></div>
             <div className="audio-bar" style={{ height: '14px' }}></div>
+            <div className="audio-bar" style={{ height: '18px' }}></div>
+            <div className="audio-bar" style={{ height: '12px' }}></div>
           </div>
         </div>
 
@@ -92,7 +92,7 @@ export default function StatementSection() {
           <h2
             ref={word1Ref}
             className="display-title"
-            style={{ fontSize: 'clamp(2.2rem, 7vw, 7rem)', letterSpacing: '-0.02em', transition: 'text-shadow 0.3s' }}
+            style={{ fontSize: 'clamp(2rem, 7.5vw, 7rem)', letterSpacing: '-0.02em', transition: 'text-shadow 0.3s' }}
           >
             IDEAS
           </h2>
@@ -100,9 +100,9 @@ export default function StatementSection() {
             ref={word2Ref}
             className="display-title"
             style={{
-              fontSize: 'clamp(2.2rem, 7vw, 7rem)',
+              fontSize: 'clamp(2rem, 7.5vw, 7rem)',
               letterSpacing: '-0.02em',
-              paddingLeft: 'clamp(0.5rem, 5vw, 6rem)',
+              paddingLeft: 'clamp(0.25rem, 4vw, 6rem)',
               transition: 'text-shadow 0.3s',
             }}
           >
@@ -112,9 +112,9 @@ export default function StatementSection() {
             ref={word3Ref}
             className="display-title"
             style={{
-              fontSize: 'clamp(2.2rem, 7vw, 7rem)',
+              fontSize: 'clamp(2rem, 7.5vw, 7rem)',
               letterSpacing: '-0.02em',
-              paddingLeft: 'clamp(1rem, 10vw, 12rem)',
+              paddingLeft: 'clamp(0.5rem, 8vw, 12rem)',
               transition: 'text-shadow 0.3s',
             }}
           >

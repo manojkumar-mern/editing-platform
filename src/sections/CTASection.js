@@ -78,22 +78,23 @@ export default function CTASection({ onOpenModal }) {
               ref={titleRef}
               className="display-hero"
               style={{
-                fontSize: 'clamp(2.5rem, 6.5vw, 6rem)',
-                lineHeight: 1.05,
-                letterSpacing: '-0.03em',
+                fontSize: 'clamp(1.6rem, 5.5vw, 6rem)',
+                lineHeight: 1.08,
+                letterSpacing: '-0.02em',
+                maxWidth: '100%',
               }}
             >
               LET&apos;S TURN VISION INTO IMPACT.
             </h2>
           </div>
 
-          <p ref={textRef} className="body-lead" style={{ maxWidth: '680px', opacity: 0.85, fontSize: '1.125rem' }}>
+          <p ref={textRef} className="body-lead" style={{ maxWidth: '680px', opacity: 0.85, fontSize: 'clamp(0.9rem, 1.2vw, 1.125rem)' }}>
             Have a commercial campaign, branding film, or social video suite ready for high-precision post-production? Connect directly with our lead editors.
           </p>
 
           <div
             className="flex-row"
-            style={{ gap: '1rem', flexWrap: 'wrap', justifyContent: 'center', marginTop: '0.5rem' }}
+            style={{ gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center', marginTop: '0.5rem', width: '100%' }}
           >
             <a
               href={siteData.contact.whatsappUrl}
@@ -101,7 +102,7 @@ export default function CTASection({ onOpenModal }) {
               rel="noopener noreferrer"
               onClick={() => soundManager.playClick()}
               className="btn-primary"
-              style={{ padding: '0.85rem 1.6rem', fontSize: '0.8125rem' }}
+              style={{ padding: '0.75rem 1.25rem', fontSize: '0.75rem', maxWidth: '100%' }}
               data-cursor="WHATSAPP 1"
             >
               WHATSAPP 1: {siteData.contact.phone}
@@ -113,7 +114,7 @@ export default function CTASection({ onOpenModal }) {
               rel="noopener noreferrer"
               onClick={() => soundManager.playClick()}
               className="btn-secondary"
-              style={{ padding: '0.85rem 1.6rem', fontSize: '0.8125rem' }}
+              style={{ padding: '0.75rem 1.25rem', fontSize: '0.75rem', maxWidth: '100%' }}
               data-cursor="WHATSAPP 2"
             >
               WHATSAPP 2: {siteData.contact.phoneSecondary}
@@ -123,7 +124,7 @@ export default function CTASection({ onOpenModal }) {
               href={`mailto:${siteData.contact.email}`}
               onClick={() => soundManager.playClick()}
               className="btn-secondary"
-              style={{ padding: '0.85rem 1.6rem', fontSize: '0.8125rem' }}
+              style={{ padding: '0.75rem 1.25rem', fontSize: '0.75rem', maxWidth: '100%' }}
               data-cursor="EMAIL"
             >
               EMAIL: {siteData.contact.email}

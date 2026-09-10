@@ -142,16 +142,18 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
         <div
           ref={metaRef}
           className="flex-row items-center justify-between"
-          style={{ opacity: isLoaded ? 1 : 0, flexWrap: 'wrap', gap: '0.75rem' }}
+          style={{ opacity: isLoaded ? 1 : 0, flexWrap: 'wrap', gap: '0.5rem 1rem' }}
         >
-          <div className="badge-tag">
+          <div className="badge-tag" style={{ fontSize: 'clamp(0.65rem, 2.2vw, 0.75rem)' }}>
             <span className="status-dot"></span>
             <span>CREATIVE VIDEO EDITING STUDIO</span>
           </div>
 
-          <div className="flex-row items-center" style={{ gap: '1.5rem', flexWrap: 'wrap' }}>
-            <span className="timecode-tag">PH: {siteData.contact.phone} // {siteData.contact.phoneSecondary}</span>
-            <span className="meta-tag">[ {siteData.contact.email} ]</span>
+          <div className="flex-row items-center" style={{ gap: '0.75rem 1.25rem', flexWrap: 'wrap' }}>
+            <span className="timecode-tag" style={{ fontSize: 'clamp(0.65rem, 2.2vw, 0.75rem)' }}>
+              PH: {siteData.contact.phone} / {siteData.contact.phoneSecondary}
+            </span>
+            <span className="meta-tag" style={{ fontSize: 'clamp(0.65rem, 2.2vw, 0.75rem)' }}>[ {siteData.contact.email} ]</span>
           </div>
         </div>
 
@@ -324,29 +326,33 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
           className="flex-row items-center justify-between"
           style={{
             marginTop: '0.75rem',
-            padding: '0.75rem 1.25rem',
+            padding: '0.6rem 1rem',
             backgroundColor: 'var(--bg-secondary)',
             border: '1px solid var(--border-subtle)',
             transformOrigin: 'left',
+            flexWrap: 'wrap',
+            gap: '0.5rem 1rem',
           }}
         >
-          <div className="flex-row items-center" style={{ gap: '1rem' }}>
-            <span className="timecode-tag">V1 // AUDIO MASTER</span>
-            <span className="meta-tag" style={{ color: 'var(--text-primary)' }}>ATZINC_SHOWREEL_4K_CUT.MP4</span>
+          <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
+            <span className="timecode-tag" style={{ fontSize: '0.7rem' }}>V1 // AUDIO MASTER</span>
+            <span className="meta-tag desktop-nav" style={{ color: 'var(--text-primary)', fontSize: '0.7rem' }}>
+              ATZINC_SHOWREEL_4K.MP4
+            </span>
           </div>
 
-          <div className="flex-row items-center" style={{ gap: '0.25rem' }}>
-            <div className="audio-bar" style={{ height: '14px' }}></div>
-            <div className="audio-bar" style={{ height: '18px' }}></div>
-            <div className="audio-bar" style={{ height: '10px' }}></div>
-            <div className="audio-bar" style={{ height: '24px' }}></div>
+          <div className="flex-row items-center" style={{ gap: '0.2rem' }}>
             <div className="audio-bar" style={{ height: '12px' }}></div>
+            <div className="audio-bar" style={{ height: '16px' }}></div>
+            <div className="audio-bar" style={{ height: '8px' }}></div>
             <div className="audio-bar" style={{ height: '20px' }}></div>
+            <div className="audio-bar" style={{ height: '10px' }}></div>
+            <div className="audio-bar" style={{ height: '16px' }}></div>
           </div>
 
-          <div className="flex-row items-center" style={{ gap: '1rem' }}>
-            <span className="timecode-tag">-12dB // STEREO</span>
-            <span className="meta-tag">[ 24 FPS ]</span>
+          <div className="flex-row items-center" style={{ gap: '0.75rem' }}>
+            <span className="timecode-tag" style={{ fontSize: '0.7rem' }}>-12dB // STEREO</span>
+            <span className="meta-tag" style={{ fontSize: '0.7rem' }}>[ 24 FPS ]</span>
           </div>
         </div>
       </div>

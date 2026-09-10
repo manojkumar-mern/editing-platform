@@ -89,8 +89,8 @@ export default function WhatWeDoSection() {
         }}
       >
         {/* Header Ribbon */}
-        <div className="site-container flex-row items-center justify-between" style={{ marginBottom: 'var(--space-md)' }}>
-          <div className="flex-row items-center" style={{ gap: '1rem' }}>
+        <div className="site-container flex-row items-center justify-between" style={{ marginBottom: 'var(--space-md)', flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
+          <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
             <span className="subheading" style={{ color: 'var(--text-dark-primary)' }}>[ WHAT WE DO ]</span>
             <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>03 CAPABILITIES</span>
           </div>
@@ -101,7 +101,7 @@ export default function WhatWeDoSection() {
 
         {/* Section Headline */}
         <div className="site-container">
-          <h2 className="heading-lg" style={{ maxWidth: '1000px', fontSize: 'clamp(1.75rem, 4vw, 3.25rem)', color: 'var(--text-dark-primary)' }}>
+          <h2 className="heading-lg" style={{ maxWidth: '1000px', fontSize: 'clamp(1.5rem, 4vw, 3.25rem)', color: 'var(--text-dark-primary)' }}>
             Crafting visual narratives with mathematical editing precision.
           </h2>
         </div>
@@ -111,7 +111,7 @@ export default function WhatWeDoSection() {
           ref={trackRef}
           className="flex-row items-stretch"
           style={{
-            gap: '2rem',
+            gap: '1.5rem',
             paddingLeft: 'var(--space-md)',
             paddingRight: 'var(--space-lg)',
             marginTop: 'var(--space-md)',
@@ -123,7 +123,7 @@ export default function WhatWeDoSection() {
               key={cap.number}
               className="capability-card film-crop-marks silver-sheen flex-col justify-between"
               style={{
-                minWidth: 'clamp(300px, 42vw, 620px)',
+                minWidth: 'clamp(280px, 85vw, 620px)',
                 backgroundColor: 'var(--bg-light-card)',
                 border: '1px solid var(--border-light-subtle)',
                 borderRadius: '20px',
@@ -134,7 +134,7 @@ export default function WhatWeDoSection() {
               data-cursor="CAPABILITY"
             >
               {/* Card Top Metadata */}
-              <div className="flex-row items-center justify-between">
+              <div className="flex-row items-center justify-between" style={{ flexWrap: 'wrap', gap: '0.4rem' }}>
                 <span className="badge-tag" style={{ backgroundColor: 'rgba(0,0,0,0.04)', color: 'var(--text-dark-primary)', border: '1px solid rgba(0,0,0,0.1)' }}>
                   {cap.number} // {cap.title}
                 </span>

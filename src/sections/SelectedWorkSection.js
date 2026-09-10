@@ -95,20 +95,20 @@ export default function SelectedWorkSection({ onOpenModal }) {
         }}
       >
         {/* Top Section Ribbon */}
-        <div className="flex-row items-center justify-between" style={{ zIndex: 10 }}>
-          <div className="flex-row items-center" style={{ gap: '1rem' }}>
+        <div className="flex-row items-center justify-between" style={{ zIndex: 10, flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
+          <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
             <span className="subheading">[ SELECTED WORK ]</span>
             <span className="timecode-tag">CRAZY MOTION CARDS // 03 SHOWCASES</span>
           </div>
-          <div className="flex-row items-center" style={{ gap: '1rem' }}>
+          <div className="flex-row items-center" style={{ gap: '0.75rem' }}>
             <span className="meta-tag">PROJECT 0{activeProjectIndex + 1} / 03</span>
             <span className="status-dot"></span>
           </div>
         </div>
 
         {/* Section Heading */}
-        <div className="flex-row items-center justify-between" style={{ zIndex: 10 }}>
-          <h2 className="heading-lg" style={{ fontSize: 'clamp(1.5rem, 3.2vw, 2.75rem)' }}>
+        <div className="flex-row items-center justify-between" style={{ zIndex: 10, flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
+          <h2 className="heading-lg" style={{ fontSize: 'clamp(1.25rem, 3.2vw, 2.75rem)' }}>
             FEATURED PROJECTS & EDITORIAL CUTS
           </h2>
           <span className="meta-tag" style={{ color: 'var(--text-secondary)' }}>
@@ -158,14 +158,14 @@ export default function SelectedWorkSection({ onOpenModal }) {
                 data-cursor="WATCH PROJECT"
               >
                 {/* Card Top Header Bar */}
-                <div className="flex-row items-center justify-between" style={{ gap: '0.5rem', marginBottom: '0.75rem' }}>
-                  <div className="flex-row items-center" style={{ gap: '0.65rem' }}>
+                <div className="flex-row items-center justify-between" style={{ gap: '0.5rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
+                  <div className="flex-row items-center" style={{ gap: '0.5rem', flexWrap: 'wrap' }}>
                     <span className="badge-tag" style={{ borderRadius: '20px', padding: '0.3rem 0.8rem' }}>
                       0{index + 1} // {project.category.toUpperCase()}
                     </span>
                     <span className="status-dot"></span>
                   </div>
-                  <div className="flex-row items-center" style={{ gap: '0.75rem' }}>
+                  <div className="flex-row items-center" style={{ gap: '0.5rem', flexWrap: 'wrap' }}>
                     <span className="timecode-tag">24FPS // 4K DCI</span>
                     <span className="badge-tag" style={{ borderRadius: '20px' }}>{project.year}</span>
                   </div>
@@ -182,33 +182,33 @@ export default function SelectedWorkSection({ onOpenModal }) {
                   {/* Left Column (Text or Media depending on layout) */}
                   {!isMediaLeft ? (
                     /* Left Text */
-                    <div className="flex-col" style={{ gap: '0.6rem' }}>
+                    <div className="flex-col" style={{ gap: '0.5rem' }}>
                       <span className="subheading" style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
                         CLIENT: {project.client}
                       </span>
                       <h3
                         className="display-title"
                         style={{
-                          fontSize: 'clamp(1.75rem, 3.5vw, 3.5rem)',
-                          lineHeight: 1.05,
+                          fontSize: 'clamp(1.35rem, 3.5vw, 3.5rem)',
+                          lineHeight: 1.08,
                           letterSpacing: '-0.01em',
-                          wordBreak: 'keep-all',
-                          overflowWrap: 'normal',
+                          wordBreak: 'normal',
+                          overflowWrap: 'break-word',
                         }}
                       >
                         {project.title}
                       </h3>
-                      <p className="body-regular" style={{ fontSize: 'clamp(0.9rem, 1.1vw, 1.05rem)', opacity: 0.88, maxWidth: '500px' }}>
+                      <p className="body-regular" style={{ fontSize: 'clamp(0.85rem, 1.1vw, 1.05rem)', opacity: 0.88, maxWidth: '500px' }}>
                         {project.description}
                       </p>
-                      <div style={{ marginTop: '0.75rem' }}>
+                      <div style={{ marginTop: '0.5rem' }}>
                         <button
                           onClick={() => {
                             soundManager.playWhoosh();
                             onOpenModal && onOpenModal({ title: project.title, videoSrc: videoSources[index % videoSources.length], posterSrc: project.poster });
                           }}
                           className="btn-primary"
-                          style={{ borderRadius: '30px', padding: '0.75rem 1.75rem', fontSize: '0.75rem' }}
+                          style={{ borderRadius: '30px', padding: '0.65rem 1.4rem', fontSize: '0.75rem' }}
                         >
                           WATCH FULL CUT →
                         </button>
@@ -222,7 +222,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
                         position: 'relative',
                         width: '100%',
                         height: '100%',
-                        minHeight: '220px',
+                        minHeight: '200px',
                         maxHeight: '340px',
                         borderRadius: '18px',
                         overflow: 'hidden',
@@ -266,6 +266,8 @@ export default function SelectedWorkSection({ onOpenModal }) {
                           right: '0.75rem',
                           zIndex: 2,
                           pointerEvents: 'none',
+                          flexWrap: 'wrap',
+                          gap: '0.4rem',
                         }}
                       >
                         <span className="badge-tag" style={{ backgroundColor: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)' }}>
@@ -285,7 +287,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
                         position: 'relative',
                         width: '100%',
                         height: '100%',
-                        minHeight: '220px',
+                        minHeight: '200px',
                         maxHeight: '340px',
                         borderRadius: '18px',
                         overflow: 'hidden',
@@ -329,6 +331,8 @@ export default function SelectedWorkSection({ onOpenModal }) {
                           right: '0.75rem',
                           zIndex: 2,
                           pointerEvents: 'none',
+                          flexWrap: 'wrap',
+                          gap: '0.4rem',
                         }}
                       >
                         <span className="badge-tag" style={{ backgroundColor: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)' }}>
@@ -339,33 +343,33 @@ export default function SelectedWorkSection({ onOpenModal }) {
                     </div>
                   ) : (
                     /* Right Text */
-                    <div className="flex-col" style={{ gap: '0.6rem' }}>
+                    <div className="flex-col" style={{ gap: '0.5rem' }}>
                       <span className="subheading" style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
                         CLIENT: {project.client}
                       </span>
                       <h3
                         className="display-title"
                         style={{
-                          fontSize: 'clamp(1.75rem, 3.5vw, 3.5rem)',
-                          lineHeight: 1.05,
+                          fontSize: 'clamp(1.35rem, 3.5vw, 3.5rem)',
+                          lineHeight: 1.08,
                           letterSpacing: '-0.01em',
-                          wordBreak: 'keep-all',
-                          overflowWrap: 'normal',
+                          wordBreak: 'normal',
+                          overflowWrap: 'break-word',
                         }}
                       >
                         {project.title}
                       </h3>
-                      <p className="body-regular" style={{ fontSize: 'clamp(0.9rem, 1.1vw, 1.05rem)', opacity: 0.88, maxWidth: '500px' }}>
+                      <p className="body-regular" style={{ fontSize: 'clamp(0.85rem, 1.1vw, 1.05rem)', opacity: 0.88, maxWidth: '500px' }}>
                         {project.description}
                       </p>
-                      <div style={{ marginTop: '0.75rem' }}>
+                      <div style={{ marginTop: '0.5rem' }}>
                         <button
                           onClick={() => {
                             soundManager.playWhoosh();
                             onOpenModal && onOpenModal({ title: project.title, videoSrc: videoSources[index % videoSources.length], posterSrc: project.poster });
                           }}
                           className="btn-primary"
-                          style={{ borderRadius: '30px', padding: '0.75rem 1.75rem', fontSize: '0.75rem' }}
+                          style={{ borderRadius: '30px', padding: '0.65rem 1.4rem', fontSize: '0.75rem' }}
                         >
                           WATCH FULL CUT →
                         </button>

@@ -1,11 +1,40 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
-export default function ColorGradeSlider() {
+export default function ColorGradeSlider({
+  beforeImage = '/images/color-before.jpg',
+  afterImage = '/images/color-after.jpg',
+  beforeLabel = '[ RAW LOG FOOTAGE ]',
+  afterLabel = '[ ARRI CINEMA GRADE ]',
+  lutTag = 'LUT: ATZINC_FILM_V3',
+  filterBefore = 'contrast(0.65) saturate(0.35) brightness(1.15)',
+}) {
   const [sliderPos, setSliderPos] = useState(50);
-  const [isDragging, setIsDragging] = useState(false);
+  const [containerWidth, setContainerWidth] = useState(0);
   const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth);
+      }
+    };
+
+    updateWidth();
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateWidth();
+    });
+
+    resizeObserver.observe(containerRef.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   const handleMove = (clientX) => {
     if (!containerRef.current) return;
@@ -48,7 +77,7 @@ export default function ColorGradeSlider() {
     >
       {/* Background Image: Final Color Graded (After) */}
       <img
-        src="/images/color-after.jpg"
+        src={afterImage}
         alt="Color Graded ARRI Finish"
         style={{
           position: 'absolute',
@@ -56,6 +85,7 @@ export default function ColorGradeSlider() {
           width: '100%',
           height: '100%',
           objectFit: 'cover',
+          transition: 'src 0.4s ease',
         }}
       />
 
@@ -71,16 +101,18 @@ export default function ColorGradeSlider() {
         }}
       >
         <img
-          src="/images/color-before.jpg"
+          src={beforeImage}
           alt="RAW Camera LOG"
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
-            width: containerRef.current ? `${containerRef.current.offsetWidth}px` : '100vw',
+            width: containerWidth ? `${containerWidth}px` : '100%',
             height: '100%',
             objectFit: 'cover',
             maxWidth: 'none',
+            filter: filterBefore,
+            transition: 'src 0.4s ease, filter 0.4s ease',
           }}
         />
       </div>
@@ -95,6 +127,8 @@ export default function ColorGradeSlider() {
           right: '1.25rem',
           zIndex: 10,
           pointerEvents: 'none',
+          flexWrap: 'wrap',
+          gap: '0.4rem',
         }}
       >
         <span
@@ -104,9 +138,10 @@ export default function ColorGradeSlider() {
             backdropFilter: 'blur(4px)',
             opacity: sliderPos > 15 ? 1 : 0.2,
             transition: 'opacity 0.2s',
+            fontSize: '0.6875rem',
           }}
         >
-          [ RAW LOG FOOTAGE ]
+          {beforeLabel}
         </span>
         <span
           className="badge-tag"
@@ -115,9 +150,10 @@ export default function ColorGradeSlider() {
             backdropFilter: 'blur(4px)',
             opacity: sliderPos < 85 ? 1 : 0.2,
             transition: 'opacity 0.2s',
+            fontSize: '0.6875rem',
           }}
         >
-          [ ARRI CINEMA GRADE ]
+          {afterLabel}
         </span>
       </div>
 
@@ -131,12 +167,14 @@ export default function ColorGradeSlider() {
           right: '1.25rem',
           zIndex: 10,
           pointerEvents: 'none',
+          flexWrap: 'wrap',
+          gap: '0.4rem',
         }}
       >
-        <span className="timecode-tag" style={{ backgroundColor: 'rgba(0,0,0,0.75)', padding: '0.2rem 0.5rem' }}>
-          LUT: ATZINC_FILM_V3
+        <span className="timecode-tag" style={{ backgroundColor: 'rgba(0,0,0,0.75)', padding: '0.2rem 0.5rem', fontSize: '0.6875rem' }}>
+          {lutTag}
         </span>
-        <span className="meta-tag" style={{ backgroundColor: 'rgba(0,0,0,0.75)', padding: '0.2rem 0.5rem', color: 'var(--text-primary)' }}>
+        <span className="meta-tag" style={{ backgroundColor: 'rgba(0,0,0,0.75)', padding: '0.2rem 0.5rem', color: 'var(--text-primary)', fontSize: '0.6875rem' }}>
           SPLIT: {Math.round(sliderPos)}%
         </span>
       </div>

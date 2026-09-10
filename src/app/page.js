@@ -30,12 +30,10 @@ export default function Home() {
       <NavbarSection isLoaded={isLoaded} />
 
       <HeroSection isLoaded={isLoaded} onOpenModal={handleOpenModal} />
-      <StatementSection />
-      <WhatWeDoSection />
-      <ServicesSection />
-      <SelectedWorkSection onOpenModal={handleOpenModal} />
-      <ProcessSection />
       <AboutSection />
+      <ServicesSection />
+      <WhatWeDoSection />
+      <SelectedWorkSection onOpenModal={handleOpenModal} />
       <CTASection onOpenModal={handleOpenModal} />
       <FooterSection />
 

@@ -46,9 +46,9 @@ export default function CTASection({ onOpenModal }) {
     >
       <div className="site-container flex-col items-center" style={{ gap: 'var(--space-lg)', textAlign: 'center' }}>
         {/* Header Ribbon */}
-        <div className="flex-row items-center" style={{ gap: '1rem' }}>
-          <span className="subheading">[ INITIATE PROJECT ]</span>
-          <span className="timecode-tag">SCENE 07 // FINAL CUT</span>
+        <div className="flex-row items-center" style={{ gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <span className="subheading">[ 05 — CONTACT ]</span>
+          <span className="timecode-tag">LET&apos;S TALK</span>
         </div>
 
         {/* Big Action Box */}
@@ -72,24 +72,24 @@ export default function CTASection({ onOpenModal }) {
 
           <div className="flex-col items-center" style={{ gap: '0.5rem' }}>
             <span className="subheading" style={{ fontSize: '1.1rem', color: 'var(--text-secondary)' }}>
-              READY TO ELEVATE YOUR VIDEO ASSETS?
+              HAVE A PROJECT IN MIND? LET&apos;S TALK.
             </span>
             <h2
               ref={titleRef}
               className="display-hero"
               style={{
-                fontSize: 'clamp(1.6rem, 5.5vw, 6rem)',
+                fontSize: 'clamp(1.6rem, 5.5vw, 5.5rem)',
                 lineHeight: 1.08,
                 letterSpacing: '-0.02em',
                 maxWidth: '100%',
               }}
             >
-              LET&apos;S TURN VISION INTO IMPACT.
+              LET&apos;S CREATE SOMETHING GREAT.
             </h2>
           </div>
 
           <p ref={textRef} className="body-lead" style={{ maxWidth: '680px', opacity: 0.85, fontSize: 'clamp(0.9rem, 1.2vw, 1.125rem)' }}>
-            Have a commercial campaign, branding film, or social video suite ready for high-precision post-production? Connect directly with our lead editors.
+            Connect directly with Atzyncmedia for video production, digital marketing, commercial ads, or Meta ad campaigns.
           </p>
 
           <div
@@ -102,29 +102,29 @@ export default function CTASection({ onOpenModal }) {
               rel="noopener noreferrer"
               onClick={() => soundManager.playClick()}
               className="btn-primary"
-              style={{ padding: '0.75rem 1.25rem', fontSize: '0.75rem', maxWidth: '100%' }}
-              data-cursor="WHATSAPP 1"
+              style={{ padding: '0.85rem 1.6rem', fontSize: '0.8125rem', maxWidth: '100%' }}
+              data-cursor="START PROJECT"
             >
-              WHATSAPP 1: {siteData.contact.phone}
+              START A PROJECT →
             </a>
 
             <a
-              href={siteData.contact.whatsappUrlSecondary}
+              href={siteData.contact.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => soundManager.playClick()}
               className="btn-secondary"
-              style={{ padding: '0.75rem 1.25rem', fontSize: '0.75rem', maxWidth: '100%' }}
-              data-cursor="WHATSAPP 2"
+              style={{ padding: '0.85rem 1.6rem', fontSize: '0.8125rem', maxWidth: '100%' }}
+              data-cursor="WHATSAPP US"
             >
-              WHATSAPP 2: {siteData.contact.phoneSecondary}
+              WHATSAPP US → ({siteData.contact.phone})
             </a>
 
             <a
               href={`mailto:${siteData.contact.email}`}
               onClick={() => soundManager.playClick()}
               className="btn-secondary"
-              style={{ padding: '0.75rem 1.25rem', fontSize: '0.75rem', maxWidth: '100%' }}
+              style={{ padding: '0.85rem 1.6rem', fontSize: '0.8125rem', maxWidth: '100%' }}
               data-cursor="EMAIL"
             >
               EMAIL: {siteData.contact.email}

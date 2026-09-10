@@ -97,22 +97,27 @@ export default function SelectedWorkSection({ onOpenModal }) {
         {/* Top Section Ribbon */}
         <div className="flex-row items-center justify-between" style={{ zIndex: 10, flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
           <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
-            <span className="subheading">[ SELECTED WORK ]</span>
-            <span className="timecode-tag">CRAZY MOTION CARDS // 03 SHOWCASES</span>
+            <span className="subheading">[ 04 — OUR WORK ]</span>
+            <span className="timecode-tag">CRAZY MOTION CARDS // {projects.length} SHOWCASES</span>
           </div>
           <div className="flex-row items-center" style={{ gap: '0.75rem' }}>
-            <span className="meta-tag">PROJECT 0{activeProjectIndex + 1} / 03</span>
+            <span className="meta-tag">PROJECT 0{activeProjectIndex + 1} / 0{projects.length}</span>
           </div>
         </div>
 
         {/* Section Heading */}
         <div className="flex-row items-center justify-between" style={{ zIndex: 10, flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
-          <h2 className="heading-lg" style={{ fontSize: 'clamp(1.25rem, 3.2vw, 2.75rem)' }}>
-            FEATURED PROJECTS & EDITORIAL CUTS
+          <h2 className="heading-lg" style={{ fontSize: 'clamp(1.5rem, 3.5vw, 3rem)' }}>
+            SELECTED WORK
           </h2>
-          <span className="meta-tag" style={{ color: 'var(--text-secondary)' }}>
-            SCROLL TO UNSTACK CARDS ↓
-          </span>
+          <a
+            href="#cta"
+            className="btn-secondary"
+            style={{ padding: '0.45rem 1.1rem', fontSize: '0.75rem', borderRadius: '20px' }}
+            onClick={() => soundManager.playClick()}
+          >
+            VIEW ALL WORK →
+          </a>
         </div>
 
         {/* Medium Cards Deck Container */}
@@ -398,7 +403,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
             />
           </div>
 
-          <span className="meta-tag">0{activeProjectIndex + 1} / 03</span>
+          <span className="meta-tag">0{activeProjectIndex + 1} / 0{projects.length}</span>
         </div>
       </div>
     </section>

@@ -187,13 +187,13 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
             <span className="subheading" style={{ color: 'var(--text-primary)' }}>
               {siteData.tagline}
             </span>
-            <h2 className="heading-md" style={{ letterSpacing: '0.08em', opacity: 0.9 }}>
-              {siteData.statement}
+            <h2 className="heading-md" style={{ letterSpacing: '0.04em', opacity: 0.95, textTransform: 'uppercase' }}>
+              {siteData.headline}
             </h2>
           </div>
 
           <p className="body-lead" style={{ opacity: 0.85 }}>
-            Transforming raw concept footage into high-impact editorial stories. Precision choreography, color grading, and bespoke sound architecture engineered for modern screens.
+            Transforming raw concept footage into high-impact editorial stories. Precision choreography, color grading, and digital marketing suites engineered for modern screens.
           </p>
         </div>
 
@@ -203,9 +203,12 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
           className="flex-row items-center justify-between"
           style={{ opacity: isLoaded ? 1 : 0, marginTop: 'var(--space-xs)', flexWrap: 'wrap', gap: '1.25rem' }}
         >
-          <div className="flex-row items-center" style={{ gap: '1.25rem', flexWrap: 'wrap' }}>
-            <a href="#services" className="btn-primary" onClick={() => soundManager.playWhoosh()}>
-              EXPLORE SERVICES
+          <div className="flex-row items-center" style={{ gap: '1rem', flexWrap: 'wrap' }}>
+            <a href="#work" className="btn-primary" onClick={() => soundManager.playWhoosh()}>
+              VIEW OUR WORK
+            </a>
+            <a href="#cta" className="btn-secondary" onClick={() => soundManager.playClick()}>
+              START A PROJECT
             </a>
             <button
               onClick={() => {

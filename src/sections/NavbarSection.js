@@ -48,10 +48,11 @@ export default function NavbarSection({ isLoaded }) {
   }, [mobileMenuOpen]);
 
   const navItems = [
-    { label: 'WORK', href: '#work', number: '01' },
-    { label: 'SERVICES', href: '#services', number: '02' },
-    { label: 'ABOUT', href: '#about', number: '03' },
-    { label: 'CONTACT', href: '#cta', number: '04' },
+    { label: 'HOME', href: '#hero', number: '01' },
+    { label: 'ABOUT', href: '#about', number: '02' },
+    { label: 'SERVICES', href: '#services', number: '03' },
+    { label: 'WORK', href: '#work', number: '04' },
+    { label: 'CONTACT', href: '#cta', number: '05' },
   ];
 
   return (

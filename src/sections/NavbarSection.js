@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { gsap } from '@/lib/gsap';
 import { siteData } from '@/data/siteData';
 
-export default function NavbarSection({ isLoaded }) {
+export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navRef = useRef(null);
@@ -42,9 +42,24 @@ export default function NavbarSection({ isLoaded }) {
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      if (typeof window !== 'undefined' && window.lenis) {
+        window.lenis.stop();
+      }
     } else {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (typeof window !== 'undefined' && window.lenis) {
+        window.lenis.start();
+      }
     }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (typeof window !== 'undefined' && window.lenis) {
+        window.lenis.start();
+      }
+    };
   }, [mobileMenuOpen]);
 
   const navItems = [
@@ -88,15 +103,15 @@ export default function NavbarSection({ isLoaded }) {
               ))}
             </div>
 
-            <a
-              href={siteData.contact.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                if (onOpenProjectModal) onOpenProjectModal();
+              }}
               className="btn-secondary"
               style={{ padding: '0.55rem 1.4rem', fontSize: '0.75rem' }}
             >
               START PROJECT
-            </a>
+            </button>
           </nav>
 
           {/* Creative Animated Mobile Menu Toggle Button */}
@@ -116,7 +131,13 @@ export default function NavbarSection({ isLoaded }) {
       </header>
 
       {/* Fullscreen Mobile Menu Overlay */}
-      <div className={`mobile-menu-overlay ${mobileMenuOpen ? 'open' : ''}`}>
+      <div
+        className={`mobile-menu-overlay ${mobileMenuOpen ? 'open' : ''}`}
+        data-lenis-prevent="true"
+        data-lenis-prevent-touch="true"
+        onWheel={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
+      >
         <div className="flex-col" style={{ gap: '1.75rem', marginTop: '2rem' }}>
           {navItems.map((item) => (
             <a
@@ -144,16 +165,16 @@ export default function NavbarSection({ isLoaded }) {
             </a>
           </div>
 
-          <a
-            href={siteData.contact.whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
             className="btn-primary"
             style={{ width: '100%', marginTop: '0.5rem' }}
-            onClick={() => setMobileMenuOpen(false)}
+            onClick={() => {
+              setMobileMenuOpen(false);
+              if (onOpenProjectModal) onOpenProjectModal();
+            }}
           >
             START PROJECT
-          </a>
+          </button>
         </div>
       </div>
     </>

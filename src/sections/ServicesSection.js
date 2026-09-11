@@ -127,13 +127,23 @@ export default function ServicesSection() {
                   </div>
 
                   {isActive && (
-                    <div className="flex-col" style={{ gap: '0.5rem', marginTop: '0.75rem', animation: 'fadeIn 0.3s ease' }}>
+                    <div className="flex-col" style={{ gap: '0.75rem', marginTop: '0.75rem', animation: 'fadeIn 0.3s ease' }}>
                       <p className="body-lead" style={{ fontSize: '0.95rem', color: 'var(--text-primary)' }}>
                         {service.tagline}
                       </p>
                       <p className="body-regular" style={{ fontSize: '0.875rem', opacity: 0.85 }}>
                         {service.description}
                       </p>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (onOpenProjectModal) onOpenProjectModal(service.title);
+                        }}
+                        className="btn-secondary"
+                        style={{ padding: '0.45rem 1rem', fontSize: '0.75rem', alignSelf: 'flex-start', marginTop: '0.25rem' }}
+                      >
+                        INQUIRE THIS SERVICE →
+                      </button>
                     </div>
                   )}
                 </div>

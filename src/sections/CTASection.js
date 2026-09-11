@@ -5,7 +5,7 @@ import { gsap } from '@/lib/gsap';
 import { siteData } from '@/data/siteData';
 import { soundManager } from '@/lib/audioManager';
 
-export default function CTASection({ onOpenModal }) {
+export default function CTASection({ onOpenModal, onOpenProjectModal }) {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const textRef = useRef(null);
@@ -96,17 +96,17 @@ export default function CTASection({ onOpenModal }) {
             className="flex-row"
             style={{ gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center', marginTop: '0.5rem', width: '100%' }}
           >
-            <a
-              href={siteData.contact.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => soundManager.playClick()}
+            <button
+              onClick={() => {
+                soundManager.playClick();
+                if (onOpenProjectModal) onOpenProjectModal();
+              }}
               className="btn-primary"
-              style={{ padding: '0.85rem 1.6rem', fontSize: '0.8125rem', maxWidth: '100%' }}
+              style={{ padding: '0.85rem 1.6rem', fontSize: '0.8125rem', maxWidth: '100%', cursor: 'pointer' }}
               data-cursor="START PROJECT"
             >
               START A PROJECT →
-            </a>
+            </button>
 
             <a
               href={siteData.contact.whatsappUrl}

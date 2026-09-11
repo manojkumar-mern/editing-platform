@@ -20,6 +20,9 @@ export default function SmoothScroll({ children }) {
     // Update ScrollTrigger on Lenis scroll
     lenis.on('scroll', ScrollTrigger.update);
 
+    // Attach to window object for modal & overlay scroll control
+    window.lenis = lenis;
+
     // Synchronize Lenis raf loop with GSAP ticker
     const updateTicker = (time) => {
       lenis.raf(time * 1000);
@@ -29,6 +32,7 @@ export default function SmoothScroll({ children }) {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      if (window.lenis === lenis) window.lenis = null;
       gsap.ticker.remove(updateTicker);
       lenis.destroy();
     };

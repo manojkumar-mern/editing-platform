@@ -5,7 +5,7 @@ import { gsap } from '@/lib/gsap';
 import { siteData } from '@/data/siteData';
 import { soundManager } from '@/lib/audioManager';
 
-export default function HeroSection({ isLoaded, onOpenModal }) {
+export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal }) {
   const sectionRef = useRef(null);
   const mediaRef = useRef(null);
   const metaRef = useRef(null);
@@ -209,9 +209,15 @@ export default function HeroSection({ isLoaded, onOpenModal }) {
               <a href="#work" className="btn-primary" onClick={() => soundManager.playWhoosh()}>
                 VIEW OUR WORK
               </a>
-              <a href="#cta" className="btn-secondary" onClick={() => soundManager.playClick()}>
+              <button
+                onClick={() => {
+                  soundManager.playClick();
+                  if (onOpenProjectModal) onOpenProjectModal();
+                }}
+                className="btn-secondary"
+              >
                 START A PROJECT
-              </a>
+              </button>
               <button
                 onClick={() => {
                   soundManager.playSubBoom();

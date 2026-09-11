@@ -7,18 +7,22 @@ import { soundManager } from '@/lib/audioManager';
 
 export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal }) {
   const sectionRef = useRef(null);
-  const mediaRef = useRef(null);
   const metaRef = useRef(null);
   const ctaRef = useRef(null);
   const statementRef = useRef(null);
   const scrollCueRef = useRef(null);
-  const timelineBarRef = useRef(null);
 
   // Typewriter effect state for ATZYNC MEDIA title
   const targetLine1 = 'ATZYNC';
   const targetLine2 = 'MEDIA';
-  const [typedLine1, setTypedLine1] = useState('');
-  const [typedLine2, setTypedLine2] = useState('');
+  const line1Chars = targetLine1.split('');
+  const line2Chars = targetLine2.split('');
+  const [typedCount1, setTypedCount1] = useState(0);
+  const [typedCount2, setTypedCount2] = useState(0);
+  const [mediaIndent, setMediaIndent] = useState(0);
+
+  const titleWrapperRef = useRef(null);
+  const nRef = useRef(null);
 
   useEffect(() => {
     if (!isLoaded) return;
@@ -27,14 +31,14 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
     let idx2 = 0;
 
     const timer1 = setInterval(() => {
-      if (idx1 <= targetLine1.length) {
-        setTypedLine1(targetLine1.slice(0, idx1));
+      if (idx1 <= line1Chars.length) {
+        setTypedCount1(idx1);
         idx1++;
       } else {
         clearInterval(timer1);
         const timer2 = setInterval(() => {
-          if (idx2 <= targetLine2.length) {
-            setTypedLine2(targetLine2.slice(0, idx2));
+          if (idx2 <= line2Chars.length) {
+            setTypedCount2(idx2);
             idx2++;
           } else {
             clearInterval(timer2);
@@ -49,6 +53,32 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
   }, [isLoaded]);
 
   useEffect(() => {
+    const updateIndent = () => {
+      if (nRef.current && titleWrapperRef.current) {
+        const wrapperRect = titleWrapperRef.current.getBoundingClientRect();
+        const nRect = nRef.current.getBoundingClientRect();
+        const offset = nRect.left - wrapperRect.left;
+        if (offset > 0) {
+          setMediaIndent(offset);
+        }
+      }
+    };
+
+    updateIndent();
+    window.addEventListener('resize', updateIndent);
+    const t1 = setTimeout(updateIndent, 80);
+    const t2 = setTimeout(updateIndent, 300);
+    const t3 = setTimeout(updateIndent, 800);
+
+    return () => {
+      window.removeEventListener('resize', updateIndent);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
+  }, [isLoaded, typedCount1]);
+
+  useEffect(() => {
     if (!isLoaded || !sectionRef.current) return;
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -61,15 +91,9 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
 
         entranceTl
           .fromTo(
-            mediaRef.current,
-            { clipPath: 'inset(10% 10% 10% 10%)', scale: 0.9, opacity: 0 },
-            { clipPath: 'inset(0% 0% 0% 0%)', scale: 1, opacity: 1, duration: 1.15 }
-          )
-          .fromTo(
             metaRef.current,
             { y: 20, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.5 },
-            '-=0.5'
+            { y: 0, opacity: 1, duration: 0.6 }
           )
           .fromTo(
             statementRef.current,
@@ -82,12 +106,6 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
             { y: 20, opacity: 0 },
             { y: 0, opacity: 1, duration: 0.5 },
             '-=0.4'
-          )
-          .fromTo(
-            timelineBarRef.current,
-            { opacity: 0, scaleX: 0.9 },
-            { opacity: 1, scaleX: 1, duration: 0.6 },
-            '-=0.3'
           )
           .fromTo(
             scrollCueRef.current,
@@ -98,14 +116,12 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
       } else {
         gsap.set(
           [
-            mediaRef.current,
             metaRef.current,
             statementRef.current,
             ctaRef.current,
-            timelineBarRef.current,
             scrollCueRef.current,
           ],
-          { opacity: 1, y: 0, scale: 1, yPercent: 0, scaleX: 1, clipPath: 'inset(0% 0% 0% 0%)' }
+          { opacity: 1, y: 0 }
         );
       }
     }, sectionRef);
@@ -158,23 +174,72 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
             </div>
           </div>
 
-          {/* Oversized Kinetic Display Title with Typewriter Effect */}
-          <div className="hero-display-wrapper film-crop-marks" style={{ marginTop: 'var(--space-xs)' }}>
-            <div className="hero-title-line">
-              <h1 className="display-hero" style={{ opacity: isLoaded ? 1 : 0 }}>
-                {typedLine1 || targetLine1}
+          {/* Oversized Kinetic Display Title with Typewriter Effect & Staggered Zig-Zag Offset */}
+          <div ref={titleWrapperRef} className="hero-display-wrapper film-crop-marks" style={{ marginTop: 'var(--space-xs)', position: 'relative' }}>
+            {/* Line 1: ATZYNC starting at left */}
+            <div className="hero-title-line flex-row items-center" style={{ width: '100%', justifyContent: 'flex-start' }}>
+              <h1 className="display-hero" style={{ opacity: isLoaded ? 1 : 0, display: 'inline-flex', letterSpacing: '0.02em' }}>
+                {line1Chars.map((char, index) => {
+                  const isVisible = typedCount1 === 0 ? true : index < typedCount1;
+                  const isInitialInverted = index === 0; // 'A' in ATZYNC starts upside down
+                  const isN = index === 4; // 'N' letter in ATZYNC anchor for MEDIA
+                  return (
+                    <span
+                      key={index}
+                      ref={isN ? nRef : null}
+                      className="hero-letter-box"
+                      style={{
+                        opacity: isVisible ? 1 : 0,
+                        transition: 'opacity 0.15s ease',
+                        display: 'inline-block',
+                      }}
+                    >
+                      <span className={`hero-interactive-letter ${isInitialInverted ? 'initially-inverted' : ''}`}>
+                        {char}
+                      </span>
+                    </span>
+                  );
+                })}
               </h1>
             </div>
-            <div className="hero-title-line hero-title-line-secondary" style={{ marginTop: '-0.12em' }}>
+
+            {/* Line 2: MEDIA starting directly below the 'N' of ATZYNC (Zig-Zag alignment) */}
+            <div
+              className="hero-title-line hero-title-line-secondary flex-row items-center"
+              style={{
+                marginTop: '-0.15em',
+                width: '100%',
+                justify: 'flex-start',
+                paddingLeft: `${mediaIndent}px`,
+                transition: 'padding-left 0.25s ease-out',
+              }}
+            >
               <h1
-                className="display-hero"
+                className="display-hero display-hero-outline"
                 style={{
                   opacity: isLoaded ? 1 : 0,
-                  color: 'transparent',
-                  WebkitTextStroke: '1.5px var(--text-primary)',
+                  display: 'inline-flex',
+                  letterSpacing: '0.02em',
                 }}
               >
-                {typedLine2 || targetLine2}
+                {line2Chars.map((char, index) => {
+                  const isVisible = typedCount2 === 0 && typedCount1 === 0 ? true : index < typedCount2;
+                  return (
+                    <span
+                      key={index}
+                      className="hero-letter-box"
+                      style={{
+                        opacity: isVisible ? 1 : 0,
+                        transition: 'opacity 0.15s ease',
+                        display: 'inline-block',
+                      }}
+                    >
+                      <span className="hero-interactive-letter">
+                        {char}
+                      </span>
+                    </span>
+                  );
+                })}
               </h1>
             </div>
           </div>
@@ -240,128 +305,6 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M12 5v14M19 12l-7 7-7-7" />
               </svg>
-            </div>
-          </div>
-        </div>
-
-        {/* SECOND FOLD: Pushed cleanly onto next scroll fold */}
-        <div className="hero-second-fold-wrapper flex-col" style={{ gap: 'var(--space-md)' }}>
-          {/* Real Local Video Monitor */}
-          <div
-            ref={mediaRef}
-            className="hero-media-wrapper film-crop-marks silver-sheen"
-            style={{ opacity: isLoaded ? 1 : 0, cursor: 'pointer', marginTop: 'var(--space-md)' }}
-            onClick={() => {
-              soundManager.playSubBoom();
-              if (onOpenModal) onOpenModal({ title: 'ATZYNC SHOWREEL 2026', videoSrc: '/videos/showreel.mp4', posterSrc: '/images/hero-poster.jpg' });
-            }}
-            data-cursor="PLAY SHOWREEL"
-          >
-            <div className="hero-media-content" style={{ position: 'relative', width: '100%', height: '100%' }}>
-              {/* Local Video Stream */}
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                src="/videos/showreel.mp4"
-                poster="/images/hero-poster.jpg"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center center',
-                  display: 'block',
-                  filter: 'brightness(0.92)',
-                }}
-              />
-
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'radial-gradient(circle at center, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.8) 100%)',
-                  zIndex: 2,
-                  pointerEvents: 'none',
-                }}
-              />
-
-              <div className="hero-play-badge" style={{ zIndex: 3 }}>
-                <span className="status-dot"></span>
-                <span>SHOWREEL 2026 // CLICK TO PLAY FULLSCREEN</span>
-              </div>
-
-              {/* Glowing Center Play Icon */}
-              <div
-                className="flex-col items-center justify-center"
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  zIndex: 3,
-                  textAlign: 'center',
-                  padding: 'var(--space-md)',
-                  pointerEvents: 'none',
-                }}
-              >
-                <div
-                  style={{
-                    width: '72px',
-                    height: '72px',
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(255,255,255,0.92)',
-                    color: '#000',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    paddingLeft: '5px',
-                    boxShadow: '0 0 35px rgba(255,255,255,0.5)',
-                    transition: 'transform 0.3s ease',
-                  }}
-                >
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="5 3 19 12 5 21 5 3" />
-                  </svg>
-                </div>
-                <span className="subheading" style={{ fontSize: '0.75rem', marginTop: '1rem', letterSpacing: '0.15em' }}>
-                  IDEAS → VISUALS → IMPACT
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Audio Track Bar */}
-          <div
-            ref={timelineBarRef}
-            className="flex-row items-center justify-between hero-audio-bar"
-            style={{
-              marginTop: '0.75rem',
-              padding: '0.6rem 1rem',
-              backgroundColor: 'var(--bg-secondary)',
-              border: '1px solid var(--border-subtle)',
-              transformOrigin: 'left',
-              flexWrap: 'wrap',
-              gap: '0.5rem 1rem',
-            }}
-          >
-            <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
-              <span className="timecode-tag" style={{ fontSize: '0.7rem' }}>V1 // AUDIO MASTER</span>
-              <span className="meta-tag desktop-nav" style={{ color: 'var(--text-primary)', fontSize: '0.7rem' }}>
-                ATZYNC_SHOWREEL_4K.MP4
-              </span>
-            </div>
-
-            <div className="flex-row items-center" style={{ gap: '0.2rem' }}>
-              <div className="audio-bar" style={{ height: '12px' }}></div>
-              <div className="audio-bar" style={{ height: '16px' }}></div>
-              <div className="audio-bar" style={{ height: '8px' }}></div>
-              <div className="audio-bar" style={{ height: '20px' }}></div>
-              <div className="audio-bar" style={{ height: '10px' }}></div>
-              <div className="audio-bar" style={{ height: '16px' }}></div>
-            </div>
-
-            <div className="flex-row items-center" style={{ gap: '0.75rem' }}>
-              <span className="timecode-tag" style={{ fontSize: '0.7rem' }}>-12dB // STEREO</span>
-              <span className="meta-tag" style={{ fontSize: '0.7rem' }}>[ 24 FPS ]</span>
             </div>
           </div>
         </div>

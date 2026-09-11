@@ -42,13 +42,13 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
       ref={sectionRef}
       className="section-wrapper border-bottom"
       id="cta"
-      style={{ backgroundColor: 'var(--bg-secondary)' }}
+      style={{ backgroundColor: 'var(--bg-light)' }}
     >
       <div className="site-container flex-col items-center" style={{ gap: 'var(--space-lg)', textAlign: 'center' }}>
         {/* Header Ribbon */}
         <div className="flex-row items-center" style={{ gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <span className="subheading">[ 05 — CONTACT ]</span>
-          <span className="timecode-tag">LET&apos;S TALK</span>
+          <span className="subheading" style={{ color: 'var(--text-dark-primary)' }}>[ 05 — CONTACT ]</span>
+          <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>LET&apos;S TALK</span>
         </div>
 
         {/* Big Action Box */}
@@ -61,8 +61,9 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
             border: '1px solid var(--border-strong)',
             padding: 'clamp(2rem, 5vw, 4rem) var(--space-md)',
             gap: 'var(--space-md)',
-            boxShadow: '0 0 50px rgba(255,255,255,0.03)',
+            boxShadow: '0 8px 60px rgba(0,0,0,0.25)',
             position: 'relative',
+            borderRadius: '16px',
           }}
         >
           <div className="flex-row items-center" style={{ gap: '0.75rem' }}>

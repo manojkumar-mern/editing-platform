@@ -11,34 +11,34 @@
   position: absolute;
   top: -100%;
   left: -100%;
-  width: 60%;
+  width: 8%;
   height: 300%;
   background: linear-gradient(
     115deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.02) 20%,
-    rgba(255, 255, 255, 0.45) 45%,
-    rgba(255, 255, 255, 0.95) 50%,
-    rgba(255, 255, 255, 0.45) 55%,
-    rgba(255, 255, 255, 0.02) 80%,
+    rgba(255, 255, 255, 0.0) 30%,
+    rgba(255, 255, 255, 0.08) 48%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.08) 52%,
+    rgba(255, 255, 255, 0.0) 70%,
     transparent 100%
   );
   transform: rotate(25deg);
   pointer-events: none;
   z-index: 8;
-  animation: silverLineSweep 4.8s infinite cubic-bezier(0.4, 0, 0.2, 1);
+  animation: silverLineSweep 5.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes silverLineSweep {
   0% {
-    left: -120%;
+    left: -30%;
     opacity: 0;
   }
-  10% {
+  8% {
     opacity: 1;
   }
   45%, 100% {
-    left: 160%;
+    left: 130%;
     opacity: 0;
   }
 }
@@ -543,8 +543,53 @@
 }
 
 .hero-title-line {
-  display: block;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.hero-display-wrapper {
+  perspective: 1000px;
+}
+
+.hero-letter-box {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.hero-interactive-letter {
+  display: inline-block;
+  position: relative;
+  pointer-events: none;
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease, filter 0.3s ease;
+}
+
+/* Initially upside-down letter ('A' in ATZYNC starts reversed/upside down) */
+.hero-letter-box .hero-interactive-letter.initially-inverted {
+  transform: rotate(180deg) translateY(-0.05em);
+}
+
+/* Hover over parent box -> initially inverted letter flips back to NORMAL (upright 0deg)! */
+.hero-letter-box:hover .hero-interactive-letter.initially-inverted {
+  transform: rotate(0deg) translateY(0);
+  color: #ffffff;
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));
+}
+
+/* Hover over parent box -> standard upright letter flips UPSIDE DOWN (180deg)! */
+.hero-letter-box:hover .hero-interactive-letter:not(.initially-inverted) {
+  transform: rotate(180deg) translateY(-0.05em);
+  color: #ffffff;
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));
+}
+
+.display-hero-outline {
+  color: transparent !important;
+  -webkit-text-stroke: 1.5px var(--text-primary);
 }
 
 /* Cinematic Video Showreel Monitor */
@@ -743,17 +788,17 @@
   }
 
   .display-hero {
-    font-size: clamp(2.45rem, 11vw, 3.6rem) !important;
-    line-height: 1.08 !important;
-    text-align: center !important;
+    font-size: clamp(2.0rem, 9.2vw, 3.6rem) !important;
+    line-height: 1.05 !important;
+    text-align: left !important;
   }
 
   .hero-title-line,
   .hero-title-line-secondary {
     display: flex !important;
-    justify-content: center !important;
-    align-self: center !important;
-    text-align: center !important;
+    justify-content: flex-start !important;
+    align-self: flex-start !important;
+    text-align: left !important;
     width: 100% !important;
   }
 

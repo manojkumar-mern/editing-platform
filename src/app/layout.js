@@ -1,6 +1,5 @@
 import '@/styles/globals.css';
 import SmoothScroll from '@/components/SmoothScroll';
-import CustomCursor from '@/components/CustomCursor';
 
 export const metadata = {
   title: 'ATZYNC MEDIA | Creative Video Editing & Visual Studio',
@@ -28,7 +27,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <CustomCursor />
         <SmoothScroll>
           {children}
         </SmoothScroll>

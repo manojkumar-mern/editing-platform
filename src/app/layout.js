@@ -8,6 +8,14 @@ export const metadata = {
   keywords: ['Video Editing', 'Branding Films', 'Commercials', 'Social Media Videos', 'Post Production', 'Visual Content', 'ATZYNC MEDIA'],
   authors: [{ name: 'ATZYNC MEDIA' }],
   robots: 'index, follow',
+  icons: {
+    icon: [
+      { url: '/favicon.png', type: 'image/png' },
+      { url: '/logo-black.png', type: 'image/png' },
+    ],
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
 };
 
 export const viewport = {

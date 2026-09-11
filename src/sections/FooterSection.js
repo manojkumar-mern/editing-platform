@@ -8,9 +8,11 @@ export default function FooterSection() {
       <div className="site-container flex-col" style={{ gap: 'var(--space-md)' }}>
         <div className="flex-row items-center justify-between" style={{ flexWrap: 'wrap', gap: 'var(--space-sm)' }}>
           <div className="flex-col" style={{ gap: '0.5rem' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 800 }}>
-              {siteData.name}
-            </span>
+            <img
+              src="/logo-white.png"
+              alt="ATZYNC Media"
+              style={{ height: 'clamp(45px, 4.5vw, 65px)', width: 'auto', objectFit: 'contain' }}
+            />
             <span className="subheading" style={{ fontSize: '0.75rem' }}>{siteData.tagline}</span>
           </div>
 

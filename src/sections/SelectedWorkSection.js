@@ -27,53 +27,76 @@ export default function SelectedWorkSection({ onOpenModal }) {
       const cards = cardsRef.current;
       const isMobile = window.innerWidth < 768;
 
+      const numCards = projects.length;
+      const HOLD_DURATION = 1.2;
+      const TRANSITION_DURATION = 1.0;
+      const totalDuration = HOLD_DURATION * numCards + TRANSITION_DURATION * (numCards - 1);
+
       const masterTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           pin: viewportRef.current,
           start: 'top top',
-          end: isMobile ? '+=150%' : '+=220%',
+          end: isMobile ? '+=320%' : '+=500%',
           scrub: 0.8,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            const idx = Math.min(projects.length - 1, Math.floor(self.progress * projects.length * 0.99));
-            setActiveProjectIndex(idx);
+            const currentTime = self.progress * totalDuration;
+            let currentIdx = 0;
+            for (let i = 1; i < numCards; i++) {
+              const startTime = HOLD_DURATION + (i - 1) * (TRANSITION_DURATION + HOLD_DURATION);
+              if (currentTime >= startTime) {
+                currentIdx = i;
+              } else {
+                break;
+              }
+            }
+            setActiveProjectIndex(currentIdx);
           },
         },
       });
 
-      // Card stacking timeline: cards slide up one by one from bottom with scale depth
+      // Ensure all cards from index 1 onward start off-screen & transparent
       cards.forEach((card, index) => {
-        if (index === 0) return;
+        if (index > 0 && card) {
+          gsap.set(card, {
+            yPercent: 115,
+            opacity: 0,
+            scale: 0.97,
+          });
+        }
+      });
+
+      // Card stacking timeline: each card slides up smoothly and holds fixed in position
+      cards.forEach((card, index) => {
+        if (index === 0 || !card) return;
 
         const prevCard = cards[index - 1];
+        const startTime = HOLD_DURATION + (index - 1) * (TRANSITION_DURATION + HOLD_DURATION);
 
         masterTl
           .to(
             prevCard,
             {
-              scale: 0.93,
-              opacity: 0.35,
-              yPercent: -4,
+              scale: 0.92,
+              opacity: 0.3,
+              yPercent: -5,
               ease: 'power2.inOut',
+              duration: TRANSITION_DURATION,
             },
-            index - 1
+            startTime
           )
-          .fromTo(
+          .to(
             card,
-            {
-              yPercent: 110,
-              opacity: 0.8,
-              scale: 0.97,
-            },
             {
               yPercent: 0,
               opacity: 1,
               scale: 1,
-              ease: 'power2.inOut',
+              ease: 'power2.out',
+              duration: TRANSITION_DURATION,
             },
-            index - 1
+            startTime
           );
       });
     }, sectionRef);
@@ -82,7 +105,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
   }, []);
 
   return (
-    <section ref={sectionRef} className="border-bottom" id="work" style={{ backgroundColor: 'var(--bg-primary)' }}>
+    <section ref={sectionRef} className="border-bottom" id="work" style={{ backgroundColor: 'var(--bg-primary)', overflow: 'hidden' }}>
       {/* Pinned Viewport Deck Container */}
       <div
         ref={viewportRef}
@@ -92,6 +115,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
           maxHeight: '920px',
           paddingTop: 'clamp(4.5rem, 8vh, 6.5rem)',
           paddingBottom: 'var(--space-md)',
+          overflow: 'hidden',
         }}
       >
         {/* Top Section Ribbon */}
@@ -132,6 +156,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
             alignItems: 'center',
             justifyContent: 'center',
             margin: 'var(--space-xs) 0',
+            overflow: 'hidden',
           }}
         >
           {projects.map((project, index) => {

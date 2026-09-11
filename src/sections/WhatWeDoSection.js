@@ -76,7 +76,7 @@ export default function WhatWeDoSection() {
       ref={sectionRef}
       className="border-bottom"
       id="what-we-do"
-      style={{ backgroundColor: 'var(--bg-light)', color: 'var(--text-dark-primary)', overflow: 'hidden' }}
+      style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', overflow: 'hidden' }}
     >
       <div
         ref={triggerRef}
@@ -92,22 +92,22 @@ export default function WhatWeDoSection() {
         {/* Header Ribbon */}
         <div className="site-container flex-row items-center justify-between" style={{ marginBottom: 'clamp(0.35rem, 1vh, 0.75rem)', flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
           <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
-            <span className="subheading" style={{ color: 'var(--text-dark-primary)' }}>[ WHAT WE DO ]</span>
-            <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>03 CAPABILITIES</span>
+            <span className="subheading" style={{ color: 'var(--text-primary)' }}>[ WHAT WE DO ]</span>
+            <span className="timecode-tag" style={{ color: 'var(--text-muted)' }}>03 CAPABILITIES</span>
           </div>
           <div className="flex-row items-center" style={{ gap: '0.5rem' }}>
-            <span className="meta-tag" style={{ color: 'var(--text-dark-secondary)' }}>SCROLL HORIZONTALLY →</span>
+            <span className="meta-tag" style={{ color: 'var(--text-secondary)' }}>SCROLL HORIZONTALLY →</span>
           </div>
         </div>
 
         {/* Section Headline */}
         <div className="site-container">
-          <h2 className="heading-lg" style={{ maxWidth: '1000px', fontSize: 'clamp(1.25rem, 2.8vw, 2.5rem)', color: 'var(--text-dark-primary)', lineHeight: 1.15 }}>
+          <h2 className="heading-lg" style={{ maxWidth: '1000px', fontSize: 'clamp(1.25rem, 2.8vw, 2.5rem)', color: 'var(--text-primary)', lineHeight: 1.15 }}>
             Crafting visual narratives with mathematical editing precision.
           </h2>
         </div>
 
-        {/* Horizontal Track Slider with Light Cards */}
+        {/* Horizontal Track Slider with Cards */}
         <div
           ref={trackRef}
           className="flex-row items-stretch"
@@ -126,21 +126,21 @@ export default function WhatWeDoSection() {
               style={{
                 minWidth: 'clamp(280px, 40vw, 560px)',
                 maxHeight: 'calc(100vh - 220px)',
-                backgroundColor: 'var(--bg-light-card)',
-                border: '1px solid var(--border-light-subtle)',
+                backgroundColor: 'var(--bg-secondary)',
+                border: '1px solid var(--border-subtle)',
                 borderRadius: '20px',
                 padding: 'clamp(1rem, 1.8vw, 1.5rem)',
-                boxShadow: '0 15px 40px rgba(0,0,0,0.06)',
+                boxShadow: '0 15px 40px rgba(0,0,0,0.4)',
                 transition: 'border-color 0.3s ease, transform 0.3s ease',
               }}
               data-cursor="CAPABILITY"
             >
               {/* Card Top Metadata */}
               <div className="flex-row items-center justify-between" style={{ flexWrap: 'wrap', gap: '0.4rem' }}>
-                <span className="badge-tag" style={{ backgroundColor: 'rgba(0,0,0,0.04)', color: 'var(--text-dark-primary)', border: '1px solid rgba(0,0,0,0.1)', padding: '0.3rem 0.7rem' }}>
+                <span className="badge-tag" style={{ backgroundColor: 'rgba(255,255,255,0.06)', color: 'var(--text-primary)', border: '1px solid var(--border-subtle)', padding: '0.3rem 0.7rem' }}>
                   {cap.number} // {cap.title}
                 </span>
-                <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>{cap.timecode}</span>
+                <span className="timecode-tag" style={{ color: 'var(--text-muted)' }}>{cap.timecode}</span>
               </div>
 
               {/* Live Looping Video Frame */}
@@ -151,7 +151,7 @@ export default function WhatWeDoSection() {
                   height: 'clamp(140px, 18vh, 210px)',
                   margin: 'clamp(0.5rem, 1.2vh, 0.85rem) 0',
                   borderRadius: '14px',
-                  border: '1px solid rgba(0,0,0,0.08)',
+                  border: '1px solid var(--border-subtle)',
                   overflow: 'hidden',
                   position: 'relative',
                   flexShrink: 0,
@@ -194,20 +194,20 @@ export default function WhatWeDoSection() {
 
               {/* Text & Specs */}
               <div className="flex-col" style={{ gap: '0.35rem' }}>
-                <h3 className="display-title" style={{ fontSize: 'clamp(1.2rem, 2vw, 2rem)', color: 'var(--text-dark-primary)', lineHeight: 1.1 }}>
+                <h3 className="display-title" style={{ fontSize: 'clamp(1.2rem, 2vw, 2rem)', color: 'var(--text-primary)', lineHeight: 1.1 }}>
                   {cap.title}
                 </h3>
-                <span className="subheading" style={{ fontSize: '0.75rem', color: 'var(--text-dark-secondary)' }}>
+                <span className="subheading" style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
                   {cap.subtitle}
                 </span>
-                <p className="body-regular" style={{ fontSize: 'clamp(0.8125rem, 0.95vw, 0.9375rem)', color: 'var(--text-dark-secondary)', marginTop: '0.15rem', lineHeight: 1.45 }}>
+                <p className="body-regular" style={{ fontSize: 'clamp(0.8125rem, 0.95vw, 0.9375rem)', color: 'var(--text-secondary)', marginTop: '0.15rem', lineHeight: 1.45 }}>
                   {cap.description}
                 </p>
 
                 {/* Specs Pills */}
                 <div className="flex-row items-center" style={{ gap: '0.4rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
                   {cap.specs.map((spec, i) => (
-                    <span key={i} className="meta-tag" style={{ backgroundColor: 'rgba(0,0,0,0.05)', color: 'var(--text-dark-primary)', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.65rem' }}>
+                    <span key={i} className="meta-tag" style={{ backgroundColor: 'rgba(255,255,255,0.06)', color: 'var(--text-primary)', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.65rem' }}>
                       ✓ {spec}
                     </span>
                   ))}

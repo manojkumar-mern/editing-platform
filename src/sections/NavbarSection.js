@@ -66,32 +66,16 @@ export default function NavbarSection({ isLoaded }) {
           {/* Brand Logo */}
           <a href="#" className="brand-logo flex-row items-center" style={{ gap: '0.75rem' }}>
             <span className="status-dot"></span>
-            <div className="flex-col" style={{ lineHeight: 1 }}>
-              <span
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '1.125rem',
-                  fontWeight: '800',
-                  letterSpacing: '0.06em',
-                  color: 'var(--text-primary)',
-                  textTransform: 'uppercase',
-                }}
-              >
-                ATZYNC
-              </span>
-              <span
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: '0.65rem',
-                  fontWeight: '600',
-                  letterSpacing: '0.25em',
-                  color: 'var(--text-secondary)',
-                  textTransform: 'uppercase',
-                }}
-              >
-                MEDIA
-              </span>
-            </div>
+            <img
+              src="/logo-white.png"
+              alt="ATZYNC Media"
+              style={{
+                height: 'clamp(34px, 3.6vw, 44px)',
+                width: 'auto',
+                objectFit: 'contain',
+                display: 'block',
+              }}
+            />
           </a>
 
           {/* Desktop Navigation */}

@@ -40,6 +40,8 @@ export default function PreloaderSection({ onComplete }) {
           clearInterval(interval);
           if (overlayRef.current) {
             overlayRef.current.style.display = 'none';
+            overlayRef.current.style.visibility = 'hidden';
+            overlayRef.current.style.pointerEvents = 'none';
           }
           if (onComplete) onComplete();
         },
@@ -68,14 +70,19 @@ export default function PreloaderSection({ onComplete }) {
         ease: 'power2.inOut',
       }, '-=0.2')
       .to(overlayRef.current, {
-        clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)',
-        duration: 0.75,
-        ease: 'power4.inOut',
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power2.out',
       }, '+=0.1');
     }, overlayRef);
 
     return () => {
       clearInterval(interval);
+      if (overlayRef.current) {
+        overlayRef.current.style.display = 'none';
+        overlayRef.current.style.visibility = 'hidden';
+        overlayRef.current.style.pointerEvents = 'none';
+      }
       ctx.revert();
     };
   }, [onComplete]);
@@ -97,21 +104,24 @@ export default function PreloaderSection({ onComplete }) {
         </div>
 
         {/* Brand Display Title */}
-        <h1
+        <div
           ref={titleRef}
           style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(2rem, 5vw, 4.5rem)',
-            fontWeight: 800,
-            letterSpacing: '0.3em',
-            textTransform: 'uppercase',
-            color: 'var(--text-primary)',
             opacity: 0,
             transform: 'translateY(28px)',
+            margin: '0.5rem 0',
           }}
         >
-          {siteData.name}
-        </h1>
+          <img
+            src="/logo-white.png"
+            alt="ATZYNC Media"
+            style={{
+              height: 'clamp(70px, 10vw, 120px)',
+              width: 'auto',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
 
         <p
           ref={subtitleRef}

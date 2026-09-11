@@ -245,22 +245,16 @@
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
   width: 100%;
   z-index: 1000;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-  transition: padding var(--transition-medium), background-color var(--transition-medium), border-color var(--transition-medium);
-  background-color: transparent;
-  border-bottom: 1px solid transparent;
-}
-
-.navbar-header.scrolled {
   padding-top: 1rem;
   padding-bottom: 1rem;
-  background-color: rgba(10, 10, 10, 0.9);
+  background-color: rgba(10, 10, 12, 0.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom-color: var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: padding var(--transition-medium), background-color var(--transition-medium);
 }
 
 .nav-link-item {

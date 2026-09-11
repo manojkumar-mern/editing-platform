@@ -99,15 +99,18 @@ export default function NavbarSection({ isLoaded }) {
             </a>
           </nav>
 
-          {/* Mobile Menu Toggle Button */}
+          {/* Creative Animated Mobile Menu Toggle Button */}
           <button
-            className="mobile-menu-toggle"
+            className={`mobile-menu-toggle ${mobileMenuOpen ? 'active' : ''}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Mobile Menu"
             aria-expanded={mobileMenuOpen}
           >
-            <span>{mobileMenuOpen ? 'CLOSE' : 'MENU'}</span>
-            <span className="status-dot" style={{ width: '5px', height: '5px' }}></span>
+            <div className="hamburger-icon">
+              <span className="hamburger-line line-1"></span>
+              <span className="hamburger-line line-2"></span>
+              <span className="hamburger-line line-3"></span>
+            </div>
           </button>
         </div>
       </header>

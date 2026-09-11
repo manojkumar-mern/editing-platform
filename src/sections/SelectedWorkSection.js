@@ -113,8 +113,8 @@ export default function SelectedWorkSection({ onOpenModal }) {
         style={{
           height: '100vh',
           maxHeight: '920px',
-          paddingTop: 'clamp(4.5rem, 8vh, 6.5rem)',
-          paddingBottom: 'var(--space-md)',
+          paddingTop: 'clamp(7rem, 12vh, 9rem)',
+          paddingBottom: 'var(--space-sm)',
           overflow: 'hidden',
         }}
       >
@@ -410,25 +410,65 @@ export default function SelectedWorkSection({ onOpenModal }) {
           })}
         </div>
 
-        {/* Bottom Progress Bar */}
-        <div className="scene-progress-nav" style={{ zIndex: 10 }}>
+        {/* Bottom Progress Nav — dots + bar + counter */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.6rem',
+            zIndex: 10,
+            paddingTop: '0.5rem',
+          }}
+        >
+          {/* Dot indicators */}
           {projects.map((proj, idx) => (
             <span
               key={proj.id}
-              className={`scene-progress-item ${activeProjectIndex === idx ? 'active' : ''}`}
-            >
-              0{idx + 1}
-            </span>
+              style={{
+                display: 'inline-block',
+                width: activeProjectIndex === idx ? '1.5rem' : '0.4rem',
+                height: '0.4rem',
+                borderRadius: '99px',
+                backgroundColor: activeProjectIndex === idx ? '#fff' : 'rgba(255,255,255,0.25)',
+                transition: 'all 0.4s ease',
+                flexShrink: 0,
+              }}
+            />
           ))}
 
-          <div className="scene-progress-bar-fill">
+          {/* Progress bar fill */}
+          <div
+            style={{
+              flex: 1,
+              height: '1px',
+              backgroundColor: 'rgba(255,255,255,0.1)',
+              borderRadius: '2px',
+              overflow: 'hidden',
+            }}
+          >
             <div
-              className="scene-progress-bar-inner"
-              style={{ width: `${((activeProjectIndex + 1) / projects.length) * 100}%` }}
+              style={{
+                height: '100%',
+                width: `${((activeProjectIndex + 1) / projects.length) * 100}%`,
+                backgroundColor: 'rgba(255,255,255,0.6)',
+                borderRadius: '2px',
+                transition: 'width 0.4s ease',
+              }}
             />
           </div>
 
-          <span className="meta-tag">0{activeProjectIndex + 1} / 0{projects.length}</span>
+          {/* Right counter */}
+          <span
+            style={{
+              fontFamily: 'var(--font-heading)',
+              fontSize: '0.65rem',
+              letterSpacing: '0.1em',
+              color: 'rgba(255,255,255,0.45)',
+              flexShrink: 0,
+            }}
+          >
+            0{activeProjectIndex + 1} / 0{projects.length}
+          </span>
         </div>
       </div>
     </section>

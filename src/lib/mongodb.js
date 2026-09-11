@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/atzync_media';
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable in .env.local');
+}
 
 let cached = global.mongoose;
 
@@ -16,14 +20,18 @@ export async function connectToDatabase() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
+      maxPoolSize: 10,
+      minPoolSize: 1,
+      family: 4, // Force IPv4 for Atlas
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
-      console.log('MongoDB Connected Successfully to ATZYNC Media DB');
+      console.log('✅ MongoDB Atlas Connected — ATZYNC Media DB');
       return mongooseInstance;
     }).catch((err) => {
-      console.warn('MongoDB connection error, running fallback mode:', err.message);
+      console.error('❌ MongoDB Atlas connection error:', err.message);
       cached.promise = null;
       throw err;
     });

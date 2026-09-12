@@ -1016,10 +1016,30 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 380px;
+  height: clamp(260px, 32vh, 340px);
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Card 7 Featured Wide Layout */
+.service-card.card-featured-wide {
+  grid-column: 1 / -1;
+  height: clamp(240px, 28vh, 300px);
+}
+
+@media (min-width: 900px) {
+  .service-card.card-featured-wide .service-card-bottom {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .service-card.card-featured-wide .service-card-details {
+    max-width: 650px;
+  }
 }
 
 .service-card:hover {

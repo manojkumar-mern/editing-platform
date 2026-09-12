@@ -5,7 +5,6 @@ import PreloaderSection from '@/sections/PreloaderSection';
 import NavbarSection from '@/sections/NavbarSection';
 import HeroSection from '@/sections/HeroSection';
 import AboutSection from '@/sections/AboutSection';
-import ZoomWordSection from '@/sections/ZoomWordSection';
 import ServicesSection from '@/sections/ServicesSection';
 import WhatWeDoSection from '@/sections/WhatWeDoSection';
 import SelectedWorkSection from '@/sections/SelectedWorkSection';
@@ -40,7 +39,6 @@ export default function Home() {
 
       <HeroSection isLoaded={isLoaded} onOpenModal={handleOpenModal} onOpenProjectModal={handleOpenProjectModal} />
       <AboutSection />
-      <ZoomWordSection />
       <ServicesSection onOpenProjectModal={handleOpenProjectModal} />
       <WhatWeDoSection />
       <SelectedWorkSection onOpenModal={handleOpenModal} />

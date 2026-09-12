@@ -1,362 +1,292 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
-import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { gsap } from '@/lib/gsap';
 import { siteData } from '@/data/siteData';
 import { soundManager } from '@/lib/audioManager';
 
 export default function ServicesSection({ onOpenProjectModal }) {
-  const containerRef = useRef(null);
-  const cardRefs = useRef([]);
+  const sectionRef = useRef(null);
+  const zoomStageRef = useRef(null);
+  const zoomTextRef = useRef(null);
+  const cardsGridRef = useRef(null);
 
   const serviceImages = [
-    '/images/brand-poster.jpg',
     '/images/project-01.jpg',
     '/images/project-02.jpg',
+    '/images/project-03.jpg',
     '/images/studio-suite.jpg',
     '/images/hero-poster.jpg',
+    '/images/brand-poster.jpg',
     '/images/color-after.jpg',
-    '/images/project-03.jpg',
-  ];
-
-  const serviceWatermarks = [
-    'BRANDING',
-    'COMMERCIAL',
-    'SOCIAL',
-    'CHANNELS',
-    'META ADS',
-    'EDITING',
-    'AI VIDEO',
-  ];
-
-  const serviceSpecs = [
-    ['Cinematic Pacing', 'Custom Color Grade', 'Sound Architecture'],
-    ['Conversion Hooks', 'Dynamic Rhythm Cuts', 'High-Impact SFX'],
-    ['9:16 Retention Cuts', 'Viral Hook Design', 'Motion Typography'],
-    ['Channel Strategy', 'Content Curation', 'Audience Growth'],
-    ['Creative Testing', 'Multi-Hook Variations', 'Direct-Response Edits'],
-    ['Precision Assembly', 'Master Export Suites', 'ARRI/LOG Color Mastery'],
-    ['Generative Synthesis', 'Neural VFX Cleanup', 'AI Upscaling & Motion'],
   ];
 
   const serviceItems = siteData.services.map((srv, idx) => ({
     ...srv,
     image: serviceImages[idx % serviceImages.length],
-    watermark: serviceWatermarks[idx % serviceWatermarks.length],
-    specs: serviceSpecs[idx % serviceSpecs.length],
   }));
 
   useEffect(() => {
-    if (!containerRef.current || cardRefs.current.length === 0) return;
+    if (!sectionRef.current || !zoomTextRef.current || !cardsGridRef.current || !zoomStageRef.current) return;
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      // Create stacking card depth effect for each card except the last
-      cardRefs.current.forEach((cardEl, index) => {
-        if (!cardEl || index === cardRefs.current.length - 1) return;
-
-        const nextCard = cardRefs.current[index + 1];
-        if (!nextCard) return;
-
-        // As nextCard scrolls up to stack over this card, scale down and dim this card
-        gsap.to(cardEl, {
-          scale: 0.94,
-          filter: 'brightness(0.68)',
-          opacity: 0.82,
-          transformOrigin: 'top center',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: nextCard,
-            start: 'top 85%',
-            end: 'top 120px',
-            scrub: true,
-          },
-        });
+      // Pin the section during the zoom phase so top cards do not scroll off-screen
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=75%',
+          pin: true,
+          pinSpacing: true,
+          scrub: 0.5,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
       });
-    }, containerRef);
+
+      // 1. Kinetic Typography Zoom on "SERVICES" (scale 1x -> 65x)
+      tl.fromTo(
+        zoomTextRef.current,
+        {
+          scale: 1,
+          autoAlpha: 1,
+        },
+        {
+          scale: 65,
+          ease: 'power2.in',
+          duration: 1.0,
+        },
+        0
+      );
+
+      // 2. Fade out the zooming word as it expands past the viewport edges
+      tl.to(
+        zoomTextRef.current,
+        {
+          autoAlpha: 0,
+          duration: 0.25,
+          ease: 'power1.out',
+        },
+        0.55
+      );
+
+      // 3. Completely hide zoom stage overlay so cards are 100% interactive
+      tl.to(
+        zoomStageRef.current,
+        {
+          autoAlpha: 0,
+          duration: 0.25,
+          ease: 'power1.out',
+        },
+        0.65
+      );
+
+      // 4. Cards reveal quickly while text is zooming (starts at 0.30, full at 0.75)
+      tl.fromTo(
+        cardsGridRef.current,
+        {
+          autoAlpha: 0.15,
+          scale: 0.96,
+        },
+        {
+          autoAlpha: 1,
+          scale: 1,
+          ease: 'power2.out',
+          duration: 0.45,
+        },
+        0.30
+      );
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
     <section
-      ref={containerRef}
-      className="services-stacking-section border-bottom"
+      ref={sectionRef}
+      className="border-bottom"
       id="services"
       style={{
-        backgroundColor: '#07080c',
+        backgroundColor: '#0a0a0e',
         position: 'relative',
-        paddingTop: 'clamp(4rem, 8vh, 6rem)',
-        paddingBottom: 'clamp(5rem, 10vh, 8rem)',
-        width: '100%',
-        overflow: 'visible',
+        paddingTop: 'clamp(6.8rem, 12vh, 8rem)',
+        paddingBottom: 'clamp(3.5rem, 6vh, 5rem)',
+        overflow: 'hidden',
+        minHeight: '100vh',
       }}
     >
-      <div className="site-container flex-col" style={{ gap: 'clamp(2.5rem, 5vh, 4rem)' }}>
-        {/* Section Header */}
-        <div className="flex-col" style={{ gap: '0.85rem' }}>
-          <div className="flex-row items-center justify-between" style={{ flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
-            <div className="flex-row items-center" style={{ gap: '0.75rem' }}>
-              <span className="subheading" style={{ color: 'var(--accent-orange)' }}>
-                [ 03 — CAPABILITIES ]
-              </span>
-              <span className="timecode-tag">07 BESPOKE SERVICES</span>
-            </div>
-            <span className="meta-tag">IDEAS → VISUALS → IMPACT</span>
-          </div>
+      {/* Pinned Kinetic Zoom Stage Overlay on "SERVICES" */}
+      <div
+        ref={zoomStageRef}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100vh',
+          zIndex: 30,
+          pointerEvents: 'none',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          backgroundColor: '#0a0a0e',
+        }}
+      >
+        {/* Subtle Ambient Radial Glow */}
+        <div
+          style={{
+            position: 'absolute',
+            width: '60vw',
+            height: '60vw',
+            maxWidth: '650px',
+            maxHeight: '650px',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(235, 94, 40, 0.14) 0%, rgba(10, 10, 14, 0) 70%)',
+            filter: 'blur(50px)',
+            pointerEvents: 'none',
+            zIndex: 1,
+          }}
+        />
 
-          <div className="flex-row items-baseline justify-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
-            <h2
-              className="heading-lg"
+        {/* Vector SVG Word: SERVICES */}
+        <div
+          ref={zoomTextRef}
+          style={{
+            position: 'relative',
+            zIndex: 5,
+            width: '90vw',
+            maxWidth: '1200px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            willChange: 'transform, opacity',
+            transformOrigin: '50% 50%',
+            transform: 'translate3d(0, 0, 0)',
+            pointerEvents: 'none',
+          }}
+        >
+          <svg
+            viewBox="0 0 1000 240"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{
+              width: '100%',
+              height: 'auto',
+              overflow: 'visible',
+            }}
+          >
+            <text
+              x="50%"
+              y="58%"
+              dominantBaseline="middle"
+              textAnchor="middle"
+              fill="#ffffff"
+              fontFamily="var(--font-display, Impact, sans-serif)"
+              fontSize="190"
+              fontWeight="900"
+              letterSpacing="0.04em"
               style={{
-                fontSize: 'clamp(2rem, 4.5vw, 3.8rem)',
-                color: '#ffffff',
-                lineHeight: 1.05,
-                fontWeight: 900,
-                letterSpacing: '-0.02em',
                 textTransform: 'uppercase',
               }}
             >
-              CORE CAPABILITIES
-            </h2>
-            <span className="meta-tag" style={{ color: 'rgba(255, 255, 255, 0.65)', fontSize: '0.8rem' }}>
-              SCROLL TO ARRANGE CARDS ↓
-            </span>
-          </div>
+              SERVICES
+            </text>
+          </svg>
         </div>
+      </div>
 
-        {/* Stacking Cards Deck (One-by-One Arranging) */}
-        <div className="stacking-deck-container flex-col" style={{ width: '100%', gap: 'clamp(2rem, 4vh, 3.5rem)' }}>
+      {/* 3-Column Medium Sized Cards Grid (NO Header - Cards Only, Revealed Directly Behind Zoom) */}
+      <div className="site-container flex-col" style={{ width: '100%', position: 'relative', zIndex: 10 }}>
+        <div
+          ref={cardsGridRef}
+          className="services-card-grid"
+          style={{
+            width: '100%',
+            willChange: 'transform, opacity',
+          }}
+        >
           {serviceItems.map((item, index) => (
             <div
               key={item.id}
-              ref={(el) => (cardRefs.current[index] = el)}
-              className="stacked-service-card"
-              style={{
-                position: 'sticky',
-                top: 'clamp(75px, 11vh, 100px)',
-                zIndex: index + 1,
-                willChange: 'transform, filter, opacity',
-                transform: 'translate3d(0, 0, 0)',
-              }}
+              className={`service-card film-crop-marks ${index === serviceItems.length - 1 ? 'card-featured-wide' : ''}`}
               onClick={() => {
                 soundManager.playClick();
                 if (onOpenProjectModal) onOpenProjectModal(item.title);
               }}
             >
-              {/* Giant Background Watermark Text (CrazyPencilz Inspired) */}
-              <div
-                className="card-background-watermark"
-                aria-hidden="true"
-                style={{
-                  position: 'absolute',
-                  right: '-1%',
-                  bottom: '-8%',
-                  fontSize: 'clamp(5rem, 14vw, 13rem)',
-                  fontWeight: 900,
-                  color: 'rgba(255, 255, 255, 0.035)',
-                  lineHeight: 0.8,
-                  userSelect: 'none',
-                  pointerEvents: 'none',
-                  fontFamily: 'var(--font-display, Impact, sans-serif)',
-                  zIndex: 0,
-                  letterSpacing: '-0.02em',
-                }}
-              >
-                {item.watermark}
-              </div>
+              {/* Background Image Visual */}
+              <img
+                src={item.image}
+                alt={item.title}
+                loading="lazy"
+                decoding="async"
+                className="service-card-image"
+              />
 
-              {/* Card Inner Grid: Visual Media (Left) + Detailed Narrative (Right) */}
-              <div className="stacked-card-grid">
-                {/* Left Column: Visual Media Showcase */}
-                <div className="stacked-card-media-wrap film-crop-marks">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    loading="lazy"
-                    decoding="async"
-                    className="stacked-card-img"
-                  />
-                  <div className="stacked-card-img-overlay" />
+              {/* Vignette Overlay */}
+              <div className="service-card-overlay" />
 
-                  {/* Corner Badge */}
-                  <div
-                    className="flex-row items-center justify-between"
+              {/* Card Content Layer */}
+              <div className="service-card-content">
+                {/* Top Bar: Service Number Badge */}
+                <div className="service-card-top">
+                  <span
+                    className="badge-tag"
                     style={{
-                      position: 'absolute',
-                      top: '1rem',
-                      left: '1rem',
-                      right: '1rem',
-                      zIndex: 3,
+                      backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                      backdropFilter: 'blur(6px)',
+                      color: '#ffffff',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      fontSize: '0.68rem',
+                      padding: '0.35rem 0.75rem',
+                      borderRadius: '20px',
                     }}
                   >
-                    <span
-                      className="badge-tag"
-                      style={{
-                        backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                        backdropFilter: 'blur(8px)',
-                        color: 'var(--accent-orange)',
-                        borderColor: 'rgba(235, 94, 40, 0.4)',
-                        fontSize: '0.68rem',
-                      }}
-                    >
-                      {item.number} // CAPABILITY
-                    </span>
-                    <span className="timecode-tag" style={{ fontSize: '0.65rem', background: 'rgba(0,0,0,0.6)' }}>
-                      4K MASTER
-                    </span>
-                  </div>
-
-                  {/* Bottom Preview Hint */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      bottom: '1rem',
-                      left: '1rem',
-                      zIndex: 3,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.4rem',
-                      color: 'rgba(255, 255, 255, 0.85)',
-                      fontSize: '0.72rem',
-                      fontWeight: 600,
-                      letterSpacing: '0.05em',
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: '8px',
-                        height: '8px',
-                        borderRadius: '50%',
-                        backgroundColor: 'var(--accent-orange)',
-                        display: 'inline-block',
-                      }}
-                    />
-                    STUDIO PRODUCTION
-                  </div>
+                    {item.number} // {item.title.toUpperCase()}
+                  </span>
                 </div>
 
-                {/* Right Column: Narrative & Action */}
-                <div className="stacked-card-body flex-col justify-between" style={{ position: 'relative', zIndex: 1 }}>
-                  {/* Top: Header & Tagline */}
-                  <div className="flex-col" style={{ gap: '0.75rem' }}>
-                    <div className="flex-row items-center" style={{ gap: '0.6rem' }}>
-                      <span
-                        style={{
-                          fontSize: '0.8rem',
-                          fontWeight: 700,
-                          color: 'var(--accent-orange)',
-                          letterSpacing: '0.1em',
-                        }}
-                      >
-                        [ {item.number} ]
-                      </span>
-                      <span className="meta-tag" style={{ fontSize: '0.75rem' }}>
-                        ATZYNC STUDIO SERVICE
-                      </span>
-                    </div>
+                {/* Bottom Bar: Title & Hover-Revealed Details */}
+                <div className="service-card-bottom">
+                  <h3 className="service-card-title">{item.title}</h3>
 
-                    <h3
-                      className="stacked-card-title"
-                      style={{
-                        fontSize: 'clamp(1.75rem, 3.2vw, 2.75rem)',
-                        fontWeight: 900,
-                        color: '#ffffff',
-                        lineHeight: 1.1,
-                        letterSpacing: '-0.02em',
-                        textTransform: 'uppercase',
-                        margin: 0,
-                      }}
-                    >
-                      {item.title}
-                    </h3>
-
-                    <p
-                      className="body-lead"
-                      style={{
-                        fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)',
-                        color: 'rgba(255, 255, 255, 0.9)',
-                        lineHeight: 1.4,
-                        fontWeight: 500,
-                        marginTop: '0.2rem',
-                      }}
-                    >
+                  {/* Revealed on Hover */}
+                  <div className="service-card-details">
+                    <p className="body-lead" style={{ fontSize: '0.86rem', color: 'rgba(255, 255, 255, 0.95)', lineHeight: 1.45, fontWeight: 500 }}>
                       {item.tagline}
                     </p>
 
-                    <p
-                      className="body-regular"
-                      style={{
-                        fontSize: 'clamp(0.82rem, 1.1vw, 0.92rem)',
-                        color: 'rgba(255, 255, 255, 0.65)',
-                        lineHeight: 1.6,
-                        maxWidth: '540px',
-                      }}
-                    >
+                    <p className="body-regular" style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.72)', lineHeight: 1.45 }}>
                       {item.description}
                     </p>
-                  </div>
 
-                  {/* Bottom: Capability Pills & CTA */}
-                  <div className="flex-col" style={{ gap: '1.25rem', marginTop: '1.5rem' }}>
-                    {/* Capability Tags */}
-                    <div className="flex-row items-center" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
-                      {item.specs.map((spec, sIdx) => (
-                        <span
-                          key={sIdx}
-                          style={{
-                            fontSize: '0.72rem',
-                            fontWeight: 600,
-                            padding: '0.35rem 0.75rem',
-                            borderRadius: '100px',
-                            backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                            border: '1px solid rgba(255, 255, 255, 0.12)',
-                            color: 'rgba(255, 255, 255, 0.85)',
-                            letterSpacing: '0.02em',
-                          }}
-                        >
-                          ✓ {spec}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Action Button */}
-                    <div className="flex-row items-center" style={{ gap: '1rem' }}>
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          soundManager.playClick();
-                          if (onOpenProjectModal) onOpenProjectModal(item.title);
-                        }}
-                        className="btn-primary flex-row items-center"
-                        style={{
-                          padding: '0.65rem 1.4rem',
-                          fontSize: '0.8rem',
-                          fontWeight: 700,
-                          borderRadius: '100px',
-                          cursor: 'pointer',
-                          gap: '0.5rem',
-                        }}
-                      >
-                        <span>INQUIRE THIS SERVICE</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                          <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                      </button>
-
-                      <span
-                        className="meta-tag"
-                        style={{
-                          fontSize: '0.72rem',
-                          color: 'rgba(255, 255, 255, 0.5)',
-                        }}
-                      >
-                        FAST 48H TURNAROUND
-                      </span>
-                    </div>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        soundManager.playClick();
+                        if (onOpenProjectModal) onOpenProjectModal(item.title);
+                      }}
+                      className="btn-secondary"
+                      style={{
+                        padding: '0.5rem 1rem',
+                        fontSize: '0.72rem',
+                        alignSelf: 'flex-start',
+                        marginTop: '0.25rem',
+                        backgroundColor: '#ffffff',
+                        color: '#000000',
+                        fontWeight: 700,
+                        border: 'none',
+                        borderRadius: '20px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      INQUIRE THIS SERVICE →
+                    </button>
                   </div>
                 </div>
               </div>

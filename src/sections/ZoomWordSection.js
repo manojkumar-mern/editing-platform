@@ -32,7 +32,7 @@ export default function ZoomWordSection() {
         [metaLeftRef.current, metaRightRef.current, cueRef.current],
         {
           autoAlpha: 0,
-          y: -20,
+          y: -15,
           duration: 0.2,
           ease: 'power2.out',
         },
@@ -48,21 +48,21 @@ export default function ZoomWordSection() {
         },
         {
           scale: 75,
-          ease: 'power2.inOut',
+          ease: 'power1.in',
           duration: 1.0,
         },
         0
       );
 
-      // 3. Smooth opacity release at the extreme zoom edge so it blends cleanly into next section
+      // 3. Smooth opacity release right at the exit edge (0.88 -> 1.0)
       tl.to(
         zoomTextRef.current,
         {
           autoAlpha: 0,
-          duration: 0.2,
+          duration: 0.12,
           ease: 'power1.out',
         },
-        0.82
+        0.88
       );
     }, containerRef);
 
@@ -75,7 +75,7 @@ export default function ZoomWordSection() {
       className="zoom-word-section"
       style={{
         position: 'relative',
-        height: '240vh',
+        height: '115vh',
         backgroundColor: '#0a0b10',
         color: '#ffffff',
       }}

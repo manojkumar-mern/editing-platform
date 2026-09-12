@@ -31,9 +31,36 @@ export default function SmoothScroll({ children }) {
     gsap.ticker.add(updateTicker);
     gsap.ticker.lagSmoothing(0);
 
+    // Global Scroll Reveal Observer for smooth down-to-up content arranging
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px 0px -40px 0px',
+        threshold: 0.1,
+      }
+    );
+
+    const observeElements = () => {
+      const elements = document.querySelectorAll('.scroll-reveal:not(.is-revealed)');
+      elements.forEach((el) => revealObserver.observe(el));
+    };
+
+    observeElements();
+    const interval = setInterval(observeElements, 400);
+
     return () => {
       if (window.lenis === lenis) window.lenis = null;
       gsap.ticker.remove(updateTicker);
+      clearInterval(interval);
+      revealObserver.disconnect();
       lenis.destroy();
     };
   }, []);

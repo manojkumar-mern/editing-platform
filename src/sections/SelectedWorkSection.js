@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { gsap } from '@/lib/gsap';
 import { projects } from '@/data/projects';
 import { soundManager } from '@/lib/audioManager';
+import LazyVideo from '@/components/LazyVideo';
 
 export default function SelectedWorkSection({ onOpenModal }) {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
@@ -28,7 +29,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
       const isMobile = window.innerWidth < 768;
 
       const numCards = projects.length;
-      const HOLD_DURATION = 1.2;
+      const HOLD_DURATION = 1.0;
       const TRANSITION_DURATION = 1.0;
       const totalDuration = HOLD_DURATION * numCards + TRANSITION_DURATION * (numCards - 1);
 
@@ -37,8 +38,8 @@ export default function SelectedWorkSection({ onOpenModal }) {
           trigger: sectionRef.current,
           pin: viewportRef.current,
           start: 'top top',
-          end: isMobile ? '+=320%' : '+=500%',
-          scrub: 0.8,
+          end: isMobile ? '+=450%' : '+=750%',
+          scrub: 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
@@ -68,20 +69,21 @@ export default function SelectedWorkSection({ onOpenModal }) {
         }
       });
 
-      // Card stacking timeline: each card slides up smoothly and holds fixed in position
-      cards.forEach((card, index) => {
-        if (index === 0 || !card) return;
+      // Build sequential 1-by-1 card stacking timeline with equal hold & transition times for all 6 cards
+      for (let i = 1; i < numCards; i++) {
+        const card = cards[i];
+        const prevCard = cards[i - 1];
+        if (!card) continue;
 
-        const prevCard = cards[index - 1];
-        const startTime = HOLD_DURATION + (index - 1) * (TRANSITION_DURATION + HOLD_DURATION);
+        const startTime = HOLD_DURATION + (i - 1) * (TRANSITION_DURATION + HOLD_DURATION);
 
         masterTl
           .to(
             prevCard,
             {
-              scale: 0.92,
-              opacity: 0.3,
-              yPercent: -5,
+              scale: 0.94,
+              opacity: 0.35,
+              yPercent: -4,
               ease: 'power2.inOut',
               duration: TRANSITION_DURATION,
             },
@@ -98,28 +100,39 @@ export default function SelectedWorkSection({ onOpenModal }) {
             },
             startTime
           );
-      });
+      }
+
+      // Add a final hold so the last card (Card 6) stays fixed on screen before unpinning
+      masterTl.to({}, { duration: HOLD_DURATION });
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} className="border-bottom" id="work" style={{ backgroundColor: 'var(--bg-primary)', overflow: 'hidden' }}>
+    <section
+      ref={sectionRef}
+      className="border-bottom"
+      id="work"
+      style={{
+        backgroundColor: 'var(--bg-primary)',
+        color: 'var(--text-primary)',
+        position: 'relative',
+      }}
+    >
       {/* Pinned Viewport Deck Container */}
       <div
         ref={viewportRef}
-        className="pinned-scene-viewport site-container flex-col justify-between"
+        className="site-container flex-col justify-between"
         style={{
-          height: '100vh',
-          maxHeight: '920px',
-          paddingTop: 'clamp(7rem, 12vh, 9rem)',
-          paddingBottom: 'var(--space-sm)',
-          overflow: 'hidden',
+          minHeight: '100vh',
+          paddingTop: 'clamp(5.5rem, 10vh, 7rem)',
+          paddingBottom: 'clamp(2rem, 4vh, 3.5rem)',
+          boxSizing: 'border-box',
         }}
       >
         {/* Top Section Ribbon */}
-        <div className="flex-row items-center justify-between" style={{ zIndex: 10, flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
+        <div className="flex-row items-center justify-between scroll-reveal stagger-1" style={{ zIndex: 10, flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
           <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
             <span className="subheading">[ 04 — OUR WORK ]</span>
             <span className="timecode-tag">CRAZY MOTION CARDS // {projects.length} SHOWCASES</span>
@@ -130,7 +143,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
         </div>
 
         {/* Section Heading */}
-        <div className="flex-row items-center justify-between" style={{ zIndex: 10, flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
+        <div className="flex-row items-center justify-between scroll-reveal stagger-2" style={{ zIndex: 10, flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
           <h2 className="heading-lg" style={{ fontSize: 'clamp(1.5rem, 3.5vw, 3rem)' }}>
             SELECTED WORK
           </h2>
@@ -263,11 +276,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
                         onOpenModal && onOpenModal({ title: project.title, videoSrc: videoSources[index % videoSources.length], posterSrc: project.poster });
                       }}
                     >
-                      <video
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
+                      <LazyVideo
                         poster={project.poster}
                         src={videoSources[index % videoSources.length]}
                         style={{
@@ -328,11 +337,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
                         onOpenModal && onOpenModal({ title: project.title, videoSrc: videoSources[index % videoSources.length], posterSrc: project.poster });
                       }}
                     >
-                      <video
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
+                      <LazyVideo
                         poster={project.poster}
                         src={videoSources[index % videoSources.length]}
                         style={{

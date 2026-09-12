@@ -46,14 +46,14 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
     >
       <div className="site-container flex-col items-center" style={{ gap: 'var(--space-lg)', textAlign: 'center' }}>
         {/* Header Ribbon */}
-        <div className="flex-row items-center" style={{ gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <div className="flex-row items-center scroll-reveal stagger-1" style={{ gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
           <span className="subheading" style={{ color: 'var(--text-dark-primary)' }}>[ 05 — CONTACT ]</span>
           <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>LET&apos;S TALK</span>
         </div>
 
         {/* Big Action Box */}
         <div
-          className="film-crop-marks flex-col items-center"
+          className="film-crop-marks flex-col items-center scroll-reveal stagger-2"
           style={{
             width: '100%',
             maxWidth: '1000px',

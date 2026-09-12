@@ -58,7 +58,7 @@ export default function AboutSection() {
     >
       <div className="site-container flex-col" style={{ gap: 'var(--space-xl)' }}>
         {/* Header Ribbon */}
-        <div className="flex-row items-center justify-between" style={{ flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
+        <div className="flex-row items-center justify-between scroll-reveal stagger-1" style={{ flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
           <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
             <span className="subheading" style={{ color: 'var(--text-dark-primary)' }}>[ 02 — ABOUT ]</span>
             <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>STUDIO PHILOSOPHY</span>
@@ -67,12 +67,12 @@ export default function AboutSection() {
         </div>
 
         {/* Section Headline */}
-        <h2 className="heading-lg" style={{ fontSize: 'clamp(1.75rem, 3.8vw, 3.25rem)', color: 'var(--text-dark-primary)', lineHeight: 1.1 }}>
+        <h2 className="heading-lg scroll-reveal stagger-2" style={{ fontSize: 'clamp(1.75rem, 3.8vw, 3.25rem)', color: 'var(--text-dark-primary)', lineHeight: 1.1 }}>
           {siteData.about.headline}
         </h2>
 
         {/* Dual Infinite Scroll Marquee Bands */}
-        <div className="flex-col" style={{ gap: '0.75rem', width: '100vw', marginLeft: 'calc(-50vw + 50%)', margin: '0.5rem 0' }}>
+        <div className="flex-col scroll-reveal stagger-3" style={{ gap: '0.75rem', width: '100vw', marginLeft: 'calc(-50vw + 50%)', margin: '0.5rem 0' }}>
           <div
             ref={marquee1Ref}
             className="flex-row items-center"
@@ -118,10 +118,12 @@ export default function AboutSection() {
         {/* Main Content Grid: Image Studio + Philosophy */}
         <div className="grid-2col items-center" style={{ gap: 'var(--space-xl)', marginTop: 'var(--space-xs)' }}>
           {/* Left Column: Studio Workspace Photography */}
-          <div className="video-container film-crop-marks" style={{ height: '360px', borderRadius: '16px', border: '1px solid var(--border-light-subtle)', overflow: 'hidden' }}>
+          <div className="video-container film-crop-marks scroll-reveal stagger-2" style={{ height: '360px', borderRadius: '16px', border: '1px solid var(--border-light-subtle)', overflow: 'hidden' }}>
             <img
               src="/images/studio-suite.jpg"
               alt="ATZYNC Media Editing Studio Suite"
+              loading="lazy"
+              decoding="async"
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
             <div
@@ -141,12 +143,13 @@ export default function AboutSection() {
 
           {/* Right Column: Statement & Founder Credit */}
           <div className="flex-col" style={{ gap: 'var(--space-md)' }}>
-            <p className="body-lead" style={{ fontSize: 'clamp(1.05rem, 1.4vw, 1.25rem)', color: 'var(--text-dark-primary)' }}>
+            <p className="body-lead scroll-reveal stagger-3" style={{ fontSize: 'clamp(1.05rem, 1.4vw, 1.25rem)', color: 'var(--text-dark-primary)' }}>
               {siteData.about.description}
             </p>
 
             {/* Founder Highlight Box */}
             <div
+              className="scroll-reveal stagger-4"
               style={{
                 backgroundColor: 'rgba(0,0,0,0.04)',
                 border: '1px solid var(--border-light-subtle)',
@@ -188,7 +191,7 @@ export default function AboutSection() {
             {/* Stats Grid */}
             <div className="grid-3col border-top" style={{ paddingTop: 'var(--space-md)', gap: '1rem', borderTopColor: 'var(--border-light-subtle)' }}>
               {stats.map((stat, i) => (
-                <div key={i} className="flex-col" style={{ gap: '0.25rem' }}>
+                <div key={i} className={`flex-col scroll-reveal stagger-${i + 3}`} style={{ gap: '0.25rem' }}>
                   <span className="display-title" style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', color: 'var(--text-dark-primary)' }}>
                     {stat.value}
                   </span>

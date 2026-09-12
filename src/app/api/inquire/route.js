@@ -11,14 +11,14 @@ export async function POST(request) {
       phone,
       companyName = '',
       serviceType,
-      budgetRange,
-      timeline,
+      budgetRange = 'Flexible',
+      timeline = 'Standard',
       description,
       footageLink = '',
     } = body;
 
-    // Server-side validation
-    if (!clientName || !email || !phone || !serviceType || !budgetRange || !timeline || !description) {
+    // Server-side validation for required fields
+    if (!clientName || !email || !phone || !serviceType || !description) {
       return NextResponse.json(
         { success: false, error: 'Please fill in all required fields.' },
         { status: 400 }

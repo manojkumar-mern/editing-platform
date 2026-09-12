@@ -79,7 +79,7 @@ export default function ServicesSection() {
     <section className="section-wrapper border-bottom" id="services" style={{ backgroundColor: 'var(--bg-secondary)' }}>
       <div className="site-container flex-col" style={{ gap: 'var(--space-md)' }}>
         {/* Header Ribbon */}
-        <div className="flex-row items-center justify-between" style={{ flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
+        <div className="flex-row items-center justify-between scroll-reveal stagger-1" style={{ flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
           <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
             <span className="subheading">[ 03 — SERVICES ]</span>
             <span className="timecode-tag">07 CORE CAPABILITIES</span>
@@ -90,7 +90,7 @@ export default function ServicesSection() {
         </div>
 
         {/* Section Heading */}
-        <h2 className="heading-lg" style={{ fontSize: 'clamp(1.75rem, 4vw, 3.25rem)' }}>
+        <h2 className="heading-lg scroll-reveal stagger-2" style={{ fontSize: 'clamp(1.75rem, 4vw, 3.25rem)' }}>
           WHAT WE DO
         </h2>
 
@@ -103,7 +103,7 @@ export default function ServicesSection() {
               return (
                 <div
                   key={service.id}
-                  className="film-crop-marks"
+                  className={`film-crop-marks scroll-reveal stagger-${(index % 5) + 1}`}
                   style={{
                     backgroundColor: isActive ? 'var(--bg-primary)' : 'rgba(0,0,0,0.2)',
                     border: `1px solid ${isActive ? 'var(--text-primary)' : 'var(--border-subtle)'}`,
@@ -152,7 +152,7 @@ export default function ServicesSection() {
           </div>
 
           {/* Right Column: Live Interactive Color Grading Split Canvas */}
-          <div className="flex-col" style={{ gap: '0.75rem' }}>
+          <div className="flex-col scroll-reveal stagger-2" style={{ gap: '0.75rem' }}>
             <div className="flex-row items-center justify-between" style={{ flexWrap: 'wrap', gap: '0.4rem' }}>
               <span className="subheading" style={{ fontSize: '0.75rem' }}>
                 [ BEFORE / AFTER COMPARISON // DRAG SLIDER ]

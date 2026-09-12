@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { gsap } from '@/lib/gsap';
+import LazyVideo from '@/components/LazyVideo';
 
 export default function WhatWeDoSection() {
   const sectionRef = useRef(null);
@@ -52,17 +53,17 @@ export default function WhatWeDoSection() {
 
     const ctx = gsap.context(() => {
       const track = trackRef.current;
-      const totalWidth = track.scrollWidth - window.innerWidth + 100;
+      const getScrollAmount = () => -(track.scrollWidth - window.innerWidth + 120);
 
       gsap.to(track, {
-        x: () => -totalWidth,
+        x: getScrollAmount,
         ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
           pin: true,
           scrub: 1,
           start: 'top top',
-          end: () => `+=${totalWidth}`,
+          end: () => `+=${Math.abs(getScrollAmount())}`,
           invalidateOnRefresh: true,
         },
       });
@@ -90,7 +91,7 @@ export default function WhatWeDoSection() {
         }}
       >
         {/* Header Ribbon */}
-        <div className="site-container flex-row items-center justify-between" style={{ marginBottom: 'clamp(0.35rem, 1vh, 0.75rem)', flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
+        <div className="site-container flex-row items-center justify-between scroll-reveal stagger-1" style={{ marginBottom: 'clamp(0.35rem, 1vh, 0.75rem)', flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
           <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
             <span className="subheading" style={{ color: 'var(--text-dark-primary)' }}>[ WHAT WE DO ]</span>
             <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>03 CAPABILITIES</span>
@@ -101,7 +102,7 @@ export default function WhatWeDoSection() {
         </div>
 
         {/* Section Headline */}
-        <div className="site-container">
+        <div className="site-container scroll-reveal stagger-2">
           <h2 className="heading-lg" style={{ maxWidth: '1000px', fontSize: 'clamp(1.25rem, 2.8vw, 2.5rem)', color: 'var(--text-dark-primary)', lineHeight: 1.15 }}>
             Crafting visual narratives with mathematical editing precision.
           </h2>
@@ -131,7 +132,7 @@ export default function WhatWeDoSection() {
                 borderRadius: '20px',
                 padding: 'clamp(1rem, 1.8vw, 1.5rem)',
                 boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-                transition: 'border-color 0.3s ease, transform 0.3s ease',
+                transition: 'border-color 0.3s ease, boxShadow 0.3s ease',
               }}
               data-cursor="CAPABILITY"
             >
@@ -157,11 +158,7 @@ export default function WhatWeDoSection() {
                   flexShrink: 0,
                 }}
               >
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
+                <LazyVideo
                   src={cap.video}
                   poster={cap.poster}
                   style={{

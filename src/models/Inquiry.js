@@ -34,11 +34,11 @@ const InquirySchema = new mongoose.Schema(
     },
     budgetRange: {
       type: String,
-      required: [true, 'Budget range is required'],
+      default: 'Flexible / Discussion',
     },
     timeline: {
       type: String,
-      required: [true, 'Timeline is required'],
+      default: 'Standard',
     },
     description: {
       type: String,

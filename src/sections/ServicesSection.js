@@ -212,7 +212,7 @@ export default function ServicesSection({ onOpenProjectModal }) {
           {serviceItems.map((item, index) => (
             <div
               key={item.id}
-              className={`service-card film-crop-marks ${index === serviceItems.length - 1 ? 'card-featured-wide' : ''}`}
+              className={`service-card film-crop-marks ${index === serviceItems.length - 1 ? 'card-centered-col2' : ''}`}
               onClick={() => {
                 soundManager.playClick();
                 if (onOpenProjectModal) onOpenProjectModal(item.title);

@@ -47,13 +47,17 @@ export async function POST(request) {
     let dbSaved = false;
     let savedInquiry = null;
 
-    try {
-      await connectToDatabase();
-      savedInquiry = await Inquiry.create(inquiryPayload);
-      dbSaved = true;
-      console.log(`[API] Saved Project Inquiry to MongoDB: ${inquiryId}`);
-    } catch (dbError) {
-      console.warn(`[API] MongoDB offline or fallback active: ${dbError.message}`);
+    if (process.env.MONGODB_URI) {
+      try {
+        await connectToDatabase();
+        savedInquiry = await Inquiry.create(inquiryPayload);
+        dbSaved = true;
+        console.log(`[API] Saved Project Inquiry to MongoDB: ${inquiryId}`);
+      } catch (dbError) {
+        console.warn(`[API Warning] MongoDB Error during inquiry creation: ${dbError.message}`);
+      }
+    } else {
+      console.warn('[API Diagnostic]: MONGODB_URI environment variable is not defined. Inquiry processed with fallback response.');
     }
 
     return NextResponse.json(
@@ -79,10 +83,18 @@ export async function POST(request) {
 
 export async function GET() {
   try {
+    if (!process.env.MONGODB_URI) {
+      console.warn('[API Diagnostic]: MONGODB_URI environment variable is missing.');
+      return NextResponse.json(
+        { success: false, error: 'Database configuration missing' },
+        { status: 500 }
+      );
+    }
     await connectToDatabase();
     const inquiries = await Inquiry.find({}).sort({ createdAt: -1 }).limit(50);
     return NextResponse.json({ success: true, count: inquiries.length, inquiries });
   } catch (error) {
+    console.error('[API GET Error /api/inquire]:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch inquiries from database' },
       { status: 500 }

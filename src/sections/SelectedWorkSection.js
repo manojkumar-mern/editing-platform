@@ -31,15 +31,17 @@ export default function SelectedWorkSection({ onOpenModal }) {
       const numCards = projects.length;
       const HOLD_DURATION = 1.0;
       const TRANSITION_DURATION = 1.0;
-      const totalDuration = HOLD_DURATION * numCards + TRANSITION_DURATION * (numCards - 1);
+      const FINAL_HOLD_DURATION = 2.0;
+      const totalDuration = HOLD_DURATION * numCards + TRANSITION_DURATION * (numCards - 1) + FINAL_HOLD_DURATION;
 
       const masterTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          pin: viewportRef.current,
+          pin: sectionRef.current,
+          pinSpacing: true,
           start: 'top top',
-          end: isMobile ? '+=450%' : '+=750%',
-          scrub: 1,
+          end: isMobile ? '+=550%' : '+=850%',
+          scrub: 0.5,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
@@ -102,8 +104,8 @@ export default function SelectedWorkSection({ onOpenModal }) {
           );
       }
 
-      // Add a final hold so the last card (Card 6) stays fixed on screen before unpinning
-      masterTl.to({}, { duration: HOLD_DURATION });
+      // Add a generous final hold so Card 6 stays 100% stationary before unpinning cleanly into CTA section
+      masterTl.to({}, { duration: FINAL_HOLD_DURATION });
     }, sectionRef);
 
     return () => ctx.revert();

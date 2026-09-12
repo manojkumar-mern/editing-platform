@@ -1,11 +1,5 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable in .env.local');
-}
-
 let cached = global.mongoose;
 
 if (!cached) {
@@ -13,6 +7,13 @@ if (!cached) {
 }
 
 export async function connectToDatabase() {
+  const MONGODB_URI = process.env.MONGODB_URI;
+
+  if (!MONGODB_URI) {
+    console.error('[MongoDB Error]: MONGODB_URI environment variable is missing.');
+    throw new Error('MONGODB_URI environment variable is not defined.');
+  }
+
   if (cached.conn) {
     return cached.conn;
   }
@@ -24,7 +25,7 @@ export async function connectToDatabase() {
       socketTimeoutMS: 45000,
       maxPoolSize: 10,
       minPoolSize: 1,
-      family: 4, // Force IPv4 for Atlas
+      family: 4, // Force IPv4 for Atlas compatibility
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {

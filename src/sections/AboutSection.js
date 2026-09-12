@@ -6,42 +6,6 @@ import { siteData } from '@/data/siteData';
 
 export default function AboutSection() {
   const sectionRef = useRef(null);
-  const marquee1Ref = useRef(null);
-  const marquee2Ref = useRef(null);
-
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    const ctx = gsap.context(() => {
-      // Marquee scroll velocity skew effect
-      gsap.to(marquee1Ref.current, {
-        xPercent: -25,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
-        },
-      });
-
-      gsap.to(marquee2Ref.current, {
-        xPercent: 25,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
-        },
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   const stats = [
     { value: '500+', label: 'EDITORIAL CUTS COMPLETED' },
@@ -71,73 +35,141 @@ export default function AboutSection() {
           {siteData.about.headline}
         </h2>
 
-        {/* Dual Infinite Scroll Marquee Bands */}
-        <div className="flex-col scroll-reveal stagger-3" style={{ gap: '0.75rem', width: '100vw', marginLeft: 'calc(-50vw + 50%)', margin: '0.5rem 0' }}>
-          <div
-            ref={marquee1Ref}
-            className="flex-row items-center"
-            style={{
-              gap: '2rem',
-              whiteSpace: 'nowrap',
-              fontSize: 'clamp(1.75rem, 4.5vw, 4rem)',
-              fontFamily: 'var(--font-display)',
-              fontWeight: 800,
-              letterSpacing: '0.05em',
-              textTransform: 'uppercase',
-              color: 'var(--text-dark-primary)',
-              opacity: 0.95,
-              willChange: 'transform',
-            }}
-          >
-            <span>WE CREATE • WE PROMOTE • WE GROW BRANDS • BRANDING FILMS • COMMERCIAL ADS •</span>
-            <span>WE CREATE • WE PROMOTE • WE GROW BRANDS • BRANDING FILMS • COMMERCIAL ADS •</span>
-          </div>
-
-          <div
-            ref={marquee2Ref}
-            className="flex-row items-center"
-            style={{
-              gap: '2rem',
-              whiteSpace: 'nowrap',
-              fontSize: 'clamp(1.75rem, 4.5vw, 4rem)',
-              fontFamily: 'var(--font-display)',
-              fontWeight: 800,
-              letterSpacing: '0.05em',
-              textTransform: 'uppercase',
-              color: 'transparent',
-              WebkitTextStroke: '1.5px var(--text-dark-primary)',
-              opacity: 0.6,
-              willChange: 'transform',
-            }}
-          >
-            <span>SOCIAL MEDIA HANDLING • META ADS • VIDEO EDITING • AI VIDEO PRODUCTION •</span>
-            <span>SOCIAL MEDIA HANDLING • META ADS • VIDEO EDITING • AI VIDEO PRODUCTION •</span>
-          </div>
-        </div>
-
-        {/* Main Content Grid: Image Studio + Philosophy */}
+        {/* Main Content Grid: Creative Vertical Image Card + Philosophy */}
         <div className="grid-2col items-center" style={{ gap: 'var(--space-xl)', marginTop: 'var(--space-xs)' }}>
-          {/* Left Column: Studio Workspace Photography */}
-          <div className="video-container film-crop-marks scroll-reveal stagger-2" style={{ height: '360px', borderRadius: '16px', border: '1px solid var(--border-light-subtle)', overflow: 'hidden' }}>
+          {/* Left Column: Creative Straight Vertical Long Studio Photography Card */}
+          <div
+            className="film-crop-marks scroll-reveal stagger-2"
+            style={{
+              position: 'relative',
+              width: '100%',
+              height: 'clamp(480px, 58vh, 620px)',
+              borderRadius: '24px',
+              border: '1px solid rgba(0, 0, 0, 0.12)',
+              overflow: 'hidden',
+              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.18)',
+              background: '#0a0b0e',
+            }}
+          >
+            {/* Background Image with Hover Zoom */}
             <img
               src="/images/studio-suite.jpg"
               alt="ATZYNC Media Editing Studio Suite"
               loading="lazy"
               decoding="async"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center',
+                transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.06)')}
+              onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
             />
+
+            {/* Gradient Overlay Vignette */}
             <div
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: 'radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.75) 100%)',
+                background: 'linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.85) 100%)',
+                pointerEvents: 'none',
                 zIndex: 2,
               }}
             />
-            <div className="flex-row items-center justify-between" style={{ position: 'absolute', bottom: '1rem', left: '1.25rem', right: '1.25rem', zIndex: 3 }}>
-              <span className="badge-tag" style={{ color: '#fff', backgroundColor: 'rgba(0,0,0,0.8)' }}>
-                {siteData.about.founderText}
+
+            {/* Top Viewfinder HUD Header */}
+            <div
+              className="flex-row items-center justify-between"
+              style={{
+                position: 'absolute',
+                top: '1.25rem',
+                left: '1.25rem',
+                right: '1.25rem',
+                zIndex: 3,
+              }}
+            >
+              <span
+                className="badge-tag"
+                style={{
+                  fontSize: '0.68rem',
+                  padding: '0.35rem 0.85rem',
+                  backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                  backdropFilter: 'blur(8px)',
+                  color: '#ffffff',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                }}
+              >
+                [ EDITING SUITE // MASTERING ]
               </span>
+
+              <div
+                className="flex-row items-center"
+                style={{
+                  gap: '0.4rem',
+                  backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                  padding: '0.35rem 0.75rem',
+                  borderRadius: '20px',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                }}
+              >
+                <span className="status-dot" style={{ backgroundColor: '#ff3b30' }}></span>
+                <span className="timecode-tag" style={{ fontSize: '0.65rem', color: '#ffffff' }}>
+                  REC 4K ULTRA HD
+                </span>
+              </div>
+            </div>
+
+            {/* Subtle Viewfinder HUD Crosshair Overlay in Center */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '60px',
+                height: '60px',
+                borderLeft: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                borderTop: '1px solid rgba(255, 255, 255, 0.3)',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.3)',
+                pointerEvents: 'none',
+                opacity: 0.45,
+                zIndex: 3,
+              }}
+            />
+
+            {/* Bottom Overlay Badge */}
+            <div
+              className="flex-col"
+              style={{
+                position: 'absolute',
+                bottom: '1.25rem',
+                left: '1.25rem',
+                right: '1.25rem',
+                zIndex: 3,
+                gap: '0.4rem',
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: 'rgba(10, 11, 15, 0.85)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255, 255, 255, 0.18)',
+                  borderRadius: '14px',
+                  padding: '0.85rem 1.15rem',
+                  color: '#ffffff',
+                }}
+              >
+                <span className="meta-tag" style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.7)', display: 'block', marginBottom: '0.2rem' }}>
+                  STUDIO ARCHITECTURE &amp; PRODUCTION
+                </span>
+                <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#ffffff', lineHeight: 1.4 }}>
+                  {siteData.about.founderText}
+                </span>
+              </div>
             </div>
           </div>
 

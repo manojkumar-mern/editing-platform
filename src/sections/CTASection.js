@@ -9,6 +9,8 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const textRef = useRef(null);
+  const marquee1Ref = useRef(null);
+  const marquee2Ref = useRef(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -32,6 +34,29 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
           },
         }
       );
+
+      // Marquee scroll velocity skew effect above contact card
+      gsap.to(marquee1Ref.current, {
+        xPercent: -25,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1,
+        },
+      });
+
+      gsap.to(marquee2Ref.current, {
+        xPercent: 25,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1,
+        },
+      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -42,13 +67,57 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
       ref={sectionRef}
       className="section-wrapper border-bottom"
       id="cta"
-      style={{ backgroundColor: 'var(--bg-light)' }}
+      style={{ backgroundColor: 'var(--bg-light)', overflow: 'hidden' }}
     >
-      <div className="site-container flex-col items-center" style={{ gap: 'var(--space-lg)', textAlign: 'center' }}>
+      <div className="site-container flex-col items-center" style={{ gap: 'var(--space-md)', textAlign: 'center' }}>
         {/* Header Ribbon */}
         <div className="flex-row items-center scroll-reveal stagger-1" style={{ gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
           <span className="subheading" style={{ color: 'var(--text-dark-primary)' }}>[ 05 — CONTACT ]</span>
           <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>LET&apos;S TALK</span>
+        </div>
+
+        {/* Dual Infinite Scroll Marquee Bands directly above Contact Card */}
+        <div className="flex-col scroll-reveal stagger-2" style={{ gap: '0.75rem', width: '100vw', marginLeft: 'calc(-50vw + 50%)', margin: '0.5rem 0 1.5rem 0', overflow: 'hidden' }}>
+          <div
+            ref={marquee1Ref}
+            className="flex-row items-center"
+            style={{
+              gap: '2rem',
+              whiteSpace: 'nowrap',
+              fontSize: 'clamp(1.75rem, 4.5vw, 4rem)',
+              fontFamily: 'var(--font-display)',
+              fontWeight: 800,
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+              color: 'var(--text-dark-primary)',
+              opacity: 0.95,
+              willChange: 'transform',
+            }}
+          >
+            <span>WE CREATE • WE PROMOTE • WE GROW BRANDS • BRANDING FILMS • COMMERCIAL ADS •</span>
+            <span>WE CREATE • WE PROMOTE • WE GROW BRANDS • BRANDING FILMS • COMMERCIAL ADS •</span>
+          </div>
+
+          <div
+            ref={marquee2Ref}
+            className="flex-row items-center"
+            style={{
+              gap: '2rem',
+              whiteSpace: 'nowrap',
+              fontSize: 'clamp(1.75rem, 4.5vw, 4rem)',
+              fontFamily: 'var(--font-display)',
+              fontWeight: 800,
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+              color: 'transparent',
+              WebkitTextStroke: '1.5px var(--text-dark-primary)',
+              opacity: 0.6,
+              willChange: 'transform',
+            }}
+          >
+            <span>SOCIAL MEDIA HANDLING • META ADS • VIDEO EDITING • AI VIDEO PRODUCTION •</span>
+            <span>SOCIAL MEDIA HANDLING • META ADS • VIDEO EDITING • AI VIDEO PRODUCTION •</span>
+          </div>
         </div>
 
         {/* Big Action Box */}

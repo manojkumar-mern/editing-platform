@@ -53,20 +53,30 @@ export default function WhatWeDoSection() {
 
     const ctx = gsap.context(() => {
       const track = trackRef.current;
-      const getScrollAmount = () => -(track.scrollWidth - window.innerWidth + 120);
+      const getScrollAmount = () => -(track.scrollWidth - window.innerWidth + 140);
 
-      gsap.to(track, {
-        x: getScrollAmount,
-        ease: 'none',
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           pin: true,
-          scrub: 1,
+          pinSpacing: true,
+          scrub: 0.5,
           start: 'top top',
-          end: () => `+=${Math.abs(getScrollAmount())}`,
+          end: () => `+=${Math.abs(getScrollAmount()) + 450}`,
+          anticipatePin: 1,
           invalidateOnRefresh: true,
         },
       });
+
+      // 1. Scroll horizontal cards
+      tl.to(track, {
+        x: getScrollAmount,
+        duration: 1.0,
+        ease: 'none',
+      });
+
+      // 2. End hold buffer so Card 3 stays stationary on screen before unpinning cleanly
+      tl.to({}, { duration: 0.35 });
     }, sectionRef);
 
     return () => ctx.revert();

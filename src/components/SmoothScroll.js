@@ -48,18 +48,22 @@ export default function SmoothScroll({ children }) {
       }
     );
 
-    const observeElements = () => {
-      const elements = document.querySelectorAll('.scroll-reveal:not(.is-revealed)');
-      elements.forEach((el) => revealObserver.observe(el));
-    };
+    // Observe initial scroll reveal elements without heavy polling
+    const elements = document.querySelectorAll('.scroll-reveal');
+    elements.forEach((el) => revealObserver.observe(el));
 
-    observeElements();
-    const interval = setInterval(observeElements, 400);
+    // Handle any delayed mounts safely once
+    const timeoutId = setTimeout(() => {
+      document.querySelectorAll('.scroll-reveal:not(.is-revealed)').forEach((el) => {
+        revealObserver.observe(el);
+      });
+      ScrollTrigger.refresh();
+    }, 800);
 
     return () => {
       if (window.lenis === lenis) window.lenis = null;
       gsap.ticker.remove(updateTicker);
-      clearInterval(interval);
+      clearTimeout(timeoutId);
       revealObserver.disconnect();
       lenis.destroy();
     };

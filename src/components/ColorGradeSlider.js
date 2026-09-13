@@ -3,8 +3,8 @@
 import { useState, useRef, useEffect } from 'react';
 
 export default function ColorGradeSlider({
-  beforeImage = '/images/color-before.jpg',
-  afterImage = '/images/color-after.jpg',
+  beforeImage = '/images/color-before.webp',
+  afterImage = '/images/color-after.webp',
   beforeLabel = '[ RAW LOG FOOTAGE ]',
   afterLabel = '[ ARRI CINEMA GRADE ]',
   lutTag = 'LUT: ATZYNC_FILM_V3',

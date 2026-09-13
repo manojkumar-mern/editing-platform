@@ -3,9 +3,10 @@
 import { useRef, useEffect } from 'react';
 import { gsap } from '@/lib/gsap';
 import { siteData } from '@/data/siteData';
+import { useSectionInView } from '@/lib/useSectionInView';
 
 export default function AboutSection() {
-  const sectionRef = useRef(null);
+  const [sectionRef, isInView] = useSectionInView({ rootMargin: '350px' });
 
   const stats = [
     { value: '500+', label: 'EDITORIAL CUTS COMPLETED' },
@@ -52,21 +53,31 @@ export default function AboutSection() {
             }}
           >
             {/* Background Image with Hover Zoom */}
-            <img
-              src="/images/studio-suite.jpg"
-              alt="ATZYNC Media Editing Studio Suite"
-              loading="lazy"
-              decoding="async"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center',
-                transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.06)')}
-              onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-            />
+            {isInView ? (
+              <img
+                src="/images/studio-suite.webp"
+                alt="ATZYNC Media Editing Studio Suite"
+                loading="lazy"
+                decoding="async"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.06)')}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+              />
+            ) : (
+              <div
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: '#0a0b0e',
+                }}
+              />
+            )}
 
             {/* Gradient Overlay Vignette */}
             <div

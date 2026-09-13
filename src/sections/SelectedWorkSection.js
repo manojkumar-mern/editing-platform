@@ -1,14 +1,16 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
 import { gsap } from '@/lib/gsap';
 import { projects } from '@/data/projects';
 import { soundManager } from '@/lib/audioManager';
 import LazyVideo from '@/components/LazyVideo';
+import { useSectionInView } from '@/lib/useSectionInView';
 
 export default function SelectedWorkSection({ onOpenModal }) {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
-  const sectionRef = useRef(null);
+  const [sectionRef, isInView] = useSectionInView({ rootMargin: '350px' });
   const viewportRef = useRef(null);
   const cardsRef = useRef([]);
 
@@ -58,7 +60,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
           pin: sectionRef.current,
           pinSpacing: true,
           start: 'top top',
-          end: isMobile ? '+=550%' : '+=850%',
+          end: isMobile ? '+=340%' : '+=750%',
           scrub: 0.5,
           anticipatePin: 1,
           invalidateOnRefresh: true,
@@ -146,8 +148,8 @@ export default function SelectedWorkSection({ onOpenModal }) {
         className="site-container flex-col justify-between"
         style={{
           minHeight: '100vh',
-          paddingTop: 'clamp(5.5rem, 10vh, 7rem)',
-          paddingBottom: 'clamp(2rem, 4vh, 3.5rem)',
+          paddingTop: 'clamp(5rem, 9vh, 7rem)',
+          paddingBottom: 'clamp(1.5rem, 3.5vh, 3rem)',
           boxSizing: 'border-box',
         }}
       >
@@ -167,35 +169,23 @@ export default function SelectedWorkSection({ onOpenModal }) {
           <h2 className="heading-lg" style={{ fontSize: 'clamp(1.5rem, 3.5vw, 3rem)' }}>
             SELECTED WORK
           </h2>
-          <a
-            href="#cta"
+          <Link
+            href="/work"
             className="btn-secondary"
             style={{ padding: '0.45rem 1.1rem', fontSize: '0.75rem', borderRadius: '20px' }}
             onClick={() => soundManager.playClick()}
           >
             VIEW ALL WORK →
-          </a>
+          </Link>
         </div>
 
-        {/* Premium Work Cards Deck Container (Exact Dimensions & Layout as Services Cards) */}
-        <div
-          className="cards-deck-stage"
-          style={{
-            position: 'relative',
-            width: '100%',
-            maxWidth: '1200px',
-            height: 'clamp(460px, 62vh, 540px)',
-            margin: '0 auto',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            overflow: 'hidden',
-          }}
-        >
+        {/* Premium Work Cards Deck Container */}
+        <div className="cards-deck-stage">
           {projects.map((project, index) => {
-            const isMediaLeft = index % 2 === 1; // Alternating layout
+            const isMediaLeft = index % 2 === 1; // Alternating desktop layout
             const watermark = projectWatermarks[index % projectWatermarks.length];
             const specs = projectSpecs[index % projectSpecs.length];
+            const isCurrentOrNext = activeProjectIndex === index || activeProjectIndex + 1 === index;
 
             return (
               <div
@@ -211,7 +201,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
                   height: '100%',
                   backgroundColor: '#0f1118',
                   border: '1px solid rgba(255, 255, 255, 0.12)',
-                  borderRadius: '28px',
+                  borderRadius: '24px',
                   boxShadow: '0 30px 70px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05)',
                   zIndex: index + 1,
                   display: 'flex',
@@ -234,7 +224,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
                 }}
                 data-cursor="WATCH PROJECT"
               >
-                {/* Giant Background Watermark Text */}
+                {/* Background Watermark Text */}
                 <div
                   className="card-background-watermark"
                   aria-hidden="true"
@@ -256,382 +246,189 @@ export default function SelectedWorkSection({ onOpenModal }) {
                   {watermark}
                 </div>
 
-                {/* Card Inner Grid: Alternating 2-Column Split */}
-                <div
-                  className="stacked-card-grid"
-                  style={{
-                    gridTemplateColumns: isMediaLeft ? '1fr 1.15fr' : '1.15fr 1fr',
-                    position: 'relative',
-                    zIndex: 1,
-                    width: '100%',
-                    height: '100%',
-                  }}
-                >
-                  {/* Left Column (Media or Narrative depending on layout) */}
-                  {!isMediaLeft ? (
-                    /* Visual Media Showcase */
-                    <div className="stacked-card-media-wrap film-crop-marks">
-                      <LazyVideo
-                        poster={project.poster}
-                        src={videoSources[index % videoSources.length]}
+                {/* Card Inner Grid: Responsive layout (1 column on mobile, 2 columns on desktop) */}
+                <div className={`stacked-card-grid ${isMediaLeft ? 'media-reversed' : ''}`}>
+                  {/* Visual Media Showcase */}
+                  <div className="stacked-card-media-wrap film-crop-marks">
+                    <LazyVideo
+                      poster={project.poster}
+                      src={isInView && isCurrentOrNext ? videoSources[index % videoSources.length] : undefined}
+                      autoPlay={activeProjectIndex === index}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
+                    />
+                    <div className="stacked-card-img-overlay" />
+
+                    {/* Top Badges */}
+                    <div
+                      className="flex-row items-center justify-between"
+                      style={{
+                        position: 'absolute',
+                        top: '0.85rem',
+                        left: '0.85rem',
+                        right: '0.85rem',
+                        zIndex: 3,
+                      }}
+                    >
+                      <span
+                        className="badge-tag"
                         style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                          display: 'block',
+                          backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                          backdropFilter: 'blur(8px)',
+                          color: 'var(--accent-orange)',
+                          borderColor: 'rgba(235, 94, 40, 0.4)',
+                          fontSize: '0.68rem',
+                        }}
+                      >
+                        0{index + 1} // {project.category.toUpperCase()}
+                      </span>
+                      <span className="timecode-tag" style={{ fontSize: '0.65rem', background: 'rgba(0,0,0,0.6)' }}>
+                        24FPS // 4K DCI
+                      </span>
+                    </div>
+
+                    {/* Bottom Hint */}
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: '0.85rem',
+                        left: '0.85rem',
+                        zIndex: 3,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.4rem',
+                        color: 'rgba(255, 255, 255, 0.85)',
+                        fontSize: '0.72rem',
+                        fontWeight: 600,
+                        letterSpacing: '0.05em',
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: '8px',
+                          height: '8px',
+                          borderRadius: '50%',
+                          backgroundColor: 'var(--accent-orange)',
+                          display: 'inline-block',
                         }}
                       />
-                      <div className="stacked-card-img-overlay" />
-
-                      {/* Top Badges */}
-                      <div
-                        className="flex-row items-center justify-between"
-                        style={{
-                          position: 'absolute',
-                          top: '1rem',
-                          left: '1rem',
-                          right: '1rem',
-                          zIndex: 3,
-                        }}
-                      >
-                        <span
-                          className="badge-tag"
-                          style={{
-                            backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                            backdropFilter: 'blur(8px)',
-                            color: 'var(--accent-orange)',
-                            borderColor: 'rgba(235, 94, 40, 0.4)',
-                            fontSize: '0.68rem',
-                          }}
-                        >
-                          0{index + 1} // {project.category.toUpperCase()}
-                        </span>
-                        <span className="timecode-tag" style={{ fontSize: '0.65rem', background: 'rgba(0,0,0,0.6)' }}>
-                          24FPS // 4K DCI
-                        </span>
-                      </div>
-
-                      {/* Bottom Hint */}
-                      <div
-                        style={{
-                          position: 'absolute',
-                          bottom: '1rem',
-                          left: '1rem',
-                          zIndex: 3,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.4rem',
-                          color: 'rgba(255, 255, 255, 0.85)',
-                          fontSize: '0.72rem',
-                          fontWeight: 600,
-                          letterSpacing: '0.05em',
-                        }}
-                      >
-                        <span
-                          style={{
-                            width: '8px',
-                            height: '8px',
-                            borderRadius: '50%',
-                            backgroundColor: 'var(--accent-orange)',
-                            display: 'inline-block',
-                          }}
-                        />
-                        ▶ WATCH FULL CUT // 2.39:1
-                      </div>
+                      ▶ WATCH FULL CUT // 2.39:1
                     </div>
-                  ) : (
-                    /* Narrative Body (when media is on right) */
-                    <div className="stacked-card-body flex-col justify-between" style={{ position: 'relative', zIndex: 1 }}>
-                      <div className="flex-col" style={{ gap: '0.65rem' }}>
-                        <div className="flex-row items-center" style={{ gap: '0.6rem' }}>
-                          <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-orange)', letterSpacing: '0.1em' }}>
-                            [ 0{index + 1} ]
-                          </span>
-                          <span className="meta-tag" style={{ fontSize: '0.75rem' }}>
-                            CLIENT: {project.client.toUpperCase()}
-                          </span>
-                          <span className="badge-tag" style={{ fontSize: '0.65rem', padding: '0.2rem 0.5rem' }}>
-                            {project.year}
-                          </span>
-                        </div>
+                  </div>
 
-                        <h3
-                          className="stacked-card-title"
-                          style={{
-                            fontSize: 'clamp(1.75rem, 3.2vw, 2.75rem)',
-                            fontWeight: 900,
-                            color: '#ffffff',
-                            lineHeight: 1.1,
-                            letterSpacing: '-0.02em',
-                            textTransform: 'uppercase',
-                            margin: 0,
-                          }}
-                        >
-                          {project.title}
-                        </h3>
-
-                        <p
-                          className="body-lead"
-                          style={{
-                            fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)',
-                            color: 'rgba(255, 255, 255, 0.9)',
-                            lineHeight: 1.4,
-                            fontWeight: 500,
-                            marginTop: '0.2rem',
-                          }}
-                        >
-                          {project.category} — {project.client}
-                        </p>
-
-                        <p
-                          className="body-regular"
-                          style={{
-                            fontSize: 'clamp(0.82rem, 1.1vw, 0.92rem)',
-                            color: 'rgba(255, 255, 255, 0.65)',
-                            lineHeight: 1.6,
-                            maxWidth: '540px',
-                          }}
-                        >
-                          {project.description}
-                        </p>
+                  {/* Narrative Body */}
+                  <div className="stacked-card-body">
+                    <div className="flex-col" style={{ gap: '0.5rem' }}>
+                      <div className="flex-row items-center" style={{ gap: '0.6rem', flexWrap: 'wrap' }}>
+                        <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-orange)', letterSpacing: '0.1em' }}>
+                          [ 0{index + 1} ]
+                        </span>
+                        <span className="meta-tag" style={{ fontSize: '0.72rem' }}>
+                          CLIENT: {project.client.toUpperCase()}
+                        </span>
+                        <span className="badge-tag" style={{ fontSize: '0.65rem', padding: '0.2rem 0.5rem' }}>
+                          {project.year}
+                        </span>
                       </div>
 
-                      <div className="flex-col" style={{ gap: '1.25rem', marginTop: '1.5rem' }}>
-                        <div className="flex-row items-center" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
-                          {specs.map((spec, sIdx) => (
-                            <span
-                              key={sIdx}
-                              style={{
-                                fontSize: '0.72rem',
-                                fontWeight: 600,
-                                padding: '0.35rem 0.75rem',
-                                borderRadius: '100px',
-                                backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                                border: '1px solid rgba(255, 255, 255, 0.12)',
-                                color: 'rgba(255, 255, 255, 0.85)',
-                              }}
-                            >
-                              ✓ {spec}
-                            </span>
-                          ))}
-                        </div>
+                      <h3
+                        className="stacked-card-title"
+                        style={{
+                          fontSize: 'clamp(1.4rem, 2.8vw, 2.5rem)',
+                          fontWeight: 900,
+                          color: '#ffffff',
+                          lineHeight: 1.12,
+                          letterSpacing: '-0.02em',
+                          textTransform: 'uppercase',
+                          margin: 0,
+                        }}
+                      >
+                        {project.title}
+                      </h3>
 
-                        <div className="flex-row items-center" style={{ gap: '1rem' }}>
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              soundManager.playWhoosh();
-                              if (onOpenModal) {
-                                onOpenModal({
-                                  title: project.title,
-                                  videoSrc: videoSources[index % videoSources.length],
-                                  posterSrc: project.poster,
-                                });
-                              }
-                            }}
-                            className="btn-primary flex-row items-center"
+                      <p
+                        className="body-lead"
+                        style={{
+                          fontSize: 'clamp(0.85rem, 1.2vw, 1.05rem)',
+                          color: 'rgba(255, 255, 255, 0.9)',
+                          lineHeight: 1.35,
+                          fontWeight: 500,
+                          marginTop: '0.1rem',
+                        }}
+                      >
+                        {project.category} — {project.client}
+                      </p>
+
+                      <p
+                        className="body-regular stacked-card-desc"
+                        style={{
+                          fontSize: 'clamp(0.78rem, 1vw, 0.88rem)',
+                          color: 'rgba(255, 255, 255, 0.65)',
+                          lineHeight: 1.5,
+                          maxWidth: '540px',
+                        }}
+                      >
+                        {project.description}
+                      </p>
+                    </div>
+
+                    <div className="flex-col stacked-card-specs" style={{ gap: '0.85rem', marginTop: '0.75rem' }}>
+                      <div className="flex-row items-center" style={{ flexWrap: 'wrap', gap: '0.4rem' }}>
+                        {specs.map((spec, sIdx) => (
+                          <span
+                            key={sIdx}
+                            className="stacked-card-spec-pill"
                             style={{
-                              padding: '0.65rem 1.4rem',
-                              fontSize: '0.8rem',
-                              fontWeight: 700,
+                              fontSize: '0.7rem',
+                              fontWeight: 600,
+                              padding: '0.3rem 0.65rem',
                               borderRadius: '100px',
-                              cursor: 'pointer',
-                              gap: '0.5rem',
+                              backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                              border: '1px solid rgba(255, 255, 255, 0.12)',
+                              color: 'rgba(255, 255, 255, 0.85)',
                             }}
                           >
-                            <span>WATCH FULL CUT</span>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                              <polygon points="5 3 19 12 5 21 5 3" />
-                            </svg>
-                          </button>
-                        </div>
+                            ✓ {spec}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="flex-row items-center" style={{ gap: '1rem' }}>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            soundManager.playWhoosh();
+                            if (onOpenModal) {
+                              onOpenModal({
+                                title: project.title,
+                                videoSrc: videoSources[index % videoSources.length],
+                                posterSrc: project.poster,
+                              });
+                            }
+                          }}
+                          className="btn-primary flex-row items-center"
+                          style={{
+                            padding: '0.55rem 1.25rem',
+                            fontSize: '0.78rem',
+                            fontWeight: 700,
+                            borderRadius: '100px',
+                            cursor: 'pointer',
+                            gap: '0.5rem',
+                          }}
+                        >
+                          <span>WATCH FULL CUT</span>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <polygon points="5 3 19 12 5 21 5 3" />
+                          </svg>
+                        </button>
                       </div>
                     </div>
-                  )}
-
-                  {/* Right Column (Media or Narrative depending on layout) */}
-                  {!isMediaLeft ? (
-                    /* Narrative Body (when media is on left) */
-                    <div className="stacked-card-body flex-col justify-between" style={{ position: 'relative', zIndex: 1 }}>
-                      <div className="flex-col" style={{ gap: '0.65rem' }}>
-                        <div className="flex-row items-center" style={{ gap: '0.6rem' }}>
-                          <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-orange)', letterSpacing: '0.1em' }}>
-                            [ 0{index + 1} ]
-                          </span>
-                          <span className="meta-tag" style={{ fontSize: '0.75rem' }}>
-                            CLIENT: {project.client.toUpperCase()}
-                          </span>
-                          <span className="badge-tag" style={{ fontSize: '0.65rem', padding: '0.2rem 0.5rem' }}>
-                            {project.year}
-                          </span>
-                        </div>
-
-                        <h3
-                          className="stacked-card-title"
-                          style={{
-                            fontSize: 'clamp(1.75rem, 3.2vw, 2.75rem)',
-                            fontWeight: 900,
-                            color: '#ffffff',
-                            lineHeight: 1.1,
-                            letterSpacing: '-0.02em',
-                            textTransform: 'uppercase',
-                            margin: 0,
-                          }}
-                        >
-                          {project.title}
-                        </h3>
-
-                        <p
-                          className="body-lead"
-                          style={{
-                            fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)',
-                            color: 'rgba(255, 255, 255, 0.9)',
-                            lineHeight: 1.4,
-                            fontWeight: 500,
-                            marginTop: '0.2rem',
-                          }}
-                        >
-                          {project.category} — {project.client}
-                        </p>
-
-                        <p
-                          className="body-regular"
-                          style={{
-                            fontSize: 'clamp(0.82rem, 1.1vw, 0.92rem)',
-                            color: 'rgba(255, 255, 255, 0.65)',
-                            lineHeight: 1.6,
-                            maxWidth: '540px',
-                          }}
-                        >
-                          {project.description}
-                        </p>
-                      </div>
-
-                      <div className="flex-col" style={{ gap: '1.25rem', marginTop: '1.5rem' }}>
-                        <div className="flex-row items-center" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
-                          {specs.map((spec, sIdx) => (
-                            <span
-                              key={sIdx}
-                              style={{
-                                fontSize: '0.72rem',
-                                fontWeight: 600,
-                                padding: '0.35rem 0.75rem',
-                                borderRadius: '100px',
-                                backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                                border: '1px solid rgba(255, 255, 255, 0.12)',
-                                color: 'rgba(255, 255, 255, 0.85)',
-                              }}
-                            >
-                              ✓ {spec}
-                            </span>
-                          ))}
-                        </div>
-
-                        <div className="flex-row items-center" style={{ gap: '1rem' }}>
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              soundManager.playWhoosh();
-                              if (onOpenModal) {
-                                onOpenModal({
-                                  title: project.title,
-                                  videoSrc: videoSources[index % videoSources.length],
-                                  posterSrc: project.poster,
-                                });
-                              }
-                            }}
-                            className="btn-primary flex-row items-center"
-                            style={{
-                              padding: '0.65rem 1.4rem',
-                              fontSize: '0.8rem',
-                              fontWeight: 700,
-                              borderRadius: '100px',
-                              cursor: 'pointer',
-                              gap: '0.5rem',
-                            }}
-                          >
-                            <span>WATCH FULL CUT</span>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                              <polygon points="5 3 19 12 5 21 5 3" />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    /* Visual Media Showcase (when media is on right) */
-                    <div className="stacked-card-media-wrap film-crop-marks">
-                      <LazyVideo
-                        poster={project.poster}
-                        src={videoSources[index % videoSources.length]}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                          display: 'block',
-                        }}
-                      />
-                      <div className="stacked-card-img-overlay" />
-
-                      {/* Top Badges */}
-                      <div
-                        className="flex-row items-center justify-between"
-                        style={{
-                          position: 'absolute',
-                          top: '1rem',
-                          left: '1rem',
-                          right: '1rem',
-                          zIndex: 3,
-                        }}
-                      >
-                        <span
-                          className="badge-tag"
-                          style={{
-                            backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                            backdropFilter: 'blur(8px)',
-                            color: 'var(--accent-orange)',
-                            borderColor: 'rgba(235, 94, 40, 0.4)',
-                            fontSize: '0.68rem',
-                          }}
-                        >
-                          0{index + 1} // {project.category.toUpperCase()}
-                        </span>
-                        <span className="timecode-tag" style={{ fontSize: '0.65rem', background: 'rgba(0,0,0,0.6)' }}>
-                          24FPS // 4K DCI
-                        </span>
-                      </div>
-
-                      {/* Bottom Hint */}
-                      <div
-                        style={{
-                          position: 'absolute',
-                          bottom: '1rem',
-                          left: '1rem',
-                          zIndex: 3,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.4rem',
-                          color: 'rgba(255, 255, 255, 0.85)',
-                          fontSize: '0.72rem',
-                          fontWeight: 600,
-                          letterSpacing: '0.05em',
-                        }}
-                      >
-                        <span
-                          style={{
-                            width: '8px',
-                            height: '8px',
-                            borderRadius: '50%',
-                            backgroundColor: 'var(--accent-orange)',
-                            display: 'inline-block',
-                          }}
-                        />
-                        ▶ WATCH FULL CUT // 2.39:1
-                      </div>
-                    </div>
-                  )}
+                  </div>
                 </div>
               </div>
             );

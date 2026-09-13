@@ -3,9 +3,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { gsap } from '@/lib/gsap';
 import LazyVideo from '@/components/LazyVideo';
+import { useSectionInView } from '@/lib/useSectionInView';
 
 export default function WhatWeDoSection() {
-  const sectionRef = useRef(null);
+  const [sectionRef, isInView] = useSectionInView({ rootMargin: '350px' });
   const triggerRef = useRef(null);
   const trackRef = useRef(null);
 
@@ -17,7 +18,7 @@ export default function WhatWeDoSection() {
       timecode: '00:01:24:12',
       format: '24FPS // CINEMATIC CUT',
       description: 'Pacing choreography, narrative structure, and sequence design engineered to capture viewer attention within seconds.',
-      poster: '/images/hero-poster.jpg',
+      poster: '/images/hero-poster.webp',
       video: '/videos/showreel.mp4',
       specs: ['Pacing Choreography', 'Rhythm Sequencing', 'Audience Retention'],
     },
@@ -28,7 +29,7 @@ export default function WhatWeDoSection() {
       timecode: '00:02:48:06',
       format: '4K DCI // ARRI COLOR',
       description: 'Advanced color grading, bespoke sound architecture, dynamic rhythm transitions, and cutting precision.',
-      poster: '/images/color-after.jpg',
+      poster: '/images/color-after.webp',
       video: '/videos/project-01.mp4',
       specs: ['Color Grading (ARRI/LOG)', 'Spatial Audio Design', 'VFX & Motion Cleanup'],
     },
@@ -39,7 +40,7 @@ export default function WhatWeDoSection() {
       timecode: '00:04:12:00',
       format: '16:9 CINEMA // 9:16 REEL',
       description: 'Optimized format adaptation tailored for cinema displays, broadcast commercials, and high-retention viral social reels.',
-      poster: '/images/studio-suite.jpg',
+      poster: '/images/studio-suite.webp',
       video: '/videos/project-02.mp4',
       specs: ['9:16 & 16:9 Mastering', 'Sound Loudness Norms', 'Multi-Export Suites'],
     },
@@ -169,7 +170,7 @@ export default function WhatWeDoSection() {
                 }}
               >
                 <LazyVideo
-                  src={cap.video}
+                  src={isInView ? cap.video : undefined}
                   poster={cap.poster}
                   style={{
                     width: '100%',

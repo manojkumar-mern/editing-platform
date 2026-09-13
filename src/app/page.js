@@ -16,7 +16,7 @@ import ProjectModal from '@/components/ProjectModal';
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalData, setModalData] = useState({ title: 'SHOWREEL 2026', posterSrc: '/images/hero-poster.jpg' });
+  const [modalData, setModalData] = useState({ title: 'SHOWREEL 2026', posterSrc: '/images/hero-poster.webp' });
 
   // Project Inquiry Modal State
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);

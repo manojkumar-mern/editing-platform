@@ -147,8 +147,9 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
           muted
           loop
           playsInline
-          src="/videos/showreel.mp4"
-          poster="/images/hero-poster.jpg"
+          preload={isLoaded ? 'metadata' : 'none'}
+          src={isLoaded ? '/videos/showreel.mp4' : undefined}
+          poster="/images/hero-poster.webp"
           style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(24px) brightness(0.7)' }}
         />
       </div>
@@ -286,7 +287,7 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
               <button
                 onClick={() => {
                   soundManager.playSubBoom();
-                  if (onOpenModal) onOpenModal({ title: 'ATZYNC SHOWREEL 2026', videoSrc: '/videos/showreel.mp4', posterSrc: '/images/hero-poster.jpg' });
+                  if (onOpenModal) onOpenModal({ title: 'ATZYNC SHOWREEL 2026', videoSrc: '/videos/showreel.mp4', posterSrc: '/images/hero-poster.webp' });
                 }}
                 className="btn-secondary flex-row items-center"
                 style={{ gap: '0.5rem' }}

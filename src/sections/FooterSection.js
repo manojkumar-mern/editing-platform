@@ -9,7 +9,7 @@ export default function FooterSection() {
         <div className="flex-row items-center justify-between scroll-reveal stagger-1" style={{ flexWrap: 'wrap', gap: 'var(--space-sm)' }}>
           <div className="flex-col" style={{ gap: '0.5rem' }}>
             <img
-              src="/logo-white.png"
+              src="/logo-white.webp"
               alt="ATZYNC Media"
               loading="lazy"
               decoding="async"

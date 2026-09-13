@@ -17,13 +17,14 @@ export default function LazyVideo({
   const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
-    if (!videoRef.current) return;
+    const el = videoRef.current;
+    if (!el) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsInView(true);
-          if (videoRef.current) {
+          if (videoRef.current && autoPlay) {
             videoRef.current.play().catch(() => {});
           }
         } else {
@@ -35,9 +36,18 @@ export default function LazyVideo({
       { rootMargin: '250px' }
     );
 
-    observer.observe(videoRef.current);
+    observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [autoPlay]);
+
+  useEffect(() => {
+    if (!videoRef.current) return;
+    if (autoPlay && isInView && src) {
+      videoRef.current.play().catch(() => {});
+    } else if (!autoPlay && videoRef.current) {
+      videoRef.current.pause();
+    }
+  }, [autoPlay, isInView, src]);
 
   return (
     <video
@@ -47,6 +57,7 @@ export default function LazyVideo({
       muted={muted}
       loop={loop}
       playsInline={playsInline}
+      preload="none"
       className={className}
       style={style}
       {...props}

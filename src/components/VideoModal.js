@@ -11,7 +11,7 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
   const videoRef = useRef(null);
 
   const activeVideo = videoSrc || '/videos/showreel.mp4';
-  const activePoster = posterSrc || '/images/hero-poster.jpg';
+  const activePoster = posterSrc || '/images/hero-poster.webp';
 
   useEffect(() => {
     const handleKeyDown = (e) => {

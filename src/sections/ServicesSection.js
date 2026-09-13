@@ -4,21 +4,22 @@ import { useRef, useEffect } from 'react';
 import { gsap } from '@/lib/gsap';
 import { siteData } from '@/data/siteData';
 import { soundManager } from '@/lib/audioManager';
+import { useSectionInView } from '@/lib/useSectionInView';
 
 export default function ServicesSection({ onOpenProjectModal }) {
-  const sectionRef = useRef(null);
+  const [sectionRef, isInView] = useSectionInView({ rootMargin: '350px' });
   const zoomStageRef = useRef(null);
   const zoomTextRef = useRef(null);
   const cardsGridRef = useRef(null);
 
   const serviceImages = [
-    '/images/project-01.jpg',
-    '/images/project-02.jpg',
-    '/images/project-03.jpg',
-    '/images/studio-suite.jpg',
-    '/images/hero-poster.jpg',
-    '/images/brand-poster.jpg',
-    '/images/color-after.jpg',
+    '/images/project-01.webp',
+    '/images/project-02.webp',
+    '/images/project-03.webp',
+    '/images/studio-suite.webp',
+    '/images/hero-poster.webp',
+    '/images/brand-poster.webp',
+    '/images/color-after.webp',
   ];
 
   const serviceItems = siteData.services.map((srv, idx) => ({
@@ -220,11 +221,12 @@ export default function ServicesSection({ onOpenProjectModal }) {
             >
               {/* Background Image Visual */}
               <img
-                src={item.image}
+                src={isInView ? item.image : undefined}
                 alt={item.title}
                 loading="lazy"
                 decoding="async"
                 className="service-card-image"
+                style={{ opacity: isInView ? 1 : 0, transition: 'opacity 0.5s ease' }}
               />
 
               {/* Vignette Overlay */}

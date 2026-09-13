@@ -63,11 +63,11 @@ export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
   }, [mobileMenuOpen]);
 
   const navItems = [
-    { label: 'HOME', href: '#hero', number: '01' },
-    { label: 'ABOUT', href: '#about', number: '02' },
-    { label: 'SERVICES', href: '#services', number: '03' },
-    { label: 'WORK', href: '#work', number: '04' },
-    { label: 'CONTACT', href: '#cta', number: '05' },
+    { label: 'HOME', href: '/#hero', number: '01' },
+    { label: 'ABOUT', href: '/#about', number: '02' },
+    { label: 'SERVICES', href: '/#services', number: '03' },
+    { label: 'WORK', href: '/#work', number: '04' },
+    { label: 'CONTACT', href: '/#cta', number: '05' },
   ];
 
   return (
@@ -79,10 +79,10 @@ export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
       >
         <div className="site-container flex-row items-center justify-between">
           {/* Brand Logo */}
-          <a href="#" className="brand-logo flex-row items-center" style={{ gap: '0.75rem' }}>
+          <a href="/" className="brand-logo flex-row items-center" style={{ gap: '0.75rem' }}>
             <span className="status-dot"></span>
             <img
-              src="/logo-white.png"
+              src="/logo-white.webp"
               alt="ATZYNC Media"
               style={{
                 height: 'clamp(34px, 3.6vw, 44px)',

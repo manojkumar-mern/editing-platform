@@ -14,7 +14,8 @@ export default function SmoothScroll({ children }) {
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1.0,
-      touchMultiplier: 1.5,
+      touchMultiplier: 1.0,
+      syncTouch: false,
     });
 
     // Update ScrollTrigger on Lenis scroll

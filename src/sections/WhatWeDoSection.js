@@ -130,10 +130,10 @@ export default function WhatWeDoSection() {
             willChange: 'transform',
           }}
         >
-          {capabilities.map((cap) => (
+          {capabilities.map((cap, idx) => (
             <div
               key={cap.number}
-              className="capability-card film-crop-marks silver-sheen flex-col justify-between"
+              className={`capability-card film-crop-marks silver-sheen flex-col justify-between scroll-reveal stagger-${idx + 1}`}
               style={{
                 minWidth: 'clamp(280px, 40vw, 560px)',
                 maxHeight: 'calc(100vh - 220px)',

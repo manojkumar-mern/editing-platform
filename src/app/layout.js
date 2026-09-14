@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+import '@/styles/admin.css';
 import SmoothScroll from '@/components/SmoothScroll';
 
 export const metadata = {

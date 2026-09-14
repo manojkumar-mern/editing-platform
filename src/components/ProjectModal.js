@@ -10,7 +10,7 @@ export default function ProjectModal({ isOpen, onClose, initialService = '' }) {
     email: '',
     phone: '',
     companyName: '',
-    serviceType: initialService || 'Video Editing (Reels/Shorts/YouTube)',
+    serviceType: initialService || 'Branding Films',
     description: '',
   });
 
@@ -55,12 +55,11 @@ export default function ProjectModal({ isOpen, onClose, initialService = '' }) {
   if (!isOpen) return null;
 
   const servicesList = [
-    'Video Editing (Reels/Shorts/YouTube)',
-    'Commercial Ads & Brand Promos',
-    'Motion Graphics & VFX',
-    'Color Grading & Audio Mastering',
-    'Full Post-Production Suite',
-    'Digital Marketing & Meta Campaigns',
+    'Branding Films',
+    'Commercial Ads',
+    'Social Media Videos',
+    'Real Estate Video Editing',
+    'AI Video Production',
   ];
 
   const handleChange = (e) => {

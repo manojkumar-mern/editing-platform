@@ -214,10 +214,10 @@ export default function ServicesSection({ onOpenProjectModal }) {
             willChange: 'transform, opacity',
           }}
         >
-          {serviceItems.map((item) => (
+          {serviceItems.map((item, idx) => (
             <div
               key={item.id}
-              className="service-card film-crop-marks"
+              className={`service-card film-crop-marks scroll-reveal stagger-${(idx % 5) + 1}`}
               onClick={() => {
                 soundManager.playClick();
                 if (onOpenProjectModal) onOpenProjectModal(item.title);

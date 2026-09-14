@@ -34,29 +34,6 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
           },
         }
       );
-
-      // Marquee scroll velocity skew effect above contact card
-      gsap.to(marquee1Ref.current, {
-        xPercent: -25,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
-        },
-      });
-
-      gsap.to(marquee2Ref.current, {
-        xPercent: 25,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
-        },
-      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -67,82 +44,133 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
       ref={sectionRef}
       className="section-wrapper border-bottom"
       id="cta"
-      style={{ backgroundColor: 'var(--bg-light)', overflow: 'hidden' }}
+      style={{
+        position: 'relative',
+        backgroundColor: '#07080c',
+        backgroundImage: "linear-gradient(180deg, rgba(7, 8, 12, 0.85) 0%, rgba(7, 8, 12, 0.7) 50%, rgba(7, 8, 12, 0.92) 100%), url('/images/contact-bg.jpg')",
+        backgroundAttachment: 'fixed',
+        backgroundPosition: 'center center',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        color: '#ffffff',
+        overflow: 'hidden',
+        paddingTop: 'var(--space-xl)',
+        paddingBottom: 'var(--space-xl)',
+      }}
     >
-      <div className="site-container flex-col items-center" style={{ gap: 'var(--space-md)', textAlign: 'center' }}>
+      {/* Subtle Ambient Radial Glow */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '70vw',
+          height: '70vw',
+          maxWidth: '800px',
+          maxHeight: '800px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(235, 94, 40, 0.15) 0%, rgba(7, 8, 12, 0) 70%)',
+          filter: 'blur(70px)',
+          pointerEvents: 'none',
+          zIndex: 1,
+        }}
+      />
+
+      <div className="site-container flex-col items-center" style={{ gap: 'var(--space-md)', textAlign: 'center', position: 'relative', zIndex: 10 }}>
         {/* Section Header */}
         <div className="flex-col items-center scroll-reveal stagger-1" style={{ gap: '0.35rem', textAlign: 'center' }}>
-          <span className="subheading" style={{ color: 'var(--text-dark-muted)', letterSpacing: '0.14em', fontWeight: 700 }}>
+          <h2
+            style={{
+              fontSize: 'clamp(1.25rem, 2.4vw, 1.85rem)',
+              fontFamily: 'var(--font-heading)',
+              fontWeight: 800,
+              color: 'rgba(255, 255, 255, 0.9)',
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              margin: 0,
+              lineHeight: 1.2,
+            }}
+          >
             CONTACT US
-          </span>
+          </h2>
         </div>
 
         {/* Dual Infinite Scroll Marquee Bands directly above Contact Card */}
         <div className="flex-col scroll-reveal stagger-2" style={{ gap: '0.75rem', width: '100vw', marginLeft: 'calc(-50vw + 50%)', margin: '0.5rem 0 1.5rem 0', overflow: 'hidden' }}>
-          <div
-            ref={marquee1Ref}
-            className="flex-row items-center"
-            style={{
-              gap: '2rem',
-              whiteSpace: 'nowrap',
-              fontSize: 'clamp(1.75rem, 4.5vw, 4rem)',
-              fontFamily: 'var(--font-display)',
-              fontWeight: 800,
-              letterSpacing: '0.05em',
-              textTransform: 'uppercase',
-              color: 'var(--text-dark-primary)',
-              opacity: 0.95,
-              willChange: 'transform',
-            }}
-          >
-            <span>WE CREATE • WE PROMOTE • WE GROW BRANDS • BRANDING FILMS • COMMERCIAL ADS •</span>
-            <span>WE CREATE • WE PROMOTE • WE GROW BRANDS • BRANDING FILMS • COMMERCIAL ADS •</span>
+          <div ref={marquee1Ref} style={{ willChange: 'transform', width: '100%' }}>
+            <div
+              className="flex-row items-center marquee-band-left"
+              style={{
+                gap: '2rem',
+                whiteSpace: 'nowrap',
+                fontSize: 'clamp(1.75rem, 4.5vw, 4rem)',
+                fontFamily: 'var(--font-display)',
+                fontWeight: 800,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                color: '#ffffff',
+                opacity: 0.95,
+                width: 'max-content',
+              }}
+            >
+              <span>WE CREATE • WE PROMOTE • WE GROW BRANDS • BRANDING FILMS • COMMERCIAL ADS • </span>
+              <span>WE CREATE • WE PROMOTE • WE GROW BRANDS • BRANDING FILMS • COMMERCIAL ADS • </span>
+              <span>WE CREATE • WE PROMOTE • WE GROW BRANDS • BRANDING FILMS • COMMERCIAL ADS • </span>
+            </div>
           </div>
 
-          <div
-            ref={marquee2Ref}
-            className="flex-row items-center"
-            style={{
-              gap: '2rem',
-              whiteSpace: 'nowrap',
-              fontSize: 'clamp(1.75rem, 4.5vw, 4rem)',
-              fontFamily: 'var(--font-display)',
-              fontWeight: 800,
-              letterSpacing: '0.05em',
-              textTransform: 'uppercase',
-              color: 'transparent',
-              WebkitTextStroke: '1.5px var(--text-dark-primary)',
-              opacity: 0.6,
-              willChange: 'transform',
-            }}
-          >
-            <span>SOCIAL MEDIA HANDLING • META ADS • VIDEO EDITING • AI VIDEO PRODUCTION •</span>
-            <span>SOCIAL MEDIA HANDLING • META ADS • VIDEO EDITING • AI VIDEO PRODUCTION •</span>
+          <div ref={marquee2Ref} style={{ willChange: 'transform', width: '100%' }}>
+            <div
+              className="flex-row items-center marquee-band-right"
+              style={{
+                gap: '2rem',
+                whiteSpace: 'nowrap',
+                fontSize: 'clamp(1.75rem, 4.5vw, 4rem)',
+                fontFamily: 'var(--font-display)',
+                fontWeight: 800,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                color: 'transparent',
+                WebkitTextStroke: '1.5px rgba(255, 255, 255, 0.65)',
+                opacity: 0.65,
+                width: 'max-content',
+              }}
+            >
+              <span>REAL ESTATE VIDEO EDITING • AI VIDEO PRODUCTION • BRANDING FILMS • COMMERCIAL ADS • </span>
+              <span>REAL ESTATE VIDEO EDITING • AI VIDEO PRODUCTION • BRANDING FILMS • COMMERCIAL ADS • </span>
+              <span>REAL ESTATE VIDEO EDITING • AI VIDEO PRODUCTION • BRANDING FILMS • COMMERCIAL ADS • </span>
+            </div>
           </div>
         </div>
 
-        {/* Big Action Box */}
+        {/* Action Content Layer (Clean floating letters & buttons over fixed image) */}
         <div
-          className="film-crop-marks flex-col items-center scroll-reveal stagger-2"
+          className="flex-col items-center scroll-reveal stagger-2"
           style={{
             width: '100%',
             maxWidth: '1000px',
-            backgroundColor: 'var(--bg-primary)',
-            border: '1px solid var(--border-strong)',
-            padding: 'clamp(2rem, 5vw, 4rem) var(--space-md)',
+            padding: 'clamp(1.5rem, 3.5vw, 3rem) var(--space-md)',
             gap: 'var(--space-md)',
-            boxShadow: '0 8px 60px rgba(0,0,0,0.25)',
             position: 'relative',
-            borderRadius: '16px',
           }}
         >
           <div className="flex-row items-center" style={{ gap: '0.75rem' }}>
             <span className="status-dot"></span>
-            <span className="badge-tag">STUDIO BOOKING OPEN</span>
+            <span
+              className="badge-tag"
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                color: 'var(--accent-orange)',
+                borderColor: 'rgba(235, 94, 40, 0.4)',
+              }}
+            >
+              STUDIO BOOKING OPEN
+            </span>
           </div>
 
           <div className="flex-col items-center" style={{ gap: '0.5rem' }}>
-            <span className="subheading" style={{ fontSize: '1.1rem', color: 'var(--text-secondary)' }}>
+            <span className="subheading" style={{ fontSize: '1.1rem', color: 'rgba(255, 255, 255, 0.85)' }}>
               HAVE A PROJECT IN MIND? LET&apos;S TALK.
             </span>
             <h2
@@ -153,13 +181,15 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
                 lineHeight: 1.08,
                 letterSpacing: '-0.02em',
                 maxWidth: '100%',
+                color: '#ffffff',
+                textShadow: '0 4px 30px rgba(0,0,0,0.8)',
               }}
             >
               LET&apos;S CREATE SOMETHING GREAT.
             </h2>
           </div>
 
-          <p ref={textRef} className="body-lead" style={{ maxWidth: '680px', opacity: 0.85, fontSize: 'clamp(0.9rem, 1.2vw, 1.125rem)' }}>
+          <p ref={textRef} className="body-lead" style={{ maxWidth: '680px', opacity: 0.88, fontSize: 'clamp(0.9rem, 1.2vw, 1.125rem)', color: 'rgba(255, 255, 255, 0.85)', textShadow: '0 2px 15px rgba(0,0,0,0.7)' }}>
             Connect directly with Atzyncmedia for video production, digital marketing, commercial ads, or Meta ad campaigns.
           </p>
 
@@ -185,7 +215,15 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
               rel="noopener noreferrer"
               onClick={() => soundManager.playClick()}
               className="btn-secondary"
-              style={{ padding: '0.85rem 1.6rem', fontSize: '0.8125rem', maxWidth: '100%' }}
+              style={{
+                padding: '0.85rem 1.6rem',
+                fontSize: '0.8125rem',
+                maxWidth: '100%',
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                borderColor: 'rgba(255, 255, 255, 0.3)',
+                color: '#ffffff',
+                backdropFilter: 'blur(8px)',
+              }}
               data-cursor="WHATSAPP US"
             >
               WHATSAPP US → ({siteData.contact.phone})
@@ -195,14 +233,20 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
               href={`mailto:${siteData.contact.email}`}
               onClick={() => soundManager.playClick()}
               className="btn-secondary"
-              style={{ padding: '0.85rem 1.6rem', fontSize: '0.8125rem', maxWidth: '100%' }}
+              style={{
+                padding: '0.85rem 1.6rem',
+                fontSize: '0.8125rem',
+                maxWidth: '100%',
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                borderColor: 'rgba(255, 255, 255, 0.3)',
+                color: '#ffffff',
+                backdropFilter: 'blur(8px)',
+              }}
               data-cursor="EMAIL"
             >
-              EMAIL: {siteData.contact.email}
+              EMAIL: <span style={{ textTransform: 'lowercase', letterSpacing: '0.03em' }}>{siteData.contact.email}</span>
             </a>
           </div>
-
-
         </div>
       </div>
     </section>

@@ -175,7 +175,20 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
               <span className="timecode-tag" style={{ fontSize: 'clamp(0.65rem, 2.2vw, 0.75rem)' }}>
                 PH: {siteData.contact.phone} / {siteData.contact.phoneSecondary}
               </span>
-              <span className="meta-tag" style={{ fontSize: 'clamp(0.65rem, 2.2vw, 0.75rem)' }}>[ {siteData.contact.email} ]</span>
+              <a
+                href={`mailto:${siteData.contact.email}`}
+                style={{
+                  fontSize: 'clamp(0.65rem, 2.2vw, 0.75rem)',
+                  fontFamily: 'var(--font-mono)',
+                  color: 'rgba(255, 255, 255, 0.95)',
+                  textDecoration: 'none',
+                  textTransform: 'lowercase',
+                  letterSpacing: '0.04em',
+                  transition: 'opacity 0.2s ease',
+                }}
+              >
+                [ {siteData.contact.email} ]
+              </a>
             </div>
           </div>
 
@@ -186,14 +199,18 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
               <h1 className="display-hero" style={{ opacity: isLoaded ? 1 : 0, display: 'inline-flex', letterSpacing: '0.02em' }}>
                 {line1Chars.map((char, index) => {
                   const isVisible = typedCount1 === 0 ? true : index < typedCount1;
-                  const isInitialInverted = index === 0; // 'A' in ATZYNC starts upside down
+                  const isInitialInverted = index === 0; // 'A' in ATZYNC starts upside down on desktop
                   const isN = index === 4; // 'N' letter in ATZYNC anchor for MEDIA
                   return (
                     <span
                       key={index}
                       ref={isN ? nRef : null}
                       className="hero-letter-box"
-                      onClick={(e) => e.currentTarget.classList.toggle('is-flipped')}
+                      onClick={(e) => {
+                        if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+                          e.currentTarget.classList.toggle('is-flipped');
+                        }
+                      }}
                       style={{
                         opacity: isVisible ? 1 : 0,
                         transition: 'opacity 0.15s ease',
@@ -234,7 +251,11 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
                     <span
                       key={index}
                       className="hero-letter-box"
-                      onClick={(e) => e.currentTarget.classList.toggle('is-flipped')}
+                      onClick={(e) => {
+                        if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+                          e.currentTarget.classList.toggle('is-flipped');
+                        }
+                      }}
                       style={{
                         opacity: isVisible ? 1 : 0,
                         transition: 'opacity 0.15s ease',

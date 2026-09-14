@@ -113,10 +113,14 @@ export default function ServicesSection({ onOpenProjectModal }) {
       style={{
         backgroundColor: '#0a0a0e',
         position: 'relative',
-        paddingTop: 'clamp(6.8rem, 12vh, 8rem)',
-        paddingBottom: 'clamp(3.5rem, 6vh, 5rem)',
-        overflow: 'hidden',
         minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        paddingTop: 'calc(80px + clamp(1.75rem, 3vh, 2.5rem))',
+        paddingBottom: 'clamp(1.75rem, 3vh, 2.5rem)',
+        boxSizing: 'border-box',
+        overflow: 'hidden',
       }}
     >
       {/* Pinned Kinetic Zoom Stage Overlay on "SERVICES" */}
@@ -210,10 +214,10 @@ export default function ServicesSection({ onOpenProjectModal }) {
             willChange: 'transform, opacity',
           }}
         >
-          {serviceItems.map((item, index) => (
+          {serviceItems.map((item) => (
             <div
               key={item.id}
-              className={`service-card film-crop-marks ${index === serviceItems.length - 1 ? 'card-centered-col2' : ''}`}
+              className="service-card film-crop-marks"
               onClick={() => {
                 soundManager.playClick();
                 if (onOpenProjectModal) onOpenProjectModal(item.title);

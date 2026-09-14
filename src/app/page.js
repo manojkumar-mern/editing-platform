@@ -6,7 +6,7 @@ import NavbarSection from '@/sections/NavbarSection';
 import HeroSection from '@/sections/HeroSection';
 import AboutSection from '@/sections/AboutSection';
 import ServicesSection from '@/sections/ServicesSection';
-import WhatWeDoSection from '@/sections/WhatWeDoSection';
+// import WhatWeDoSection from '@/sections/WhatWeDoSection';
 import SelectedWorkSection from '@/sections/SelectedWorkSection';
 import CTASection from '@/sections/CTASection';
 import FooterSection from '@/sections/FooterSection';
@@ -40,7 +40,7 @@ export default function Home() {
       <HeroSection isLoaded={isLoaded} onOpenModal={handleOpenModal} onOpenProjectModal={handleOpenProjectModal} />
       <AboutSection />
       <ServicesSection onOpenProjectModal={handleOpenProjectModal} />
-      <WhatWeDoSection />
+      {/* <WhatWeDoSection /> */}
       <SelectedWorkSection onOpenModal={handleOpenModal} />
       <CTASection onOpenModal={handleOpenModal} onOpenProjectModal={handleOpenProjectModal} />
       <FooterSection />

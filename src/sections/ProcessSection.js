@@ -88,13 +88,33 @@ export default function ProcessSection() {
     <section ref={sectionRef} className="section-wrapper section-wrapper--alt border-bottom" id="process">
       <div className="site-container flex-col" style={{ gap: 'var(--space-lg)' }}>
         {/* Section Header */}
-        <div className="flex-col" style={{ gap: '0.35rem' }}>
-          <span className="subheading" style={{ color: 'var(--text-secondary)', letterSpacing: '0.14em', fontWeight: 700 }}>
+        <div className="flex-col" style={{ gap: '0.4rem' }}>
+          <h2
+            style={{
+              fontSize: 'clamp(1.25rem, 2.4vw, 1.85rem)',
+              fontFamily: 'var(--font-heading)',
+              fontWeight: 800,
+              color: 'var(--text-secondary)',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              margin: 0,
+              lineHeight: 1.2,
+            }}
+          >
             OUR PROCESS
-          </span>
-          <h2 className="heading-lg" style={{ fontSize: 'clamp(1.75rem, 3.5vw, 3rem)' }}>
-            HOW WE TRANSFORM RAW FOOTAGE INTO IMPACT
           </h2>
+          <h3
+            style={{
+              fontSize: 'clamp(1.4rem, 3.2vw, 2.75rem)',
+              fontFamily: 'var(--font-heading)',
+              color: 'var(--text-primary)',
+              fontWeight: 800,
+              margin: 0,
+              lineHeight: 1.18,
+            }}
+          >
+            HOW WE TRANSFORM RAW FOOTAGE INTO IMPACT
+          </h3>
         </div>
 
         {/* Timeline Scrubbing Track Bar */}

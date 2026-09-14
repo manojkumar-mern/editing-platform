@@ -18,14 +18,61 @@ export default function FooterSection() {
             <span className="subheading" style={{ fontSize: '0.75rem' }}>{siteData.tagline}</span>
           </div>
 
-          <div className="flex-row items-center" style={{ gap: '1.5rem', flexWrap: 'wrap' }}>
-            <a href={`mailto:${siteData.contact.email}`} className="meta-tag" style={{ textDecoration: 'underline' }}>
+          <div className="flex-row items-center" style={{ gap: '1.25rem', flexWrap: 'wrap' }}>
+            <a
+              href={`mailto:${siteData.contact.email}`}
+              style={{
+                fontSize: '0.8125rem',
+                fontFamily: 'var(--font-mono)',
+                color: 'rgba(255, 255, 255, 0.95)',
+                textDecoration: 'none',
+                textTransform: 'lowercase',
+                letterSpacing: '0.04em',
+                padding: '0.35rem 0.85rem',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                borderRadius: '20px',
+                transition: 'all 0.2s ease',
+              }}
+            >
               {siteData.contact.email}
             </a>
-            <a href={siteData.contact.whatsappUrl} target="_blank" rel="noopener noreferrer" className="meta-tag" style={{ textDecoration: 'underline' }}>
+            <a
+              href={siteData.contact.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontSize: '0.8125rem',
+                fontFamily: 'var(--font-mono)',
+                color: 'rgba(255, 255, 255, 0.8)',
+                textDecoration: 'none',
+                letterSpacing: '0.05em',
+                padding: '0.35rem 0.85rem',
+                backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '20px',
+                transition: 'all 0.2s ease',
+              }}
+            >
               {siteData.contact.phone}
             </a>
-            <a href={siteData.contact.whatsappUrlSecondary} target="_blank" rel="noopener noreferrer" className="meta-tag" style={{ textDecoration: 'underline' }}>
+            <a
+              href={siteData.contact.whatsappUrlSecondary}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontSize: '0.8125rem',
+                fontFamily: 'var(--font-mono)',
+                color: 'rgba(255, 255, 255, 0.8)',
+                textDecoration: 'none',
+                letterSpacing: '0.05em',
+                padding: '0.35rem 0.85rem',
+                backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '20px',
+                transition: 'all 0.2s ease',
+              }}
+            >
               {siteData.contact.phoneSecondary}
             </a>
           </div>

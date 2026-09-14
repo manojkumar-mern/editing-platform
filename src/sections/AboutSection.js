@@ -1,18 +1,58 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
-import { gsap } from '@/lib/gsap';
+import { useState, useRef } from 'react';
 import { siteData } from '@/data/siteData';
 import { useSectionInView } from '@/lib/useSectionInView';
+import { soundManager } from '@/lib/audioManager';
 
 export default function AboutSection() {
   const [sectionRef, isInView] = useSectionInView({ rootMargin: '350px' });
+  const [activeFilter, setActiveFilter] = useState('normal'); // 'normal', 'lut', 'mono'
+  const [tiltStyle, setTiltStyle] = useState({});
+  const cardRef = useRef(null);
 
   const stats = [
     { value: '500+', label: 'EDITORIAL CUTS COMPLETED' },
     { value: '40+', label: 'BRANDING FILMS MASTERED' },
     { value: '99.8%', label: 'CLIENT RETENTION RATE' },
   ];
+
+  // Interactive 3D Card Tilt Effect following Cursor Position
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -9; // Max 9 deg X-rotation
+    const rotateY = ((x - centerX) / centerX) * 9;  // Max 9 deg Y-rotation
+
+    setTiltStyle({
+      transform: `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`,
+      transition: 'transform 0.1s ease-out',
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setTiltStyle({
+      transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
+      transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+    });
+  };
+
+  // Image CSS filter generator based on active mode
+  const getImageFilter = () => {
+    switch (activeFilter) {
+      case 'lut':
+        return 'contrast(1.18) saturate(1.4) hue-rotate(-8deg) brightness(1.03)';
+      case 'mono':
+        return 'grayscale(1) contrast(1.3) brightness(0.95)';
+      default:
+        return 'none';
+    }
+  };
 
   return (
     <section
@@ -22,59 +62,46 @@ export default function AboutSection() {
       style={{ backgroundColor: 'var(--bg-light)', color: 'var(--text-dark-primary)', overflow: 'hidden' }}
     >
       <div className="site-container flex-col" style={{ gap: 'var(--space-xl)' }}>
-        {/* Section Header */}
-        <div className="flex-col scroll-reveal stagger-1" style={{ gap: '0.35rem' }}>
-          <span className="subheading" style={{ color: 'var(--text-dark-muted)', letterSpacing: '0.14em', fontWeight: 700 }}>
-            ABOUT US
-          </span>
-        </div>
-
-        {/* Section Headline */}
-        <h2 className="heading-lg scroll-reveal stagger-2" style={{ fontSize: 'clamp(1.75rem, 3.8vw, 3.25rem)', color: 'var(--text-dark-primary)', lineHeight: 1.1 }}>
-          {siteData.about.headline}
-        </h2>
-
-        {/* Main Content Grid: Creative Vertical Image Card + Philosophy */}
-        <div className="grid-2col items-center" style={{ gap: 'var(--space-xl)', marginTop: 'var(--space-xs)' }}>
-          {/* Left Column: Creative Straight Vertical Long Studio Photography Card */}
+        {/* Main Content Grid: Vertical Interactive Portrait Card + Right Content Column */}
+        <div className="grid-2col items-start" style={{ gap: 'var(--space-xl)' }}>
+          {/* Left Column: Interactive 3D Vertical Portrait Studio Card */}
           <div
-            className="film-crop-marks scroll-reveal stagger-2"
+            ref={cardRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            className="scroll-reveal stagger-2"
             style={{
               position: 'relative',
               width: '100%',
-              height: 'clamp(480px, 58vh, 620px)',
-              borderRadius: '24px',
-              border: '1px solid rgba(0, 0, 0, 0.12)',
+              maxWidth: '460px',
+              height: 'clamp(540px, 66vh, 660px)',
+              margin: '0 auto',
+              borderRadius: '26px',
               overflow: 'hidden',
-              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.18)',
-              background: '#0a0b0e',
+              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.22)',
+              background: '#07080c',
+              cursor: 'pointer',
+              ...tiltStyle,
             }}
           >
-            {/* Background Image with Hover Zoom */}
+            {/* Background Portrait Image */}
             {isInView ? (
               <img
-                src="/images/studio-suite.webp"
-                alt="ATZYNC Media Editing Studio Suite"
+                src="/images/about-portrait.jpg"
+                alt="ATZYNC Media Founder & Creative Director"
                 loading="lazy"
                 decoding="async"
                 style={{
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
-                  objectPosition: 'center',
-                  transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
+                  objectPosition: 'center top',
+                  filter: getImageFilter(),
+                  transition: 'filter 0.4s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.06)')}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
               />
             ) : (
-              <div
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  backgroundColor: '#0a0b0e',
-                }}
-              />
+              <div style={{ width: '100%', height: '100%', backgroundColor: '#07080c' }} />
             )}
 
             {/* Gradient Overlay Vignette */}
@@ -82,13 +109,13 @@ export default function AboutSection() {
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: 'linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.85) 100%)',
+                background: 'linear-gradient(180deg, rgba(7, 8, 12, 0.75) 0%, rgba(0, 0, 0, 0.05) 45%, rgba(7, 8, 12, 0.92) 100%)',
                 pointerEvents: 'none',
                 zIndex: 2,
               }}
             />
 
-            {/* Top Viewfinder HUD Header */}
+            {/* Top Viewfinder HUD Header with Live Equalizer */}
             <div
               className="flex-row items-center justify-between"
               style={{
@@ -99,91 +126,134 @@ export default function AboutSection() {
                 zIndex: 3,
               }}
             >
-              <span
-                className="badge-tag"
-                style={{
-                  fontSize: '0.68rem',
-                  padding: '0.35rem 0.85rem',
-                  backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                  backdropFilter: 'blur(8px)',
-                  color: '#ffffff',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                }}
-              >
-                EDITING SUITE &amp; MASTERING
-              </span>
-
               <div
                 className="flex-row items-center"
                 style={{
-                  gap: '0.4rem',
-                  backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                  padding: '0.35rem 0.75rem',
+                  gap: '0.5rem',
+                  backgroundColor: 'rgba(7, 8, 12, 0.8)',
+                  padding: '0.35rem 0.85rem',
                   borderRadius: '20px',
-                  backdropFilter: 'blur(8px)',
+                  backdropFilter: 'blur(10px)',
                   border: '1px solid rgba(255, 255, 255, 0.2)',
                 }}
               >
                 <span className="status-dot" style={{ backgroundColor: '#ff3b30' }}></span>
-                <span className="timecode-tag" style={{ fontSize: '0.65rem', color: '#ffffff' }}>
-                  REC 4K ULTRA HD
+                <span className="timecode-tag" style={{ fontSize: '0.68rem', color: '#ffffff', letterSpacing: '0.08em' }}>
+                  REC • 4K PRORES
                 </span>
+              </div>
+
+              {/* Animated Audio Equalizer Bars */}
+              <div
+                className="flex-row items-end"
+                style={{
+                  gap: '3px',
+                  height: '18px',
+                  backgroundColor: 'rgba(7, 8, 12, 0.8)',
+                  padding: '0.35rem 0.65rem',
+                  borderRadius: '16px',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                }}
+              >
+                <div className="eq-bar"></div>
+                <div className="eq-bar"></div>
+                <div className="eq-bar"></div>
+                <div className="eq-bar"></div>
               </div>
             </div>
 
-            {/* Subtle Viewfinder HUD Crosshair Overlay in Center */}
+            {/* Bottom Interactive LUT Grade Mode Switcher Line (Placed down at the bottom) */}
             <div
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: '60px',
-                height: '60px',
-                borderLeft: '1px solid rgba(255, 255, 255, 0.3)',
-                borderRight: '1px solid rgba(255, 255, 255, 0.3)',
-                borderTop: '1px solid rgba(255, 255, 255, 0.3)',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.3)',
-                pointerEvents: 'none',
-                opacity: 0.45,
-                zIndex: 3,
-              }}
-            />
-
-            {/* Bottom Overlay Badge */}
-            <div
-              className="flex-col"
               style={{
                 position: 'absolute',
                 bottom: '1.25rem',
                 left: '1.25rem',
                 right: '1.25rem',
                 zIndex: 3,
-                gap: '0.4rem',
               }}
             >
               <div
+                className="flex-row items-center justify-between"
                 style={{
-                  backgroundColor: 'rgba(10, 11, 15, 0.85)',
+                  backgroundColor: 'rgba(7, 8, 12, 0.85)',
                   backdropFilter: 'blur(12px)',
                   border: '1px solid rgba(255, 255, 255, 0.18)',
-                  borderRadius: '14px',
-                  padding: '0.85rem 1.15rem',
-                  color: '#ffffff',
+                  borderRadius: '16px',
+                  padding: '0.35rem 0.6rem',
                 }}
               >
-                <span className="meta-tag" style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.7)', display: 'block', marginBottom: '0.2rem' }}>
-                  STUDIO ARCHITECTURE &amp; PRODUCTION
+                <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.65)', paddingLeft: '0.5rem', fontWeight: 600, letterSpacing: '0.08em' }}>
+                  LUT GRADE:
                 </span>
-                <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#ffffff', lineHeight: 1.4 }}>
-                  {siteData.about.founderText}
-                </span>
+                <div className="flex-row items-center" style={{ gap: '0.25rem' }}>
+                  {[
+                    { id: 'normal', label: 'RAW' },
+                    { id: 'lut', label: 'CINEMA' },
+                    { id: 'mono', label: 'MONO' },
+                  ].map((mode) => {
+                    const isActive = activeFilter === mode.id;
+                    return (
+                      <button
+                        key={mode.id}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          soundManager.playClick();
+                          setActiveFilter(mode.id);
+                        }}
+                        style={{
+                          padding: '0.3rem 0.65rem',
+                          fontSize: '0.65rem',
+                          fontWeight: 700,
+                          borderRadius: '12px',
+                          border: isActive ? '1px solid rgba(255,255,255,0.5)' : '1px solid transparent',
+                          backgroundColor: isActive ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+                          color: isActive ? '#ffffff' : 'rgba(255,255,255,0.65)',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
+                        }}
+                      >
+                        {mode.label}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Statement & Founder Credit */}
+          {/* Right Column: Title Header + Statement + Founder Credit */}
           <div className="flex-col" style={{ gap: 'var(--space-md)' }}>
+            {/* Section Header on the Right Side */}
+            <div className="flex-col scroll-reveal stagger-1" style={{ gap: '0.5rem' }}>
+              <h2
+                style={{
+                  fontSize: 'clamp(1.1rem, 2vw, 1.4rem)',
+                  fontFamily: 'var(--font-heading)',
+                  fontWeight: 800,
+                  color: 'var(--text-dark-muted)',
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  margin: 0,
+                  lineHeight: 1.2,
+                }}
+              >
+                ABOUT US
+              </h2>
+              <h3
+                style={{
+                  fontSize: 'clamp(1.5rem, 3.2vw, 2.5rem)',
+                  fontFamily: 'var(--font-heading)',
+                  color: 'var(--text-dark-primary)',
+                  fontWeight: 800,
+                  margin: 0,
+                  lineHeight: 1.18,
+                }}
+              >
+                {siteData.about.headline}
+              </h3>
+            </div>
+
             <p className="body-lead scroll-reveal stagger-3" style={{ fontSize: 'clamp(1.05rem, 1.4vw, 1.25rem)', color: 'var(--text-dark-primary)' }}>
               {siteData.about.description}
             </p>
@@ -194,7 +264,7 @@ export default function AboutSection() {
               style={{
                 backgroundColor: 'rgba(0,0,0,0.04)',
                 border: '1px solid var(--border-light-subtle)',
-                borderRadius: '12px',
+                borderRadius: '14px',
                 padding: '1rem 1.25rem',
                 display: 'flex',
                 alignItems: 'center',
@@ -203,11 +273,11 @@ export default function AboutSection() {
             >
               <div
                 style={{
-                  width: '44px',
-                  height: '44px',
+                  width: '46px',
+                  height: '46px',
                   borderRadius: '50%',
-                  backgroundColor: '#ffffff',
-                  color: '#000000',
+                  backgroundColor: '#000000',
+                  color: '#ffffff',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -215,6 +285,7 @@ export default function AboutSection() {
                   fontSize: '1rem',
                   fontFamily: 'var(--font-display)',
                   flexShrink: 0,
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
                 }}
               >
                 TM
@@ -248,3 +319,4 @@ export default function AboutSection() {
     </section>
   );
 }
+

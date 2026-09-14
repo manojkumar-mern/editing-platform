@@ -137,8 +137,8 @@ export default function SelectedWorkSection({ onOpenModal }) {
       className="border-bottom"
       id="work"
       style={{
-        backgroundColor: 'var(--bg-primary)',
-        color: 'var(--text-primary)',
+        backgroundColor: 'var(--bg-light)',
+        color: 'var(--text-dark-primary)',
         position: 'relative',
       }}
     >
@@ -155,15 +155,22 @@ export default function SelectedWorkSection({ onOpenModal }) {
       >
         {/* Section Header */}
         <div className="flex-row items-center justify-between scroll-reveal stagger-1" style={{ zIndex: 10, flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
-          <h2 className="heading-lg" style={{ fontSize: 'clamp(1.5rem, 3.5vw, 3rem)' }}>
+          <h2 className="heading-lg" style={{ fontSize: 'clamp(1.5rem, 3.5vw, 3rem)', color: 'var(--text-dark-primary)' }}>
             SELECTED WORK
           </h2>
           <div className="flex-row items-center" style={{ gap: '1rem' }}>
-            <span className="meta-tag" style={{ opacity: 0.7 }}>0{activeProjectIndex + 1} / 0{projects.length}</span>
+            <span className="meta-tag" style={{ color: 'var(--text-dark-muted)', fontWeight: 600 }}>0{activeProjectIndex + 1} / 0{projects.length}</span>
             <Link
               href="/work"
               className="btn-secondary"
-              style={{ padding: '0.45rem 1.1rem', fontSize: '0.75rem', borderRadius: '20px' }}
+              style={{
+                padding: '0.45rem 1.1rem',
+                fontSize: '0.75rem',
+                borderRadius: '20px',
+                backgroundColor: 'var(--bg-primary)',
+                color: 'var(--text-primary)',
+                borderColor: 'var(--border-strong)',
+              }}
               onClick={() => soundManager.playClick()}
             >
               VIEW ALL WORK →
@@ -382,7 +389,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
                 width: activeProjectIndex === idx ? '1.5rem' : '0.4rem',
                 height: '0.4rem',
                 borderRadius: '99px',
-                backgroundColor: activeProjectIndex === idx ? 'var(--accent-orange)' : 'rgba(255,255,255,0.25)',
+                backgroundColor: activeProjectIndex === idx ? 'var(--accent-orange)' : 'rgba(0,0,0,0.25)',
                 transition: 'all 0.4s ease',
                 flexShrink: 0,
               }}
@@ -394,7 +401,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
             style={{
               flex: 1,
               height: '1px',
-              backgroundColor: 'rgba(255,255,255,0.1)',
+              backgroundColor: 'rgba(0,0,0,0.1)',
               borderRadius: '2px',
               overflow: 'hidden',
             }}
@@ -416,7 +423,8 @@ export default function SelectedWorkSection({ onOpenModal }) {
               fontFamily: 'var(--font-heading)',
               fontSize: '0.65rem',
               letterSpacing: '0.1em',
-              color: 'rgba(255,255,255,0.45)',
+              color: 'var(--text-dark-muted)',
+              fontWeight: 600,
               flexShrink: 0,
             }}
           >

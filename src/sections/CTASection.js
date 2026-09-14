@@ -47,17 +47,18 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
       style={{
         position: 'relative',
         backgroundColor: '#07080c',
-        backgroundImage: "linear-gradient(180deg, rgba(7, 8, 12, 0.85) 0%, rgba(7, 8, 12, 0.7) 50%, rgba(7, 8, 12, 0.92) 100%), url('/images/contact-bg.jpg')",
+        backgroundImage: "linear-gradient(180deg, rgba(7, 8, 12, 0.88) 0%, rgba(7, 8, 12, 0.72) 50%, rgba(7, 8, 12, 0.94) 100%), url('/images/contact-bg.jpg')",
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         color: '#ffffff',
         overflow: 'hidden',
-        paddingTop: 'var(--space-xl)',
-        paddingBottom: 'var(--space-xl)',
+        paddingTop: 'clamp(3.5rem, 8vh, 6rem)',
+        paddingBottom: 'clamp(3.5rem, 8vh, 6rem)',
       }}
     >
+
       {/* Subtle Ambient Radial Glow */}
       <div
         style={{

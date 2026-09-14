@@ -154,11 +154,11 @@ export default function SelectedWorkSection({ onOpenModal }) {
         }}
       >
         {/* Section Header */}
-        <div className="flex-row items-center justify-between scroll-reveal stagger-1" style={{ zIndex: 10, flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
+        <div className="flex-row items-center justify-between scroll-reveal stagger-1" style={{ zIndex: 10, flexWrap: 'wrap', gap: '0.5rem 1rem', width: '100%' }}>
           <h2 className="heading-lg" style={{ fontSize: 'clamp(1.5rem, 3.5vw, 3rem)', color: 'var(--text-dark-primary)' }}>
             SELECTED WORK
           </h2>
-          <div className="flex-row items-center" style={{ gap: '1rem' }}>
+          <div className="flex-row items-center justify-end" style={{ gap: '0.75rem', marginLeft: 'auto' }}>
             <span className="meta-tag" style={{ color: 'var(--text-dark-muted)', fontWeight: 600 }}>0{activeProjectIndex + 1} / 0{projects.length}</span>
             <Link
               href="/work"

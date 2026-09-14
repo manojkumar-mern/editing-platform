@@ -591,6 +591,8 @@
   transform: rotate(180deg) translateY(-0.16em);
 }
 
+
+
 .display-hero-outline {
   color: transparent !important;
   -webkit-text-stroke: 1.5px var(--text-primary);
@@ -826,6 +828,8 @@
     transition: none !important;
   }
 
+
+
   .hero-display-wrapper {
     width: 100% !important;
     text-align: left !important;
@@ -977,30 +981,34 @@
   }
 
   /* CTA Contact Section Mobile Responsiveness & Overflow Prevention */
-  #cta .film-crop-marks {
-    padding: 1.5rem 0.85rem !important;
-    overflow: hidden !important;
-    box-sizing: border-box !important;
-    width: 100% !important;
+  #cta {
+    padding-top: 3.5rem !important;
+    padding-bottom: 3.5rem !important;
+  }
+
+  #cta .marquee-band-left,
+  #cta .marquee-band-right {
+    font-size: clamp(1.25rem, 5vw, 2.2rem) !important;
+    gap: 1.25rem !important;
   }
 
   #cta .display-hero {
-    font-size: clamp(1.4rem, 6.5vw, 2.2rem) !important;
-    line-height: 1.15 !important;
+    font-size: clamp(1.6rem, 7vw, 2.6rem) !important;
+    line-height: 1.12 !important;
     word-break: break-word !important;
     overflow-wrap: break-word !important;
     text-align: center !important;
   }
 
   #cta .subheading {
-    font-size: clamp(0.72rem, 3.2vw, 0.85rem) !important;
+    font-size: clamp(0.8rem, 3.2vw, 0.95rem) !important;
     word-break: break-word !important;
     text-align: center !important;
   }
 
   #cta .body-lead {
-    font-size: 0.8125rem !important;
-    line-height: 1.45 !important;
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
     text-align: center !important;
   }
 
@@ -1010,8 +1018,8 @@
     max-width: 100% !important;
     white-space: normal !important;
     word-break: break-word !important;
-    padding: 0.75rem 0.85rem !important;
-    font-size: 0.75rem !important;
+    padding: 0.85rem 1rem !important;
+    font-size: 0.78rem !important;
     letter-spacing: 0.05em !important;
     text-align: center !important;
     justify-content: center !important;

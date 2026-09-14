@@ -54,6 +54,10 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
 
   useEffect(() => {
     const updateIndent = () => {
+      if (typeof window !== 'undefined' && window.innerWidth < 768) {
+        setMediaIndent(0);
+        return;
+      }
       if (nRef.current && titleWrapperRef.current) {
         const wrapperRect = titleWrapperRef.current.getBoundingClientRect();
         const nRect = nRef.current.getBoundingClientRect();
@@ -189,6 +193,7 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
                       key={index}
                       ref={isN ? nRef : null}
                       className="hero-letter-box"
+                      onClick={(e) => e.currentTarget.classList.toggle('is-flipped')}
                       style={{
                         opacity: isVisible ? 1 : 0,
                         transition: 'opacity 0.15s ease',
@@ -229,6 +234,7 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
                     <span
                       key={index}
                       className="hero-letter-box"
+                      onClick={(e) => e.currentTarget.classList.toggle('is-flipped')}
                       style={{
                         opacity: isVisible ? 1 : 0,
                         transition: 'opacity 0.15s ease',

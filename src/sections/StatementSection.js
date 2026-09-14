@@ -76,8 +76,9 @@ export default function StatementSection() {
       <div className="site-container flex-col" style={{ gap: 'var(--space-lg)' }}>
         <div className="flex-row items-center justify-between" style={{ flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
           <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
-            <span className="subheading">[ BRAND MANIFESTO ]</span>
-            <span className="timecode-tag">SCENE 01 // MANIFESTO CUT</span>
+            <span className="subheading" style={{ color: 'var(--text-secondary)', letterSpacing: '0.14em', fontWeight: 700 }}>
+              OUR MANIFESTO
+            </span>
           </div>
           <div className="flex-row items-center" style={{ gap: '0.2rem' }}>
             <div className="audio-bar" style={{ height: '10px' }}></div>

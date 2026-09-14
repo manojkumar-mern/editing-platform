@@ -148,35 +148,27 @@ export default function SelectedWorkSection({ onOpenModal }) {
         className="site-container flex-col justify-between"
         style={{
           minHeight: '100vh',
-          paddingTop: 'clamp(5rem, 9vh, 7rem)',
-          paddingBottom: 'clamp(1.5rem, 3.5vh, 3rem)',
+          paddingTop: 'clamp(6.5rem, 12vh, 8.5rem)',
+          paddingBottom: 'clamp(2rem, 4vh, 3.5rem)',
           boxSizing: 'border-box',
         }}
       >
-        {/* Top Section Ribbon */}
+        {/* Section Header */}
         <div className="flex-row items-center justify-between scroll-reveal stagger-1" style={{ zIndex: 10, flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
-          <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
-            <span className="subheading" style={{ color: 'var(--accent-orange)' }}>[ 04 — OUR WORK ]</span>
-            <span className="timecode-tag">PORTFOLIO SHOWCASES // {projects.length} FILMS</span>
-          </div>
-          <div className="flex-row items-center" style={{ gap: '0.75rem' }}>
-            <span className="meta-tag">PROJECT 0{activeProjectIndex + 1} / 0{projects.length}</span>
-          </div>
-        </div>
-
-        {/* Section Heading */}
-        <div className="flex-row items-center justify-between scroll-reveal stagger-2" style={{ zIndex: 10, flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
           <h2 className="heading-lg" style={{ fontSize: 'clamp(1.5rem, 3.5vw, 3rem)' }}>
             SELECTED WORK
           </h2>
-          <Link
-            href="/work"
-            className="btn-secondary"
-            style={{ padding: '0.45rem 1.1rem', fontSize: '0.75rem', borderRadius: '20px' }}
-            onClick={() => soundManager.playClick()}
-          >
-            VIEW ALL WORK →
-          </Link>
+          <div className="flex-row items-center" style={{ gap: '1rem' }}>
+            <span className="meta-tag" style={{ opacity: 0.7 }}>0{activeProjectIndex + 1} / 0{projects.length}</span>
+            <Link
+              href="/work"
+              className="btn-secondary"
+              style={{ padding: '0.45rem 1.1rem', fontSize: '0.75rem', borderRadius: '20px' }}
+              onClick={() => soundManager.playClick()}
+            >
+              VIEW ALL WORK →
+            </Link>
+          </div>
         </div>
 
         {/* Premium Work Cards Deck Container */}
@@ -262,78 +254,11 @@ export default function SelectedWorkSection({ onOpenModal }) {
                       }}
                     />
                     <div className="stacked-card-img-overlay" />
-
-                    {/* Top Badges */}
-                    <div
-                      className="flex-row items-center justify-between"
-                      style={{
-                        position: 'absolute',
-                        top: '0.85rem',
-                        left: '0.85rem',
-                        right: '0.85rem',
-                        zIndex: 3,
-                      }}
-                    >
-                      <span
-                        className="badge-tag"
-                        style={{
-                          backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                          backdropFilter: 'blur(8px)',
-                          color: 'var(--accent-orange)',
-                          borderColor: 'rgba(235, 94, 40, 0.4)',
-                          fontSize: '0.68rem',
-                        }}
-                      >
-                        0{index + 1} // {project.category.toUpperCase()}
-                      </span>
-                      <span className="timecode-tag" style={{ fontSize: '0.65rem', background: 'rgba(0,0,0,0.6)' }}>
-                        24FPS // 4K DCI
-                      </span>
-                    </div>
-
-                    {/* Bottom Hint */}
-                    <div
-                      style={{
-                        position: 'absolute',
-                        bottom: '0.85rem',
-                        left: '0.85rem',
-                        zIndex: 3,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.4rem',
-                        color: 'rgba(255, 255, 255, 0.85)',
-                        fontSize: '0.72rem',
-                        fontWeight: 600,
-                        letterSpacing: '0.05em',
-                      }}
-                    >
-                      <span
-                        style={{
-                          width: '8px',
-                          height: '8px',
-                          borderRadius: '50%',
-                          backgroundColor: 'var(--accent-orange)',
-                          display: 'inline-block',
-                        }}
-                      />
-                      ▶ WATCH FULL CUT // 2.39:1
-                    </div>
                   </div>
 
                   {/* Narrative Body */}
                   <div className="stacked-card-body">
                     <div className="flex-col" style={{ gap: '0.5rem' }}>
-                      <div className="flex-row items-center" style={{ gap: '0.6rem', flexWrap: 'wrap' }}>
-                        <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-orange)', letterSpacing: '0.1em' }}>
-                          [ 0{index + 1} ]
-                        </span>
-                        <span className="meta-tag" style={{ fontSize: '0.72rem' }}>
-                          CLIENT: {project.client.toUpperCase()}
-                        </span>
-                        <span className="badge-tag" style={{ fontSize: '0.65rem', padding: '0.2rem 0.5rem' }}>
-                          {project.year}
-                        </span>
-                      </div>
 
                       <h3
                         className="stacked-card-title"

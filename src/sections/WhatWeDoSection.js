@@ -101,15 +101,14 @@ export default function WhatWeDoSection() {
           paddingBottom: 'clamp(1.5rem, 3vh, 2.5rem)',
         }}
       >
-        {/* Header Ribbon */}
-        <div className="site-container flex-row items-center justify-between scroll-reveal stagger-1" style={{ marginBottom: 'clamp(0.35rem, 1vh, 0.75rem)', flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
-          <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
-            <span className="subheading" style={{ color: 'var(--text-dark-primary)' }}>[ WHAT WE DO ]</span>
-            <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>03 CAPABILITIES</span>
+        {/* Section Header */}
+        <div className="site-container flex-row items-end justify-between scroll-reveal stagger-1" style={{ marginBottom: 'clamp(0.35rem, 1vh, 0.75rem)', flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
+          <div className="flex-col" style={{ gap: '0.35rem' }}>
+            <span className="subheading" style={{ color: 'var(--text-dark-muted)', letterSpacing: '0.14em', fontWeight: 700 }}>
+              WHAT WE DO
+            </span>
           </div>
-          <div className="flex-row items-center" style={{ gap: '0.5rem' }}>
-            <span className="meta-tag" style={{ color: 'var(--text-dark-secondary)' }}>SCROLL HORIZONTALLY →</span>
-          </div>
+          <span className="meta-tag" style={{ color: 'var(--text-dark-muted)' }}>SCROLL HORIZONTALLY →</span>
         </div>
 
         {/* Section Headline */}
@@ -147,13 +146,7 @@ export default function WhatWeDoSection() {
               }}
               data-cursor="CAPABILITY"
             >
-              {/* Card Top Metadata */}
-              <div className="flex-row items-center justify-between" style={{ flexWrap: 'wrap', gap: '0.4rem' }}>
-                <span className="badge-tag" style={{ backgroundColor: 'rgba(0,0,0,0.06)', color: 'var(--text-dark-primary)', border: '1px solid var(--border-light-subtle)', padding: '0.3rem 0.7rem' }}>
-                  {cap.number} // {cap.title}
-                </span>
-                <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>{cap.timecode}</span>
-              </div>
+
 
               {/* Live Looping Video Frame */}
               <div

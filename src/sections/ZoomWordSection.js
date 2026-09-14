@@ -125,14 +125,13 @@ export default function ZoomWordSection() {
           }}
         >
           <div ref={metaLeftRef} className="flex-row items-center" style={{ gap: '0.75rem' }}>
-            <span className="subheading" style={{ color: 'var(--accent-orange)' }}>
-              [ 03 — EXPERTISE ]
+            <span className="subheading" style={{ color: 'var(--text-secondary)', letterSpacing: '0.14em', fontWeight: 700 }}>
+              OUR EXPERTISE
             </span>
-            <span className="timecode-tag">A MINT OF CREATIVITY</span>
           </div>
 
           <div ref={metaRightRef} className="flex-row items-center" style={{ gap: '0.5rem' }}>
-            <span className="meta-tag">IDEAS → VISUALS → IMPACT</span>
+            <span className="meta-tag" style={{ opacity: 0.7 }}>IDEAS → VISUALS → IMPACT</span>
           </div>
         </div>
 

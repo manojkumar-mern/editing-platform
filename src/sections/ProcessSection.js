@@ -87,18 +87,15 @@ export default function ProcessSection() {
   return (
     <section ref={sectionRef} className="section-wrapper section-wrapper--alt border-bottom" id="process">
       <div className="site-container flex-col" style={{ gap: 'var(--space-lg)' }}>
-        {/* Header Ribbon */}
-        <div className="flex-row items-center justify-between">
-          <div className="flex-row items-center" style={{ gap: '1rem' }}>
-            <span className="subheading">[ EDITORIAL ARCHITECTURE ]</span>
-            <span className="timecode-tag">SCENE 05 // WORKFLOW TIMELINE</span>
-          </div>
-          <span className="meta-tag">05 / THE PROCESS</span>
+        {/* Section Header */}
+        <div className="flex-col" style={{ gap: '0.35rem' }}>
+          <span className="subheading" style={{ color: 'var(--text-secondary)', letterSpacing: '0.14em', fontWeight: 700 }}>
+            OUR PROCESS
+          </span>
+          <h2 className="heading-lg" style={{ fontSize: 'clamp(1.75rem, 3.5vw, 3rem)' }}>
+            HOW WE TRANSFORM RAW FOOTAGE INTO IMPACT
+          </h2>
         </div>
-
-        <h2 className="heading-lg" style={{ fontSize: 'clamp(1.75rem, 3.5vw, 3rem)' }}>
-          HOW WE TRANSFORM RAW FOOTAGE INTO IMPACT
-        </h2>
 
         {/* Timeline Scrubbing Track Bar */}
         <div
@@ -139,34 +136,13 @@ export default function ProcessSection() {
               }}
               data-cursor="PROCESS"
             >
-              <div className="flex-row items-center justify-between">
-                <span className="badge-tag">{step.number} // {step.track}</span>
-                <span className="timecode-tag">{step.timecode}</span>
-              </div>
-
-              <div className="flex-col" style={{ margin: '1rem 0', gap: '0.35rem' }}>
+              <div className="flex-col" style={{ margin: '0.5rem 0', gap: '0.35rem' }}>
                 <h3 className="heading-md" style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.05em' }}>
                   {step.name}
                 </h3>
                 <p className="body-regular" style={{ fontSize: '0.9375rem', opacity: 0.85 }}>
                   {step.desc}
                 </p>
-              </div>
-
-              <div
-                className="flex-row items-center justify-between"
-                style={{
-                  paddingTop: '0.75rem',
-                  borderTop: '1px solid rgba(255,255,255,0.08)',
-                }}
-              >
-                <div className="flex-row items-center" style={{ gap: '0.25rem' }}>
-                  <div className="audio-bar" style={{ height: '10px' }}></div>
-                  <div className="audio-bar" style={{ height: '16px' }}></div>
-                  <div className="audio-bar" style={{ height: '8px' }}></div>
-                  <div className="audio-bar" style={{ height: '14px' }}></div>
-                </div>
-                <span className="meta-tag">TRACK 0{index + 1} // ACTIVE</span>
               </div>
             </div>
           ))}

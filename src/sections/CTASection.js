@@ -70,10 +70,11 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
       style={{ backgroundColor: 'var(--bg-light)', overflow: 'hidden' }}
     >
       <div className="site-container flex-col items-center" style={{ gap: 'var(--space-md)', textAlign: 'center' }}>
-        {/* Header Ribbon */}
-        <div className="flex-row items-center scroll-reveal stagger-1" style={{ gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <span className="subheading" style={{ color: 'var(--text-dark-primary)' }}>[ 05 — CONTACT ]</span>
-          <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>LET&apos;S TALK</span>
+        {/* Section Header */}
+        <div className="flex-col items-center scroll-reveal stagger-1" style={{ gap: '0.35rem', textAlign: 'center' }}>
+          <span className="subheading" style={{ color: 'var(--text-dark-muted)', letterSpacing: '0.14em', fontWeight: 700 }}>
+            CONTACT US
+          </span>
         </div>
 
         {/* Dual Infinite Scroll Marquee Bands directly above Contact Card */}
@@ -201,14 +202,7 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
             </a>
           </div>
 
-          <div
-            className="flex-row items-center justify-between"
-            style={{ width: '100%', borderTop: '1px solid var(--border-subtle)', paddingTop: '1rem', marginTop: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}
-          >
-            <span className="meta-tag">RESPONSE TIME: &lt; 2 HOURS</span>
-            <span className="timecode-tag">ATZYNC MEDIA STUDIO</span>
-            <span className="meta-tag">GLOBAL POST-PRODUCTION</span>
-          </div>
+
         </div>
       </div>
     </section>

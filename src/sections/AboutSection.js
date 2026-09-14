@@ -22,13 +22,11 @@ export default function AboutSection() {
       style={{ backgroundColor: 'var(--bg-light)', color: 'var(--text-dark-primary)', overflow: 'hidden' }}
     >
       <div className="site-container flex-col" style={{ gap: 'var(--space-xl)' }}>
-        {/* Header Ribbon */}
-        <div className="flex-row items-center justify-between scroll-reveal stagger-1" style={{ flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
-          <div className="flex-row items-center" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
-            <span className="subheading" style={{ color: 'var(--text-dark-primary)' }}>[ 02 — ABOUT ]</span>
-            <span className="timecode-tag" style={{ color: 'var(--text-dark-muted)' }}>STUDIO PHILOSOPHY</span>
-          </div>
-          <span className="meta-tag" style={{ color: 'var(--text-dark-secondary)' }}>CREATIVE VIDEO PRODUCTION &amp; DIGITAL MARKETING</span>
+        {/* Section Header */}
+        <div className="flex-col scroll-reveal stagger-1" style={{ gap: '0.35rem' }}>
+          <span className="subheading" style={{ color: 'var(--text-dark-muted)', letterSpacing: '0.14em', fontWeight: 700 }}>
+            ABOUT US
+          </span>
         </div>
 
         {/* Section Headline */}
@@ -112,7 +110,7 @@ export default function AboutSection() {
                   border: '1px solid rgba(255, 255, 255, 0.2)',
                 }}
               >
-                [ EDITING SUITE // MASTERING ]
+                EDITING SUITE &amp; MASTERING
               </span>
 
               <div

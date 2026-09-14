@@ -234,23 +234,7 @@ export default function ServicesSection({ onOpenProjectModal }) {
 
               {/* Card Content Layer */}
               <div className="service-card-content">
-                {/* Top Bar: Service Number Badge */}
-                <div className="service-card-top">
-                  <span
-                    className="badge-tag"
-                    style={{
-                      backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                      backdropFilter: 'blur(6px)',
-                      color: '#ffffff',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
-                      fontSize: '0.68rem',
-                      padding: '0.35rem 0.75rem',
-                      borderRadius: '20px',
-                    }}
-                  >
-                    {item.number} // {item.title.toUpperCase()}
-                  </span>
-                </div>
+
 
                 {/* Bottom Bar: Title & Hover-Revealed Details */}
                 <div className="service-card-bottom">

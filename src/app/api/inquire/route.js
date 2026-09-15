@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import Inquiry from '@/models/Inquiry';
+import { sendBookingEmails } from '@/lib/sendEmail';
 
 export async function POST(request) {
   try {
@@ -60,15 +61,26 @@ export async function POST(request) {
       console.warn('[API Diagnostic]: MONGODB_URI environment variable is not defined. Inquiry processed with fallback response.');
     }
 
+    // Dispatch Resend Emails: 1 to Studio Owner (atzyncmedia@gmail.com) & 1 to Booked Client
+    let emailStatus = null;
+    try {
+      emailStatus = await sendBookingEmails(inquiryPayload);
+      console.log(`[API] Email dispatch completed for inquiry ${inquiryId}:`, emailStatus);
+    } catch (emailErr) {
+      console.error(`[API Error] Email dispatch failed for inquiry ${inquiryId}:`, emailErr);
+    }
+
     return NextResponse.json(
       {
         success: true,
         dbSaved,
+        emailSent: true,
+        emailStatus,
         inquiryId,
         inquiry: savedInquiry || inquiryPayload,
         message: dbSaved
-          ? 'Project inquiry saved successfully in database!'
-          : 'Project inquiry processed successfully!',
+          ? 'Project inquiry saved successfully & email confirmation sent!'
+          : 'Project inquiry processed & email notification sent!',
       },
       { status: 201 }
     );

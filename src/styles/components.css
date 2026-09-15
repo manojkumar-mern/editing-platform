@@ -550,7 +550,7 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
-  padding-top: clamp(5.5rem, 9vh, 7.5rem);
+  padding-top: clamp(6.5rem, 11vh, 8.5rem);
   padding-bottom: var(--space-xl);
   display: flex;
   flex-direction: column;
@@ -876,6 +876,7 @@
     align-self: flex-start !important;
     text-align: left !important;
     width: 100% !important;
+    padding-left: 0 !important;
   }
 
   .hero-title-line-secondary {
@@ -927,6 +928,7 @@
     text-align: center !important;
     margin-left: auto !important;
     margin-right: auto !important;
+    padding-left: 0 !important;
   }
 
   .hero-cta-wrapper {

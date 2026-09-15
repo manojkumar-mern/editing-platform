@@ -1,21 +1,69 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { siteData } from '@/data/siteData';
 import { useSectionInView } from '@/lib/useSectionInView';
 import { soundManager } from '@/lib/audioManager';
 
 export default function AboutSection() {
   const [sectionRef, isInView] = useSectionInView({ rootMargin: '350px' });
-  const [activeFilter, setActiveFilter] = useState('normal'); // 'normal', 'lut', 'mono'
   const [tiltStyle, setTiltStyle] = useState({});
   const cardRef = useRef(null);
+  const statsRef = useRef(null);
 
   const stats = [
-    { value: '500+', label: 'EDITORIAL CUTS COMPLETED' },
-    { value: '40+', label: 'BRANDING FILMS MASTERED' },
+    { value: '3+', label: 'YEARS OF EXPERIENCE' },
+    { value: '50+', label: 'PROJECTS COMPLETED' },
     { value: '99.8%', label: 'CLIENT RETENTION RATE' },
   ];
+
+  const [animatedStats, setAnimatedStats] = useState(['0+', '0+', '0.0%']);
+
+  useEffect(() => {
+    if (!statsRef.current) return;
+
+    let animFrameId = null;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          const startTime = performance.now();
+          const duration = 1100; // ms ticker duration
+
+          const animate = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const ease = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+
+            const val1 = `${Math.floor(ease * 3)}+`;
+            const val2 = `${Math.floor(ease * 50)}+`;
+            const val3 = `${(ease * 99.8).toFixed(1)}%`;
+
+            setAnimatedStats([val1, val2, val3]);
+
+            if (progress < 1) {
+              animFrameId = requestAnimationFrame(animate);
+            } else {
+              setAnimatedStats(['3+', '50+', '99.8%']);
+            }
+          };
+
+          animFrameId = requestAnimationFrame(animate);
+        } else {
+          if (animFrameId) cancelAnimationFrame(animFrameId);
+          setAnimatedStats(['0+', '0+', '0.0%']);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(statsRef.current);
+
+    return () => {
+      if (animFrameId) cancelAnimationFrame(animFrameId);
+      observer.disconnect();
+    };
+  }, []);
 
   // Interactive 3D Card Tilt Effect following Cursor Position
   const handleMouseMove = (e) => {
@@ -96,130 +144,12 @@ export default function AboutSection() {
                   height: '100%',
                   objectFit: 'cover',
                   objectPosition: 'center top',
-                  filter: getImageFilter(),
-                  transition: 'filter 0.4s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
+                  transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
               />
             ) : (
               <div style={{ width: '100%', height: '100%', backgroundColor: '#07080c' }} />
             )}
-
-            {/* Gradient Overlay Vignette */}
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(180deg, rgba(7, 8, 12, 0.75) 0%, rgba(0, 0, 0, 0.05) 45%, rgba(7, 8, 12, 0.92) 100%)',
-                pointerEvents: 'none',
-                zIndex: 2,
-              }}
-            />
-
-            {/* Top Viewfinder HUD Header with Live Equalizer */}
-            <div
-              className="flex-row items-center justify-between"
-              style={{
-                position: 'absolute',
-                top: '1.25rem',
-                left: '1.25rem',
-                right: '1.25rem',
-                zIndex: 3,
-              }}
-            >
-              <div
-                className="flex-row items-center"
-                style={{
-                  gap: '0.5rem',
-                  backgroundColor: 'rgba(7, 8, 12, 0.8)',
-                  padding: '0.35rem 0.85rem',
-                  borderRadius: '20px',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                }}
-              >
-                <span className="status-dot" style={{ backgroundColor: '#ff3b30' }}></span>
-                <span className="timecode-tag" style={{ fontSize: '0.68rem', color: '#ffffff', letterSpacing: '0.08em' }}>
-                  REC • 4K PRORES
-                </span>
-              </div>
-
-              {/* Animated Audio Equalizer Bars */}
-              <div
-                className="flex-row items-end"
-                style={{
-                  gap: '3px',
-                  height: '18px',
-                  backgroundColor: 'rgba(7, 8, 12, 0.8)',
-                  padding: '0.35rem 0.65rem',
-                  borderRadius: '16px',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                }}
-              >
-                <div className="eq-bar"></div>
-                <div className="eq-bar"></div>
-                <div className="eq-bar"></div>
-                <div className="eq-bar"></div>
-              </div>
-            </div>
-
-            {/* Bottom Interactive LUT Grade Mode Switcher Line (Placed down at the bottom) */}
-            <div
-              style={{
-                position: 'absolute',
-                bottom: '1.25rem',
-                left: '1.25rem',
-                right: '1.25rem',
-                zIndex: 3,
-              }}
-            >
-              <div
-                className="flex-row items-center justify-between"
-                style={{
-                  backgroundColor: 'rgba(7, 8, 12, 0.85)',
-                  backdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(255, 255, 255, 0.18)',
-                  borderRadius: '16px',
-                  padding: '0.35rem 0.6rem',
-                }}
-              >
-                <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.65)', paddingLeft: '0.5rem', fontWeight: 600, letterSpacing: '0.08em' }}>
-                  LUT GRADE:
-                </span>
-                <div className="flex-row items-center" style={{ gap: '0.25rem' }}>
-                  {[
-                    { id: 'normal', label: 'RAW' },
-                    { id: 'lut', label: 'CINEMA' },
-                    { id: 'mono', label: 'MONO' },
-                  ].map((mode) => {
-                    const isActive = activeFilter === mode.id;
-                    return (
-                      <button
-                        key={mode.id}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          soundManager.playClick();
-                          setActiveFilter(mode.id);
-                        }}
-                        style={{
-                          padding: '0.3rem 0.65rem',
-                          fontSize: '0.65rem',
-                          fontWeight: 700,
-                          borderRadius: '12px',
-                          border: isActive ? '1px solid rgba(255,255,255,0.5)' : '1px solid transparent',
-                          backgroundColor: isActive ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-                          color: isActive ? '#ffffff' : 'rgba(255,255,255,0.65)',
-                          cursor: 'pointer',
-                          transition: 'all 0.2s ease',
-                        }}
-                      >
-                        {mode.label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Right Column: Title Header + Statement + Founder Credit */}
@@ -258,56 +188,60 @@ export default function AboutSection() {
               {siteData.about.description}
             </p>
 
-            {/* Founder Highlight Box */}
+            {/* Founder / Managing Director Highlight Card */}
             <div
               className="scroll-reveal stagger-4"
               style={{
-                backgroundColor: 'rgba(0,0,0,0.04)',
-                border: '1px solid var(--border-light-subtle)',
-                borderRadius: '14px',
-                padding: '1rem 1.25rem',
+                background: 'linear-gradient(135deg, rgba(7, 8, 12, 0.05) 0%, rgba(7, 8, 12, 0.02) 100%)',
+                border: '1px solid rgba(7, 8, 12, 0.12)',
+                borderLeft: '4px solid #07080c',
+                borderRadius: '16px',
+                padding: '1.1rem 1.4rem',
                 display: 'flex',
                 alignItems: 'center',
+                justifyContent: 'space-between',
                 gap: '1rem',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.04)',
+                position: 'relative',
+                overflow: 'hidden',
               }}
             >
-              <div
-                style={{
-                  width: '46px',
-                  height: '46px',
-                  borderRadius: '50%',
-                  backgroundColor: '#000000',
-                  color: '#ffffff',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: '700',
-                  fontSize: '1rem',
-                  fontFamily: 'var(--font-display)',
-                  flexShrink: 0,
-                  boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
-                }}
-              >
-                TM
-              </div>
-              <div className="flex-col" style={{ gap: '0.2rem' }}>
-                <span style={{ fontWeight: '700', fontSize: '0.9375rem', color: 'var(--text-dark-primary)' }}>
+              <div className="flex-col" style={{ gap: '0.25rem' }}>
+                <span style={{ fontWeight: '800', fontSize: '1.05rem', color: 'var(--text-dark-primary)', letterSpacing: '0.02em' }}>
                   {siteData.founder.name}
                 </span>
-                <span className="subheading" style={{ fontSize: '0.75rem', color: 'var(--text-dark-secondary)' }}>
+                <span className="subheading" style={{ fontSize: '0.75rem', color: 'var(--text-dark-secondary)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                   {siteData.founder.role}
                 </span>
               </div>
+
+              <span
+                style={{
+                  fontSize: '0.625rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.12em',
+                  padding: '0.35rem 0.75rem',
+                  borderRadius: '20px',
+                  backgroundColor: 'rgba(7, 8, 12, 0.06)',
+                  color: 'rgba(7, 8, 12, 0.75)',
+                  border: '1px solid rgba(7, 8, 12, 0.12)',
+                  textTransform: 'uppercase',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0,
+                }}
+              >
+                EXECUTIVE LEAD
+              </span>
             </div>
 
             {/* Stats Grid */}
-            <div className="grid-3col border-top" style={{ paddingTop: 'var(--space-md)', gap: '1rem', borderTopColor: 'var(--border-light-subtle)' }}>
+            <div ref={statsRef} className="grid-3col border-top" style={{ paddingTop: 'var(--space-md)', gap: '1rem', borderTopColor: 'var(--border-light-subtle)' }}>
               {stats.map((stat, i) => (
-                <div key={i} className={`flex-col scroll-reveal stagger-${i + 3}`} style={{ gap: '0.25rem' }}>
-                  <span className="display-title" style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', color: 'var(--text-dark-primary)' }}>
-                    {stat.value}
+                <div key={i} className={`flex-col items-center scroll-reveal stagger-${i + 3}`} style={{ gap: '0.25rem', textAlign: 'center' }}>
+                  <span className="display-title" style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', color: 'var(--text-dark-primary)', fontFamily: 'var(--font-heading)', fontWeight: 800 }}>
+                    {animatedStats[i] || stat.value}
                   </span>
-                  <span className="meta-tag" style={{ fontSize: '0.6875rem', color: 'var(--text-dark-muted)' }}>
+                  <span className="meta-tag" style={{ fontSize: '0.6875rem', color: 'var(--text-dark-muted)', textAlign: 'center' }}>
                     {stat.label}
                   </span>
                 </div>

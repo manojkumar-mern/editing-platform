@@ -164,36 +164,18 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
           {/* Header Metadata Ribbon */}
           <div
             ref={metaRef}
-            className="flex-row items-center justify-between hero-meta-ribbon"
-            style={{ opacity: isLoaded ? 1 : 0, flexWrap: 'wrap', gap: '0.5rem 1rem' }}
+            className="flex-row items-center justify-end hero-meta-ribbon"
+            style={{ opacity: isLoaded ? 1 : 0, flexWrap: 'wrap', gap: '0.5rem 1rem', justifyContent: 'flex-end' }}
           >
             <div className="badge-tag" style={{ fontSize: 'clamp(0.65rem, 2.2vw, 0.75rem)' }}>
-              <span>CREATIVE VIDEO EDITING STUDIO</span>
+              <span>CREATIVE VIDEO PRODUCTION STUDIO</span>
             </div>
 
-            <div className="flex-row items-center hero-meta-contact" style={{ gap: '0.75rem 1.25rem', flexWrap: 'wrap' }}>
-              <span className="timecode-tag" style={{ fontSize: 'clamp(0.65rem, 2.2vw, 0.75rem)' }}>
-                PH: {siteData.contact.phone} / {siteData.contact.phoneSecondary}
-              </span>
-              <a
-                href={`mailto:${siteData.contact.email}`}
-                style={{
-                  fontSize: 'clamp(0.65rem, 2.2vw, 0.75rem)',
-                  fontFamily: 'var(--font-mono)',
-                  color: 'rgba(255, 255, 255, 0.95)',
-                  textDecoration: 'none',
-                  textTransform: 'lowercase',
-                  letterSpacing: '0.04em',
-                  transition: 'opacity 0.2s ease',
-                }}
-              >
-                [ {siteData.contact.email} ]
-              </a>
-            </div>
+
           </div>
 
           {/* Oversized Kinetic Display Title with Typewriter Effect & Staggered Zig-Zag Offset */}
-          <div ref={titleWrapperRef} className="hero-display-wrapper film-crop-marks" style={{ marginTop: 'var(--space-xs)', position: 'relative' }}>
+          <div ref={titleWrapperRef} className="hero-display-wrapper film-crop-marks" style={{ marginTop: 'clamp(0.75rem, 2vh, 1.75rem)', position: 'relative' }}>
             {/* Line 1: ATZYNC starting at left */}
             <div className="hero-title-line flex-row items-center" style={{ width: '100%', justifyContent: 'flex-start' }}>
               <h1 className="display-hero" style={{ opacity: isLoaded ? 1 : 0, display: 'inline-flex', letterSpacing: '0.02em' }}>
@@ -276,7 +258,7 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
           <div
             ref={statementRef}
             className="grid-2col items-center hero-statement-grid"
-            style={{ opacity: isLoaded ? 1 : 0, marginTop: 'var(--space-xs)' }}
+            style={{ opacity: isLoaded ? 1 : 0, marginTop: 'clamp(2.25rem, 5vh, 4rem)' }}
           >
             <div className="flex-col hero-text-col" style={{ gap: '0.5rem' }}>
               <span className="subheading" style={{ color: 'var(--text-primary)' }}>
@@ -287,8 +269,8 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
               </h2>
             </div>
 
-            <p className="body-lead hero-paragraph" style={{ opacity: 0.85 }}>
-              Transforming raw concept footage into high-impact editorial stories. Precision choreography, color grading, and digital marketing suites engineered for modern screens.
+            <p className="body-lead hero-paragraph" style={{ opacity: 0.85, paddingLeft: 'clamp(0rem, 3.5vw, 2.5rem)' }}>
+              Crafting high-impact video edits, cinematic storytelling, and high-converting ad campaigns engineered to amplify your brand across modern screens.
             </p>
           </div>
 
@@ -296,7 +278,7 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
           <div
             ref={ctaRef}
             className="flex-row items-center justify-between hero-cta-wrapper"
-            style={{ opacity: isLoaded ? 1 : 0, marginTop: 'var(--space-xs)', flexWrap: 'wrap', gap: '1.25rem' }}
+            style={{ opacity: isLoaded ? 1 : 0, marginTop: 'clamp(2rem, 4.5vh, 3.5rem)', flexWrap: 'wrap', gap: '1.25rem' }}
           >
             <div className="flex-row items-center hero-cta-group" style={{ gap: '1rem', flexWrap: 'wrap' }}>
               <a href="#work" className="btn-primary" onClick={() => soundManager.playWhoosh()}>
@@ -311,20 +293,7 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
               >
                 START A PROJECT
               </button>
-              <button
-                onClick={() => {
-                  soundManager.playSubBoom();
-                  if (onOpenModal) onOpenModal({ title: 'ATZYNC SHOWREEL 2026', videoSrc: '/videos/showreel.mp4', posterSrc: '/images/hero-poster.webp' });
-                }}
-                className="btn-secondary flex-row items-center"
-                style={{ gap: '0.5rem' }}
-                data-cursor="PLAY REEL"
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                  <polygon points="5 3 19 12 5 21 5 3" />
-                </svg>
-                <span>WATCH SHOWREEL</span>
-              </button>
+
             </div>
 
             {/* Scroll Cue Indicator */}

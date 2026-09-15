@@ -353,8 +353,8 @@ I just submitted a project inquiry on your website:
               <h2 className="heading-lg" style={{ fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', textTransform: 'uppercase' }}>
                 INQUIRY RECEIVED!
               </h2>
-              <p className="body-regular" style={{ maxWidth: '520px', opacity: 0.85, fontSize: '0.9rem' }}>
-                Thank you, <strong>{formData.clientName}</strong>! Your project inquiry has been received. Our lead editor will review your scope and contact you within <strong>&lt; 2 Hours</strong>.
+              <p className="body-regular" style={{ maxWidth: '520px', opacity: 0.88, fontSize: '0.9rem', lineHeight: 1.55 }}>
+                Thank you, <strong>{formData.clientName}</strong>! Your project inquiry has been registered and a confirmation email has been sent to <strong>{formData.email}</strong>. Our creative director will review your brief and reach out shortly.
               </p>
             </div>
 

@@ -34,15 +34,17 @@ export default function ServicesSection({ onOpenProjectModal }) {
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      // Pin the section during the zoom phase so top cards do not scroll off-screen
+      const cards = cardsGridRef.current.querySelectorAll('.service-card');
+
+      // Pin section during zoom phase so cards assemble seamlessly on screen
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=75%',
+          end: '+=85%',
           pin: true,
           pinSpacing: true,
-          scrub: 0.5,
+          scrub: 0.6,
           anticipatePin: 1,
           invalidateOnRefresh: true,
         },
@@ -63,7 +65,7 @@ export default function ServicesSection({ onOpenProjectModal }) {
         0
       );
 
-      // 2. Fade out the zooming word as it expands past the viewport edges
+      // 2. Fade out zooming word as it expands past screen bounds
       tl.to(
         zoomTextRef.current,
         {
@@ -71,10 +73,10 @@ export default function ServicesSection({ onOpenProjectModal }) {
           duration: 0.25,
           ease: 'power1.out',
         },
-        0.55
+        0.50
       );
 
-      // 3. Completely hide zoom stage overlay so cards are 100% interactive
+      // 3. Hide zoom stage overlay
       tl.to(
         zoomStageRef.current,
         {
@@ -82,24 +84,47 @@ export default function ServicesSection({ onOpenProjectModal }) {
           duration: 0.25,
           ease: 'power1.out',
         },
-        0.65
+        0.60
       );
 
-      // 4. Cards reveal quickly while text is zooming (starts at 0.30, full at 0.75)
-      tl.fromTo(
-        cardsGridRef.current,
-        {
-          autoAlpha: 0.15,
-          scale: 0.96,
-        },
-        {
-          autoAlpha: 1,
-          scale: 1,
-          ease: 'power2.out',
-          duration: 0.45,
-        },
-        0.30
-      );
+      // 4. Staggered card entrance: sliding smoothly from side corners and bottom-up
+      cards.forEach((card, idx) => {
+        const col = idx % 3;
+        let startX = 0;
+        let startY = 60;
+
+        if (col === 0) {
+          startX = -70; // Left column cards slide in from left corner
+          startY = 45;
+        } else if (col === 1) {
+          startX = 0;   // Center column cards slide up from bottom
+          startY = 70;
+        } else {
+          startX = 70;  // Right column cards slide in from right corner
+          startY = 45;
+        }
+
+        tl.fromTo(
+          card,
+          {
+            opacity: 0,
+            x: startX,
+            y: startY,
+            scale: 0.92,
+            filter: 'blur(6px)',
+          },
+          {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            scale: 1,
+            filter: 'blur(0px)',
+            ease: 'power3.out',
+            duration: 0.55,
+          },
+          0.30 + (idx * 0.08)
+        );
+      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -204,7 +229,7 @@ export default function ServicesSection({ onOpenProjectModal }) {
         </div>
       </div>
 
-      {/* 3-Column Medium Sized Cards Grid (NO Header - Cards Only, Revealed Directly Behind Zoom) */}
+      {/* 3-Column Medium Sized Cards Grid */}
       <div className="site-container flex-col" style={{ width: '100%', position: 'relative', zIndex: 10 }}>
         <div
           ref={cardsGridRef}
@@ -217,7 +242,7 @@ export default function ServicesSection({ onOpenProjectModal }) {
           {serviceItems.map((item, idx) => (
             <div
               key={item.id}
-              className={`service-card film-crop-marks scroll-reveal stagger-${(idx % 5) + 1}`}
+              className="service-card film-crop-marks"
             >
               {/* Background Image Visual */}
               <img
@@ -234,7 +259,6 @@ export default function ServicesSection({ onOpenProjectModal }) {
 
               {/* Card Content Layer */}
               <div className="service-card-content">
-
                 {/* Bottom Bar: Title & Hover-Revealed Details */}
                 <div className="service-card-bottom">
                   <h3 className="service-card-title">{item.title}</h3>

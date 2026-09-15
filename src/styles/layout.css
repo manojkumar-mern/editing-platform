@@ -24,6 +24,12 @@
   border-bottom: 1px solid var(--border-subtle);
   background-color: var(--bg-primary);
   overflow: hidden;
+  scroll-margin-top: clamp(80px, 9vh, 100px);
+}
+
+section[id],
+div[id] {
+  scroll-margin-top: clamp(80px, 9vh, 100px);
 }
 
 .section-wrapper--alt {

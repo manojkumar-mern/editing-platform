@@ -190,63 +190,36 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
             </h2>
           </div>
 
-          <p ref={textRef} className="body-lead" style={{ maxWidth: '680px', opacity: 0.88, fontSize: 'clamp(0.9rem, 1.2vw, 1.125rem)', color: 'rgba(255, 255, 255, 0.85)', textShadow: '0 2px 15px rgba(0,0,0,0.7)' }}>
-            Connect directly with Atzyncmedia for video production, digital marketing, commercial ads, or Meta ad campaigns.
+          <p ref={textRef} className="body-lead" style={{ maxWidth: '720px', opacity: 0.88, fontSize: 'clamp(0.9rem, 1.2vw, 1.125rem)', color: 'rgba(255, 255, 255, 0.85)', textShadow: '0 2px 15px rgba(0,0,0,0.7)' }}>
+            Connect directly with Atzyncmedia for branding films, commercial ads, real estate video editing, or AI video production.
           </p>
 
           <div
             className="flex-row"
-            style={{ gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center', marginTop: '0.5rem', width: '100%' }}
+            style={{ gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center', marginTop: '0.75rem', width: '100%' }}
           >
             <button
               onClick={() => {
                 soundManager.playClick();
                 if (onOpenProjectModal) onOpenProjectModal();
               }}
-              className="btn-primary"
-              style={{ padding: '0.85rem 1.6rem', fontSize: '0.8125rem', maxWidth: '100%', cursor: 'pointer' }}
+              className="btn-secondary"
+              style={{
+                padding: '0.95rem 2.4rem',
+                fontSize: '0.875rem',
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                maxWidth: '100%',
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                borderColor: 'rgba(255, 255, 255, 0.3)',
+                color: '#ffffff',
+                backdropFilter: 'blur(8px)',
+                cursor: 'pointer',
+              }}
               data-cursor="START PROJECT"
             >
               START A PROJECT →
             </button>
-
-            <a
-              href={siteData.contact.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => soundManager.playClick()}
-              className="btn-secondary"
-              style={{
-                padding: '0.85rem 1.6rem',
-                fontSize: '0.8125rem',
-                maxWidth: '100%',
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                borderColor: 'rgba(255, 255, 255, 0.3)',
-                color: '#ffffff',
-                backdropFilter: 'blur(8px)',
-              }}
-              data-cursor="WHATSAPP US"
-            >
-              WHATSAPP US → ({siteData.contact.phone})
-            </a>
-
-            <a
-              href={`mailto:${siteData.contact.email}`}
-              onClick={() => soundManager.playClick()}
-              className="btn-secondary"
-              style={{
-                padding: '0.85rem 1.6rem',
-                fontSize: '0.8125rem',
-                maxWidth: '100%',
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                borderColor: 'rgba(255, 255, 255, 0.3)',
-                color: '#ffffff',
-                backdropFilter: 'blur(8px)',
-              }}
-              data-cursor="EMAIL"
-            >
-              EMAIL: <span style={{ textTransform: 'lowercase', letterSpacing: '0.03em' }}>{siteData.contact.email}</span>
-            </a>
           </div>
         </div>
       </div>

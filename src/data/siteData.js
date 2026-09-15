@@ -21,6 +21,8 @@ export const siteData = {
     whatsappUrl: "https://wa.me/919597127710",
     whatsappUrlSecondary: "https://wa.me/918838737598",
     email: "atzyncmedia@gmail.com",
+    youtubeUrl: "https://youtube.com/@atzyncmedia",
+    linkedinUrl: "https://linkedin.com/company/atzyncmedia",
     location: "Global Remote Studio",
   },
   services: [
@@ -62,7 +64,7 @@ export const siteData = {
   ],
   processSteps: [
     { number: "01", name: "WE CREATE", desc: "Deconstructing brand vision, scripting, and filming visual assets." },
-    { number: "02", name: "WE PROMOTE", desc: "Performance editing, Meta ads optimization, and social media handling." },
+    { number: "02", name: "WE PROMOTE", desc: "Performance editing, commercial ads optimization, and social media handling." },
     { number: "03", name: "WE GROW BRANDS", desc: "Scaling audience reach, retention, and digital brand authority." }
   ]
 };

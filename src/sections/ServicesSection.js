@@ -218,10 +218,6 @@ export default function ServicesSection({ onOpenProjectModal }) {
             <div
               key={item.id}
               className={`service-card film-crop-marks scroll-reveal stagger-${(idx % 5) + 1}`}
-              onClick={() => {
-                soundManager.playClick();
-                if (onOpenProjectModal) onOpenProjectModal(item.title);
-              }}
             >
               {/* Background Image Visual */}
               <img
@@ -239,7 +235,6 @@ export default function ServicesSection({ onOpenProjectModal }) {
               {/* Card Content Layer */}
               <div className="service-card-content">
 
-
                 {/* Bottom Bar: Title & Hover-Revealed Details */}
                 <div className="service-card-bottom">
                   <h3 className="service-card-title">{item.title}</h3>
@@ -253,30 +248,6 @@ export default function ServicesSection({ onOpenProjectModal }) {
                     <p className="body-regular" style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.72)', lineHeight: 1.45 }}>
                       {item.description}
                     </p>
-
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        soundManager.playClick();
-                        if (onOpenProjectModal) onOpenProjectModal(item.title);
-                      }}
-                      className="btn-secondary"
-                      style={{
-                        padding: '0.5rem 1rem',
-                        fontSize: '0.72rem',
-                        alignSelf: 'flex-start',
-                        marginTop: '0.25rem',
-                        backgroundColor: '#ffffff',
-                        color: '#000000',
-                        fontWeight: 700,
-                        border: 'none',
-                        borderRadius: '20px',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      INQUIRE THIS SERVICE →
-                    </button>
                   </div>
                 </div>
               </div>

@@ -47,7 +47,7 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
       style={{
         position: 'relative',
         backgroundColor: '#07080c',
-        backgroundImage: "linear-gradient(180deg, rgba(7, 8, 12, 0.88) 0%, rgba(7, 8, 12, 0.72) 50%, rgba(7, 8, 12, 0.94) 100%), url('/images/contact-bg.jpg')",
+        backgroundImage: "linear-gradient(180deg, rgba(7, 8, 12, 0.80) 0%, rgba(7, 8, 12, 0.60) 50%, rgba(7, 8, 12, 0.85) 100%), url('/images/contact-bg.jpg')",
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center center',
         backgroundSize: 'cover',

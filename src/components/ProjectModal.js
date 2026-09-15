@@ -310,12 +310,8 @@ I just submitted a project inquiry on your website:
               />
             </div>
 
-            {/* Submit Button & Trust Ribbon */}
-            <div className="flex-row items-center justify-between" style={{ flexWrap: 'wrap', gap: '0.75rem', paddingTop: '0.5rem', borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: '0.25rem' }}>
-              <span className="meta-tag" style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.08em' }}>
-                ⚡ SECURE &amp; CONFIDENTIAL // RESPONSE &lt; 2 HOURS
-              </span>
-
+            {/* Submit Button */}
+            <div className="flex-row items-center justify-end" style={{ paddingTop: '0.5rem', borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: '0.25rem' }}>
               <button
                 type="submit"
                 disabled={loading}

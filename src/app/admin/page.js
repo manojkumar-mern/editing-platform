@@ -289,9 +289,18 @@ export default function AdminPage() {
         <div className="admin-login-container">
           <div className="admin-card" style={{ width: '100%', maxWidth: '420px', padding: '2.5rem' }}>
             <div className="flex-col items-center" style={{ gap: '0.5rem', marginBottom: '2rem', textAlign: 'center' }}>
-              <div className="admin-logo" style={{ fontSize: '1.5rem' }}>
-                ATZYNC <span className="admin-logo-badge">ADMIN</span>
-              </div>
+              <Link href="/" className="brand-logo flex-row items-center" style={{ textDecoration: 'none' }}>
+                <img
+                  src="/logo-white.webp"
+                  alt="ATZYNC Media"
+                  style={{
+                    height: '54px',
+                    width: 'auto',
+                    objectFit: 'contain',
+                    display: 'block',
+                  }}
+                />
+              </Link>
               <p style={{ fontSize: '0.8125rem', color: '#a0a0a8', marginTop: '0.25rem' }}>
                 Secure Studio Booking & Analytics System
               </p>
@@ -334,7 +343,7 @@ export default function AdminPage() {
                     type={showPassword ? 'text' : 'password'}
                     required
                     className="admin-input"
-                    style={{ paddingRight: '2.5rem' }}
+                    style={{ paddingRight: '4.25rem' }}
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                     placeholder="Enter admin password"
@@ -344,14 +353,19 @@ export default function AdminPage() {
                     onClick={() => setShowPassword(!showPassword)}
                     style={{
                       position: 'absolute',
-                      right: '0.75rem',
+                      right: '0.6rem',
                       top: '50%',
                       transform: 'translateY(-50%)',
-                      background: 'none',
-                      border: 'none',
-                      color: 'rgba(255, 255, 255, 0.5)',
+                      background: 'rgba(255, 255, 255, 0.15)',
+                      border: '1px solid rgba(255, 255, 255, 0.25)',
+                      borderRadius: '4px',
+                      color: '#ffffff',
                       cursor: 'pointer',
-                      fontSize: '0.75rem',
+                      fontSize: '0.6875rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.08em',
+                      padding: '0.25rem 0.55rem',
+                      zIndex: 2,
                     }}
                   >
                     {showPassword ? 'HIDE' : 'SHOW'}
@@ -390,9 +404,19 @@ export default function AdminPage() {
         {/* CLEAN LEFT SIDEBAR */}
         <aside className="admin-sidebar">
           {/* Logo Branding */}
-          <div className="admin-logo" style={{ fontSize: '1.25rem', marginBottom: '2.25rem' }}>
-            ATZYNC <span className="admin-logo-badge">STUDIO</span>
-          </div>
+          <Link href="/" className="brand-logo flex-row items-center" style={{ marginBottom: '2rem', paddingLeft: '0.25rem', paddingTop: '0.25rem', textDecoration: 'none' }}>
+            <img
+              src="/logo-white.webp"
+              alt="ATZYNC Media"
+              style={{
+                height: '48px',
+                width: 'auto',
+                maxWidth: '190px',
+                objectFit: 'contain',
+                display: 'block',
+              }}
+            />
+          </Link>
 
           {/* Navigation Links */}
           <div className="flex-col" style={{ gap: '0.5rem', flex: 1 }}>
@@ -627,7 +651,6 @@ export default function AdminPage() {
                         <th>Client & Company</th>
                         <th>Contact Information</th>
                         <th>Service Requested</th>
-                        <th>Budget & Timeline</th>
                         <th>Status</th>
                         <th style={{ textAlign: 'right' }}>Actions</th>
                       </tr>
@@ -635,13 +658,13 @@ export default function AdminPage() {
                     <tbody>
                       {loadingBookings ? (
                         <tr>
-                          <td colSpan="7" style={{ textAlign: 'center', padding: '3rem' }}>
+                          <td colSpan="6" style={{ textAlign: 'center', padding: '3rem' }}>
                             Loading bookings registry...
                           </td>
                         </tr>
                       ) : filteredBookings.length === 0 ? (
                         <tr>
-                          <td colSpan="7" style={{ textAlign: 'center', padding: '3rem', color: '#a0a0a8' }}>
+                          <td colSpan="6" style={{ textAlign: 'center', padding: '3rem', color: '#a0a0a8' }}>
                             No booking records found matching your filters.
                           </td>
                         </tr>
@@ -680,11 +703,6 @@ export default function AdminPage() {
                             </td>
 
                             <td style={{ fontWeight: 600 }}>{b.serviceType}</td>
-
-                            <td>
-                              <div style={{ fontSize: '0.8125rem', color: '#ffffff', fontWeight: 600 }}>{b.budgetRange}</div>
-                              <div style={{ fontSize: '0.75rem', color: '#a0a0a8' }}>{b.timeline}</div>
-                            </td>
 
                             <td>
                               <select

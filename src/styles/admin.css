@@ -419,14 +419,229 @@ select option {
   background: rgba(255, 59, 48, 0.25);
 }
 
+/* Base styles for new admin components */
+.admin-mobile-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.admin-sidebar-header {
+  width: 100%;
+}
+
+.admin-sidebar-nav-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+}
+
+.admin-nav-heading {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+.admin-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-search-input {
+  width: 220px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.8125rem;
+}
+
+.admin-content-body {
+  padding: 2.25rem 2.5rem;
+  flex: 1;
+}
+
+.admin-filter-tabs-wrapper {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.25rem;
+  border-radius: 8px;
+  gap: 0.25rem;
+}
+
+.admin-filter-tab-btn {
+  padding: 0.45rem 0.85rem;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: transparent;
+  color: #a0a0a8;
+  transition: all 0.2s ease;
+}
+
+.admin-filter-tab-btn.active {
+  background: #ffffff;
+  color: #000000;
+}
+
+/* RESPONSIVE MOBILE OPTIMIZATION (< 992px & < 680px) */
 @media (max-width: 992px) {
   .admin-layout-wrapper {
     flex-direction: column;
   }
+
   .admin-sidebar {
     width: 100%;
     min-width: 100%;
     height: auto;
+    position: sticky;
+    top: 0;
+    z-index: 120;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    background: #0d0d10;
+  }
+
+  .admin-mobile-toggle {
+    display: flex;
+  }
+
+  .admin-sidebar-nav-container {
+    display: none;
+    padding-top: 1rem;
+    margin-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 0.5rem;
+  }
+
+  .admin-sidebar-nav-container.open {
+    display: flex !important;
+  }
+
+  .admin-navbar {
+    padding: 1rem 1.25rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
     position: relative;
+    top: 0;
+    z-index: 80;
+  }
+
+  .admin-nav-title-group {
+    width: 100%;
+  }
+
+  .admin-nav-heading {
+    font-size: 1.05rem;
+    text-align: left;
+  }
+
+  .admin-nav-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .admin-search-input {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .admin-nav-actions .admin-btn {
+    flex: 1 1 calc(50% - 0.25rem);
+    justify-content: center;
+    font-size: 0.75rem;
+    padding: 0.65rem 0.75rem;
+    text-align: center;
+  }
+
+  .admin-content-body {
+    padding: 1.25rem 1rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .stat-val {
+    font-size: 1.75rem !important;
+  }
+
+  .stat-label {
+    font-size: 0.65rem !important;
+  }
+
+  .admin-dashboard-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
+  .admin-filter-tabs-wrapper {
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    background: transparent !important;
+    padding: 0 !important;
+    gap: 0.35rem !important;
+  }
+
+  .admin-filter-tab-btn {
+    flex: 1 1 calc(33.33% - 0.35rem) !important;
+    text-align: center !important;
+    justify-content: center !important;
+    font-size: 0.68rem !important;
+    padding: 0.5rem 0.4rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 6px !important;
+  }
+
+  .admin-table-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+
+  .admin-modal-overlay {
+    padding: 0.75rem !important;
+  }
+
+  .admin-modal-content {
+    padding: 1.5rem 1.15rem !important;
+    border-radius: 14px !important;
+    max-height: 90vh !important;
+  }
+
+  .admin-modal-content .grid-2col {
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .admin-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-login-container {
+    padding: 1rem 0.75rem !important;
+  }
+
+  .admin-login-container .admin-card {
+    padding: 1.5rem 1.15rem !important;
   }
 }

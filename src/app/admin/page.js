@@ -17,6 +17,7 @@ export default function AdminPage() {
 
   // Active Tab state: 'overview' | 'table'
   const [activeTab, setActiveTab] = useState('overview');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Dashboard Data state
   const [bookings, setBookings] = useState([]);
@@ -403,29 +404,42 @@ export default function AdminPage() {
       <div className="admin-layout-wrapper">
         {/* CLEAN LEFT SIDEBAR */}
         <aside className="admin-sidebar">
-          {/* Logo Branding */}
-          <Link href="/" className="brand-logo flex-row items-center" style={{ marginBottom: '2rem', paddingLeft: '0.25rem', paddingTop: '0.25rem', textDecoration: 'none' }}>
-            <img
-              src="/logo-white.webp"
-              alt="ATZYNC Media"
-              style={{
-                height: '48px',
-                width: 'auto',
-                maxWidth: '190px',
-                objectFit: 'contain',
-                display: 'block',
-              }}
-            />
-          </Link>
+          {/* Logo Branding + Mobile Hamburger Toggle */}
+          <div className="admin-sidebar-header flex-row items-center justify-between">
+            <Link href="/" className="brand-logo flex-row items-center" style={{ textDecoration: 'none' }}>
+              <img
+                src="/logo-white.webp"
+                alt="ATZYNC Media"
+                style={{
+                  height: '42px',
+                  width: 'auto',
+                  maxWidth: '180px',
+                  objectFit: 'contain',
+                  display: 'block',
+                }}
+              />
+            </Link>
+
+            <button
+              className="admin-mobile-toggle"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle Navigation Menu"
+            >
+              <span>{mobileMenuOpen ? '✕' : '☰'}</span>
+            </button>
+          </div>
 
           {/* Navigation Links */}
-          <div className="flex-col" style={{ gap: '0.5rem', flex: 1 }}>
+          <div className={`admin-sidebar-nav-container flex-col ${mobileMenuOpen ? 'open' : ''}`}>
             <span className="stat-label" style={{ fontSize: '0.65rem', marginBottom: '0.35rem', paddingLeft: '0.5rem' }}>
               NAVIGATION MENU
             </span>
 
             <button
-              onClick={() => setActiveTab('overview')}
+              onClick={() => {
+                setActiveTab('overview');
+                setMobileMenuOpen(false);
+              }}
               className={`sidebar-nav-btn ${activeTab === 'overview' ? 'active' : ''}`}
             >
               <span>📊</span>
@@ -433,7 +447,10 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setActiveTab('table')}
+              onClick={() => {
+                setActiveTab('table');
+                setMobileMenuOpen(false);
+              }}
               className={`sidebar-nav-btn ${activeTab === 'table' ? 'active' : ''}`}
             >
               <span>📋</span>
@@ -441,9 +458,12 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setIsAddModalOpen(true)}
+              onClick={() => {
+                setIsAddModalOpen(true);
+                setMobileMenuOpen(false);
+              }}
               className="sidebar-nav-btn"
-              style={{ color: '#ffffff', marginTop: '0.5rem' }}
+              style={{ color: '#ffffff', marginTop: '0.25rem' }}
             >
               <span>➕</span>
               <span>Add New Booking</span>
@@ -452,25 +472,26 @@ export default function AdminPage() {
             {/* BACK TO SITE LINK IN SIDEBAR */}
             <Link
               href="/"
+              onClick={() => setMobileMenuOpen(false)}
               className="sidebar-nav-btn"
               style={{ color: '#a0a0a8', textDecoration: 'none', marginTop: 'auto' }}
             >
               <span>←</span>
               <span>Back to Website</span>
             </Link>
-          </div>
 
-          {/* Sidebar Footer User Info */}
-          <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '1.25rem', marginTop: '1rem' }}>
-            <div style={{ fontSize: '0.75rem', color: '#ffffff', fontWeight: 600 }}>
-              {adminUser?.email || 'atzyncmedia@gmail.com'}
+            {/* Sidebar Footer User Info */}
+            <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '1rem', marginTop: '1rem' }}>
+              <div style={{ fontSize: '0.75rem', color: '#ffffff', fontWeight: 600 }}>
+                {adminUser?.email || 'atzyncmedia@gmail.com'}
+              </div>
+              <button
+                onClick={handleLogout}
+                style={{ background: 'none', border: 'none', color: '#ff453a', fontSize: '0.725rem', cursor: 'pointer', padding: 0, marginTop: '0.4rem', fontWeight: 600 }}
+              >
+                Log out session →
+              </button>
             </div>
-            <button
-              onClick={handleLogout}
-              style={{ background: 'none', border: 'none', color: '#ff453a', fontSize: '0.725rem', cursor: 'pointer', padding: 0, marginTop: '0.4rem', fontWeight: 600 }}
-            >
-              Log out session →
-            </button>
           </div>
         </aside>
 
@@ -478,18 +499,17 @@ export default function AdminPage() {
         <main className="admin-main-content">
           {/* Top Navbar Header */}
           <header className="admin-navbar">
-            <div className="flex-row items-center" style={{ gap: '1rem' }}>
-              <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', letterSpacing: '0.02em' }}>
+            <div className="flex-row items-center admin-nav-title-group" style={{ gap: '1rem' }}>
+              <h1 className="admin-nav-heading">
                 {activeTab === 'overview' ? 'Dashboard Analytics & Insights' : 'Bookings & Inquiries Registry'}
               </h1>
             </div>
 
-            <div className="flex-row items-center" style={{ gap: '1rem' }}>
+            <div className="flex-row items-center admin-nav-actions" style={{ gap: '0.75rem' }}>
               {activeTab === 'table' && (
                 <input
                   type="text"
-                  className="admin-input"
-                  style={{ width: '220px', padding: '0.45rem 0.85rem', fontSize: '0.8125rem' }}
+                  className="admin-input admin-search-input"
                   placeholder="Search clients, email, ID..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -497,7 +517,7 @@ export default function AdminPage() {
               )}
 
               <button onClick={() => setIsAddModalOpen(true)} className="admin-btn admin-btn-primary">
-                + ADD NEW BOOKING
+                + ADD BOOKING
               </button>
 
               <Link href="/" className="admin-btn admin-btn-secondary" style={{ textDecoration: 'none' }}>
@@ -507,7 +527,7 @@ export default function AdminPage() {
           </header>
 
           {/* Workspace Body Container */}
-          <div style={{ padding: '2.25rem 2.5rem', flex: 1 }}>
+          <div className="admin-content-body">
             {/* Metric Stats Cards Row */}
             <div className="admin-stats-grid">
               <div className="admin-card flex-col justify-between">
@@ -543,7 +563,7 @@ export default function AdminPage() {
 
             {/* TAB 1: DASHBOARD OVERVIEW ONLY */}
             {activeTab === 'overview' && (
-              <div className="grid-2col" style={{ gap: '1.75rem' }}>
+              <div className="grid-2col admin-dashboard-grid" style={{ gap: '1.75rem' }}>
                 {/* Chart 1: STYLISH METALLIC BAR GRAPH */}
                 <div className="admin-card">
                   <div className="flex-row items-center justify-between" style={{ marginBottom: '1rem' }}>
@@ -610,7 +630,7 @@ export default function AdminPage() {
             {/* TAB 2: BOOKINGS REGISTRY TABLE ONLY */}
             {activeTab === 'table' && (
               <div className="admin-card">
-                <div className="flex-row items-center justify-between" style={{ flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
+                <div className="flex-row items-center justify-between admin-table-header" style={{ flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
                   <div>
                     <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff' }}>Bookings & Inquiries Registry</h2>
                     <p style={{ fontSize: '0.8125rem', color: '#a0a0a8', marginTop: '0.2rem' }}>
@@ -619,22 +639,12 @@ export default function AdminPage() {
                   </div>
 
                   {/* Status Filter Tabs */}
-                  <div className="flex-row" style={{ background: 'rgba(255, 255, 255, 0.05)', padding: '0.25rem', borderRadius: '8px', gap: '0.25rem' }}>
+                  <div className="flex-row admin-filter-tabs-wrapper">
                     {['all', 'pending', 'reviewed', 'contacted', 'archived'].map((st) => (
                       <button
                         key={st}
                         onClick={() => setFilterStatus(st)}
-                        style={{
-                          padding: '0.45rem 0.85rem',
-                          borderRadius: '6px',
-                          border: 'none',
-                          fontSize: '0.75rem',
-                          fontWeight: 700,
-                          textTransform: 'uppercase',
-                          cursor: 'pointer',
-                          background: filterStatus === st ? '#ffffff' : 'transparent',
-                          color: filterStatus === st ? '#000000' : '#a0a0a8',
-                        }}
+                        className={`admin-filter-tab-btn ${filterStatus === st ? 'active' : ''}`}
                       >
                         {st}
                       </button>

@@ -35,73 +35,70 @@ export default function ServicesSection({ onOpenProjectModal }) {
 
     const ctx = gsap.context(() => {
       const cards = cardsGridRef.current.querySelectorAll('.service-card');
+      const isMobile = window.innerWidth < 768;
+      const targetScale = isMobile ? 22 : 45; // Smooth GPU-optimized scale for mobile and desktop
 
       // Pin section during zoom phase so cards assemble seamlessly on screen
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=85%',
+          end: isMobile ? '+=70%' : '+=85%',
           pin: true,
           pinSpacing: true,
-          scrub: 0.6,
+          scrub: isMobile ? 0.2 : 0.4, // Responsive tight scrub for zero lag/shaking
           anticipatePin: 1,
           invalidateOnRefresh: true,
         },
       });
 
-      // 1. Kinetic Typography Zoom on "SERVICES" (scale 1x -> 65x)
+      // 1. Kinetic Typography Zoom on "SERVICES" (scale 1x -> 22x/45x with pure opacity fade)
       tl.fromTo(
         zoomTextRef.current,
         {
           scale: 1,
-          autoAlpha: 1,
+          opacity: 1,
         },
         {
-          scale: 65,
-          ease: 'power2.in',
+          scale: targetScale,
+          opacity: 0,
+          ease: 'power1.in',
           duration: 1.0,
         },
         0
       );
 
-      // 2. Fade out zooming word as it expands past screen bounds
-      tl.to(
-        zoomTextRef.current,
-        {
-          autoAlpha: 0,
-          duration: 0.25,
-          ease: 'power1.out',
-        },
-        0.50
-      );
-
-      // 3. Hide zoom stage overlay
-      tl.to(
+      // 2. Smoothly fade out zoom stage overlay
+      tl.fromTo(
         zoomStageRef.current,
         {
-          autoAlpha: 0,
-          duration: 0.25,
+          opacity: 1,
+        },
+        {
+          opacity: 0,
+          duration: 0.4,
           ease: 'power1.out',
         },
-        0.60
+        0.45
       );
 
-      // 4. Staggered card entrance: sliding smoothly from side corners and bottom-up
+      // 3. Staggered card entrance: sliding smoothly from side corners and bottom-up
       cards.forEach((card, idx) => {
-        const col = idx % 3;
+        const col = isMobile ? 0 : idx % 3;
         let startX = 0;
-        let startY = 60;
+        let startY = 40;
 
-        if (col === 0) {
-          startX = -70; // Left column cards slide in from left corner
-          startY = 45;
-        } else if (col === 1) {
-          startX = 0;   // Center column cards slide up from bottom
-          startY = 70;
-        } else {
-          startX = 70;  // Right column cards slide in from right corner
-          startY = 45;
+        if (!isMobile) {
+          if (col === 0) {
+            startX = -60;
+            startY = 35;
+          } else if (col === 1) {
+            startX = 0;
+            startY = 50;
+          } else {
+            startX = 60;
+            startY = 35;
+          }
         }
 
         tl.fromTo(
@@ -110,19 +107,17 @@ export default function ServicesSection({ onOpenProjectModal }) {
             opacity: 0,
             x: startX,
             y: startY,
-            scale: 0.92,
-            filter: 'blur(6px)',
+            scale: 0.95,
           },
           {
             opacity: 1,
             x: 0,
             y: 0,
             scale: 1,
-            filter: 'blur(0px)',
-            ease: 'power3.out',
-            duration: 0.55,
+            ease: 'power2.out',
+            duration: 0.45,
           },
-          0.30 + (idx * 0.08)
+          0.25 + (idx * (isMobile ? 0.05 : 0.07))
         );
       });
     }, sectionRef);
@@ -164,6 +159,8 @@ export default function ServicesSection({ onOpenProjectModal }) {
           justifyContent: 'center',
           overflow: 'hidden',
           backgroundColor: '#0a0a0e',
+          transform: 'translateZ(0)',
+          willChange: 'opacity',
         }}
       >
         {/* Subtle Ambient Radial Glow */}
@@ -197,6 +194,8 @@ export default function ServicesSection({ onOpenProjectModal }) {
             transformOrigin: '50% 50%',
             transform: 'translate3d(0, 0, 0)',
             pointerEvents: 'none',
+            backfaceVisibility: 'hidden',
+            WebkitFontSmoothing: 'antialiased',
           }}
         >
           <svg
@@ -239,10 +238,15 @@ export default function ServicesSection({ onOpenProjectModal }) {
             willChange: 'transform, opacity',
           }}
         >
-          {serviceItems.map((item, idx) => (
+          {serviceItems.map((item) => (
             <div
               key={item.id}
               className="service-card film-crop-marks"
+              onClick={() => {
+                soundManager.playClick();
+                if (onOpenProjectModal) onOpenProjectModal(item.title);
+              }}
+              style={{ cursor: 'pointer' }}
             >
               {/* Background Image Visual */}
               <img

@@ -47,17 +47,43 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
       style={{
         position: 'relative',
         backgroundColor: '#07080c',
-        backgroundImage: "linear-gradient(180deg, rgba(7, 8, 12, 0.80) 0%, rgba(7, 8, 12, 0.60) 50%, rgba(7, 8, 12, 0.85) 100%), url('/images/contact-bg.jpg')",
-        backgroundAttachment: 'fixed',
-        backgroundPosition: 'center center',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
         color: '#ffffff',
         overflow: 'hidden',
         paddingTop: 'clamp(3.5rem, 8vh, 6rem)',
         paddingBottom: 'clamp(3.5rem, 8vh, 6rem)',
       }}
     >
+      {/* Rock-solid Hardware Accelerated Background Image Layer (Zero Mobile Shift/Jitter) */}
+      <div
+        className="cta-bg-layer"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          overflow: 'hidden',
+          pointerEvents: 'none',
+        }}
+      >
+        <img
+          src="/images/contact-bg.jpg"
+          alt=""
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center',
+            transform: 'translateZ(0)',
+            willChange: 'transform',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, rgba(7, 8, 12, 0.85) 0%, rgba(7, 8, 12, 0.65) 50%, rgba(7, 8, 12, 0.90) 100%)',
+          }}
+        />
+      </div>
 
       {/* Subtle Ambient Radial Glow */}
       <div
@@ -97,15 +123,15 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
           </h2>
         </div>
 
-        {/* Dual Infinite Scroll Marquee Bands directly above Contact Card */}
-        <div className="flex-col scroll-reveal stagger-2" style={{ gap: '0.75rem', width: '100vw', marginLeft: 'calc(-50vw + 50%)', margin: '0.5rem 0 1.5rem 0', overflow: 'hidden' }}>
+        {/* Dual Infinite Scroll Marquee Bands */}
+        <div className="flex-col scroll-reveal stagger-2" style={{ gap: '0.75rem', width: '100%', margin: '0.5rem 0 1.5rem 0', overflow: 'hidden' }}>
           <div ref={marquee1Ref} style={{ willChange: 'transform', width: '100%' }}>
             <div
               className="flex-row items-center marquee-band-left"
               style={{
                 gap: '2rem',
                 whiteSpace: 'nowrap',
-                fontSize: 'clamp(1.75rem, 4.5vw, 4rem)',
+                fontSize: 'clamp(1.4rem, 4.5vw, 4rem)',
                 fontFamily: 'var(--font-display)',
                 fontWeight: 800,
                 letterSpacing: '0.05em',
@@ -127,7 +153,7 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
               style={{
                 gap: '2rem',
                 whiteSpace: 'nowrap',
-                fontSize: 'clamp(1.75rem, 4.5vw, 4rem)',
+                fontSize: 'clamp(1.4rem, 4.5vw, 4rem)',
                 fontFamily: 'var(--font-display)',
                 fontWeight: 800,
                 letterSpacing: '0.05em',
@@ -145,13 +171,13 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
           </div>
         </div>
 
-        {/* Action Content Layer (Clean floating letters & buttons over fixed image) */}
+        {/* Action Content Layer */}
         <div
           className="flex-col items-center scroll-reveal stagger-2"
           style={{
             width: '100%',
             maxWidth: '1000px',
-            padding: 'clamp(1.5rem, 3.5vw, 3rem) var(--space-md)',
+            padding: 'clamp(1rem, 3.5vw, 3rem) var(--space-md)',
             gap: 'var(--space-md)',
             position: 'relative',
           }}
@@ -171,7 +197,7 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
           </div>
 
           <div className="flex-col items-center" style={{ gap: '0.5rem' }}>
-            <span className="subheading" style={{ fontSize: '1.1rem', color: 'rgba(255, 255, 255, 0.85)' }}>
+            <span className="subheading" style={{ fontSize: 'clamp(0.85rem, 2.5vw, 1.1rem)', color: 'rgba(255, 255, 255, 0.85)', textAlign: 'center' }}>
               HAVE A PROJECT IN MIND? LET&apos;S TALK.
             </span>
             <h2
@@ -184,13 +210,14 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
                 maxWidth: '100%',
                 color: '#ffffff',
                 textShadow: '0 4px 30px rgba(0,0,0,0.8)',
+                textAlign: 'center',
               }}
             >
               LET&apos;S CREATE SOMETHING GREAT.
             </h2>
           </div>
 
-          <p ref={textRef} className="body-lead" style={{ maxWidth: '720px', opacity: 0.88, fontSize: 'clamp(0.9rem, 1.2vw, 1.125rem)', color: 'rgba(255, 255, 255, 0.85)', textShadow: '0 2px 15px rgba(0,0,0,0.7)' }}>
+          <p ref={textRef} className="body-lead" style={{ maxWidth: '720px', opacity: 0.88, fontSize: 'clamp(0.85rem, 1.2vw, 1.125rem)', color: 'rgba(255, 255, 255, 0.85)', textShadow: '0 2px 15px rgba(0,0,0,0.7)', textAlign: 'center' }}>
             Connect directly with Atzyncmedia for branding films, commercial ads, real estate video editing, or AI video production.
           </p>
 
@@ -205,8 +232,8 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
               }}
               className="btn-secondary"
               style={{
-                padding: '0.95rem 2.4rem',
-                fontSize: '0.875rem',
+                padding: '0.85rem 2.2rem',
+                fontSize: '0.82rem',
                 fontWeight: 700,
                 letterSpacing: '0.08em',
                 maxWidth: '100%',

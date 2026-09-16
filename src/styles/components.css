@@ -1010,6 +1010,7 @@
   #cta {
     padding-top: 3.5rem !important;
     padding-bottom: 3.5rem !important;
+    background-attachment: scroll !important;
   }
 
   #cta .marquee-band-left,

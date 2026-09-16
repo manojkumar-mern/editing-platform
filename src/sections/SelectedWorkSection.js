@@ -128,22 +128,23 @@ export default function SelectedWorkSection({ onOpenModal }) {
         }}
       >
         {/* Section Header */}
-        <div className="flex-row items-center justify-between scroll-reveal stagger-1" style={{ zIndex: 10, flexWrap: 'wrap', gap: '0.5rem 1rem', width: '100%' }}>
-          <h2 className="heading-lg" style={{ fontSize: 'clamp(1.5rem, 3.5vw, 3rem)', color: 'var(--text-dark-primary)' }}>
+        <div className="flex-row items-center justify-between scroll-reveal stagger-1" style={{ zIndex: 10, gap: '0.5rem 1rem', width: '100%', alignItems: 'center' }}>
+          <h2 className="heading-lg" style={{ fontSize: 'clamp(1.15rem, 3.2vw, 3rem)', color: 'var(--text-dark-primary)', margin: 0 }}>
             FEATURED PORTFOLIO
           </h2>
-          <div className="flex-row items-center justify-end" style={{ gap: '0.75rem', marginLeft: 'auto' }}>
-            <span className="meta-tag" style={{ color: 'var(--text-dark-muted)', fontWeight: 600 }}>0{activeProjectIndex + 1} / 0{projects.length}</span>
+          <div className="flex-row items-center justify-end" style={{ gap: '0.45rem', marginLeft: 'auto', flexShrink: 0 }}>
+            <span className="meta-tag" style={{ color: 'var(--text-dark-muted)', fontWeight: 600, fontSize: '0.7rem' }}>0{activeProjectIndex + 1} / 0{projects.length}</span>
             <Link
               href="/work"
               className="btn-secondary"
               style={{
-                padding: '0.45rem 1.1rem',
-                fontSize: '0.75rem',
+                padding: '0.35rem 0.8rem',
+                fontSize: '0.68rem',
                 borderRadius: '20px',
                 backgroundColor: 'var(--bg-primary)',
                 color: 'var(--text-primary)',
                 borderColor: 'var(--border-strong)',
+                whiteSpace: 'nowrap',
               }}
               onClick={() => soundManager.playClick()}
             >

@@ -1265,6 +1265,23 @@
   z-index: 50;
 }
 
+.portfolio-center-red-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  user-select: none;
+  pointer-events: none;
+  margin: 0 0.15rem;
+}
+
+.portfolio-center-red-arrow svg {
+  width: 14px;
+  height: 14px;
+  stroke: #ff3b30;
+  stroke-width: 2.5px;
+}
+
 .portfolio-vertical-scroll-label {
   display: flex;
   align-items: center;
@@ -1282,12 +1299,6 @@
   user-select: none;
   pointer-events: none;
   white-space: nowrap;
-}
-
-.portfolio-vertical-scroll-label .portfolio-scroll-arrow {
-  color: #ff3b30;
-  font-weight: 900;
-  display: inline-block;
 }
 
 .portfolio-arrow-controls {
@@ -1371,8 +1382,9 @@
     max-width: none !important;
   }
 
-  /* On mobile: Hide vertical text label to maximize video card width & size */
-  .portfolio-vertical-scroll-label {
+  /* On mobile: Hide vertical text label and center red arrow to maximize video card width & size */
+  .portfolio-vertical-scroll-label,
+  .portfolio-center-red-arrow {
     display: none !important;
   }
 

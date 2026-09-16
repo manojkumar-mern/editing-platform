@@ -411,9 +411,9 @@ export default function AdminPage() {
                 src="/logo-white.webp"
                 alt="ATZYNC Media"
                 style={{
-                  height: '42px',
+                  height: '38px',
                   width: 'auto',
-                  maxWidth: '180px',
+                  maxWidth: '175px',
                   objectFit: 'contain',
                   display: 'block',
                 }}
@@ -431,7 +431,7 @@ export default function AdminPage() {
 
           {/* Navigation Links */}
           <div className={`admin-sidebar-nav-container flex-col ${mobileMenuOpen ? 'open' : ''}`}>
-            <span className="stat-label" style={{ fontSize: '0.65rem', marginBottom: '0.35rem', paddingLeft: '0.5rem' }}>
+            <span className="stat-label" style={{ fontSize: '0.68rem', marginBottom: '0.65rem', paddingLeft: '0.5rem', color: '#888892' }}>
               NAVIGATION MENU
             </span>
 

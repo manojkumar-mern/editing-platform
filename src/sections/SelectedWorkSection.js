@@ -395,9 +395,16 @@ export default function SelectedWorkSection({ onOpenModal }) {
               </button>
             </div>
 
-            {/* Vertical Scroll Text on RIGHT side of Scroll Bar */}
+            {/* 2. Middle: Center Red Down Arrow Indicator between Left Bar and Right Text */}
+            <div className="portfolio-center-red-arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff3b30" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 5v14M19 12l-7 7-7-7" />
+              </svg>
+            </div>
+
+            {/* 3. Right: Vertical Scroll Text Label */}
             <div className="portfolio-vertical-scroll-label">
-              <span>SCROLL TO EXPLORE MORE <span className="portfolio-scroll-arrow">↓</span></span>
+              <span>SCROLL TO EXPLORE MORE</span>
             </div>
           </div>
         </div>

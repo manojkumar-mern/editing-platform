@@ -397,10 +397,7 @@ export default function SelectedWorkSection({ onOpenModal }) {
 
             {/* Vertical Scroll Text on RIGHT side of Scroll Bar */}
             <div className="portfolio-vertical-scroll-label">
-              <span>SCROLL TO EXPLORE MORE</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 5v14M19 12l-7 7-7-7" />
-              </svg>
+              <span>SCROLL TO EXPLORE MORE <span className="portfolio-scroll-arrow">↓</span></span>
             </div>
           </div>
         </div>

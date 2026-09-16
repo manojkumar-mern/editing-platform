@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { gsap } from '@/lib/gsap';
 import { siteData } from '@/data/siteData';
 import { soundManager } from '@/lib/audioManager';
@@ -8,6 +8,7 @@ import { useSectionInView } from '@/lib/useSectionInView';
 
 export default function ServicesSection({ onOpenProjectModal }) {
   const [sectionRef, isInView] = useSectionInView({ rootMargin: '350px' });
+  const [activeCardId, setActiveCardId] = useState(null);
   const zoomStageRef = useRef(null);
   const zoomTextRef = useRef(null);
   const cardsGridRef = useRef(null);
@@ -238,49 +239,87 @@ export default function ServicesSection({ onOpenProjectModal }) {
             willChange: 'transform, opacity',
           }}
         >
-          {serviceItems.map((item) => (
-            <div
-              key={item.id}
-              className="service-card film-crop-marks"
-              onClick={() => {
-                soundManager.playClick();
-                if (onOpenProjectModal) onOpenProjectModal(item.title);
-              }}
-              style={{ cursor: 'pointer' }}
-            >
-              {/* Background Image Visual */}
-              <img
-                src={isInView ? item.image : undefined}
-                alt={item.title}
-                loading="lazy"
-                decoding="async"
-                className="service-card-image"
-                style={{ opacity: isInView ? 1 : 0, transition: 'opacity 0.5s ease' }}
-              />
+          {serviceItems.map((item) => {
+            const isActive = activeCardId === item.id;
+            return (
+              <div
+                key={item.id}
+                className={`service-card film-crop-marks ${isActive ? 'is-active' : ''}`}
+                onClick={() => {
+                  soundManager.playClick();
+                  const isMobileOrTablet = typeof window !== 'undefined' && window.innerWidth < 1024;
+                  if (isMobileOrTablet) {
+                    if (isActive) {
+                      if (onOpenProjectModal) onOpenProjectModal(item.title);
+                    } else {
+                      setActiveCardId(item.id);
+                    }
+                  } else {
+                    if (onOpenProjectModal) onOpenProjectModal(item.title);
+                  }
+                }}
+                style={{ cursor: 'pointer' }}
+              >
+                {/* Background Image Visual */}
+                <img
+                  src={isInView ? item.image : undefined}
+                  alt={item.title}
+                  loading="lazy"
+                  decoding="async"
+                  className="service-card-image"
+                  style={{ opacity: isInView ? 1 : 0, transition: 'opacity 0.5s ease' }}
+                />
 
-              {/* Vignette Overlay */}
-              <div className="service-card-overlay" />
+                {/* Vignette Overlay */}
+                <div className="service-card-overlay" />
 
-              {/* Card Content Layer */}
-              <div className="service-card-content">
-                {/* Bottom Bar: Title & Hover-Revealed Details */}
-                <div className="service-card-bottom">
-                  <h3 className="service-card-title">{item.title}</h3>
+                {/* Card Content Layer */}
+                <div className="service-card-content">
+                  {/* Bottom Bar: Title & Hover-Revealed Details */}
+                  <div className="service-card-bottom">
+                    <h3 className="service-card-title">{item.title}</h3>
 
-                  {/* Revealed on Hover */}
-                  <div className="service-card-details">
-                    <p className="body-lead" style={{ fontSize: '0.86rem', color: 'rgba(255, 255, 255, 0.95)', lineHeight: 1.45, fontWeight: 500 }}>
-                      {item.tagline}
-                    </p>
+                    {/* Revealed on Hover / Active */}
+                    <div className="service-card-details">
+                      <p className="body-lead" style={{ fontSize: '0.86rem', color: 'rgba(255, 255, 255, 0.95)', lineHeight: 1.45, fontWeight: 500 }}>
+                        {item.tagline}
+                      </p>
 
-                    <p className="body-regular" style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.72)', lineHeight: 1.45 }}>
-                      {item.description}
-                    </p>
+                      <p className="body-regular" style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.72)', lineHeight: 1.45 }}>
+                        {item.description}
+                      </p>
+
+                      <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center' }}>
+                        <span
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.35rem',
+                            padding: '0.35rem 0.85rem',
+                            fontSize: '0.7rem',
+                            borderRadius: '20px',
+                            backgroundColor: '#ffffff',
+                            color: '#0a0a0e',
+                            fontWeight: 700,
+                            letterSpacing: '0.04em',
+                            textTransform: 'uppercase',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            soundManager.playClick();
+                            if (onOpenProjectModal) onOpenProjectModal(item.title);
+                          }}
+                        >
+                          START PROJECT →
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

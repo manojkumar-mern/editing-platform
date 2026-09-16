@@ -91,9 +91,9 @@
 /* Mobile Typography Rules (< 768px) */
 @media (max-width: 767px) {
   .display-hero {
-    font-size: clamp(1.85rem, 8.5vw, 3.25rem) !important;
-    line-height: 1.05 !important;
-    letter-spacing: -0.01em !important;
+    font-size: clamp(2.4rem, 10.5vw, 3.25rem) !important;
+    line-height: 0.98 !important;
+    letter-spacing: 0.02em !important;
     word-break: normal !important;
     overflow-wrap: break-word !important;
     white-space: normal !important;

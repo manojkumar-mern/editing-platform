@@ -344,54 +344,64 @@ export default function SelectedWorkSection({ onOpenModal }) {
             })}
           </div>
 
-          {/* Right Side Vertical Arrow Controls OUTSIDE card */}
-          <div className="portfolio-arrow-controls" aria-label="Portfolio Navigation">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handlePrevCard();
-              }}
-              disabled={activeProjectIndex === 0}
-              aria-label="Previous Project (Move Card Down)"
-              className="portfolio-arrow-btn"
-              title="Previous Project"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 15l-6-6-6 6" />
-              </svg>
-            </button>
+          {/* Right Side Vertical Arrow Controls + Vertical Scroll Label OUTSIDE card */}
+          <div className="portfolio-sidebar-controls-wrap">
+            <div className="portfolio-arrow-controls" aria-label="Portfolio Navigation">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePrevCard();
+                }}
+                disabled={activeProjectIndex === 0}
+                aria-label="Previous Project (Move Card Down)"
+                className="portfolio-arrow-btn"
+                title="Previous Project"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 15l-6-6-6 6" />
+                </svg>
+              </button>
 
-            <div className="flex-col items-center" style={{ gap: '5px' }}>
-              {projects.map((_, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleSelectCard(idx);
-                  }}
-                  aria-label={`Go to project ${idx + 1}`}
-                  className={`portfolio-step-dot ${activeProjectIndex === idx ? 'active' : ''}`}
-                />
-              ))}
+              <div className="flex-col items-center" style={{ gap: '5px' }}>
+                {projects.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSelectCard(idx);
+                    }}
+                    aria-label={`Go to project ${idx + 1}`}
+                    className={`portfolio-step-dot ${activeProjectIndex === idx ? 'active' : ''}`}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNextCard();
+                }}
+                disabled={activeProjectIndex === projects.length - 1}
+                aria-label="Next Project (Move Card Up)"
+                className="portfolio-arrow-btn"
+                title="Next Project"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
             </div>
 
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleNextCard();
-              }}
-              disabled={activeProjectIndex === projects.length - 1}
-              aria-label="Next Project (Move Card Up)"
-              className="portfolio-arrow-btn"
-              title="Next Project"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 9l6 6 6-6" />
+            {/* Vertical Scroll Text on RIGHT side of Scroll Bar */}
+            <div className="portfolio-vertical-scroll-label">
+              <span>SCROLL TO EXPLORE MORE</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 5v14M19 12l-7 7-7-7" />
               </svg>
-            </button>
+            </div>
           </div>
         </div>
 

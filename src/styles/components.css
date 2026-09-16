@@ -1254,7 +1254,46 @@
   border-radius: 24px;
 }
 
-/* Vertical Arrow Navigation Controls OUTSIDE cards */
+/* Vertical Arrow Navigation Controls & Vertical Scroll Label OUTSIDE cards */
+.portfolio-sidebar-controls-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  height: 100%;
+  max-height: 480px;
+  flex-shrink: 0;
+  z-index: 50;
+}
+
+.portfolio-vertical-scroll-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  height: 100%;
+  max-height: 200px;
+  writing-mode: vertical-rl;
+  text-transform: uppercase;
+  font-family: var(--font-heading, sans-serif);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--text-dark-muted, #777780);
+  opacity: 0.85;
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.portfolio-vertical-scroll-label svg {
+  width: 12px;
+  height: 12px;
+  stroke: var(--accent-orange, #ff5500);
+  flex-shrink: 0;
+  display: inline-block;
+}
+
 .portfolio-arrow-controls {
   position: relative;
   flex-shrink: 0;
@@ -1334,6 +1373,15 @@
   .cards-deck-stage {
     width: calc(100% - 44px);
     max-width: none;
+  }
+
+  .portfolio-sidebar-controls-wrap {
+    gap: 0.35rem;
+  }
+
+  .portfolio-vertical-scroll-label {
+    font-size: 0.52rem;
+    letter-spacing: 0.16em;
   }
 
   .portfolio-arrow-controls {

@@ -20,26 +20,7 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      // 1. Hardware Accelerated Fixed Viewport Parallax Background on Scroll (Zero Shaking on Mobile)
-      gsap.fromTo(
-        bgImageRef.current,
-        {
-          yPercent: -15,
-        },
-        {
-          yPercent: 15,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 0.1, // Tight hardware scrub for smooth 100% fixed feel without mobile jitter
-            invalidateOnRefresh: true,
-          },
-        }
-      );
-
-      // 2. Title entrance animation
+      // Title entrance animation
       gsap.fromTo(
         titleRef.current,
         { opacity: 0, y: 35, scale: 0.96 },
@@ -70,26 +51,27 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
         backgroundColor: '#07080c',
         color: '#ffffff',
         overflow: 'hidden',
+        clipPath: 'inset(0px)',
+        WebkitClipPath: 'inset(0px)',
         paddingTop: 'clamp(3.5rem, 8vh, 6rem)',
         paddingBottom: 'clamp(3.5rem, 8vh, 6rem)',
       }}
     >
-      {/* Rock-solid Fixed Viewport Background Image Layer (Parallax Fixed Effect on Scroll) */}
+      {/* Rock-solid Fixed Viewport Background Image Layer (Zero Movement / 100% Fixed Window Effect) */}
       <div
         className="cta-bg-layer"
         style={{
-          position: 'absolute',
-          top: '-15%',
+          position: 'fixed',
+          top: 0,
           left: 0,
           width: '100%',
-          height: '130%',
+          height: '100vh',
+          height: '100dvh',
           zIndex: 0,
-          overflow: 'hidden',
           pointerEvents: 'none',
         }}
       >
         <img
-          ref={bgImageRef}
           src="/images/contact-bg.jpg"
           alt=""
           style={{
@@ -97,8 +79,6 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
             height: '100%',
             objectFit: 'cover',
             objectPosition: 'center',
-            transform: 'translateZ(0)',
-            willChange: 'transform',
           }}
         />
         <div

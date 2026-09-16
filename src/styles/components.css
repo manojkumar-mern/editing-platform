@@ -1096,6 +1096,10 @@
 }
 
 @media (max-width: 1024px) {
+  .service-card {
+    cursor: pointer;
+  }
+
   .service-card.card-centered-col2 {
     grid-column: 1 / -1;
   }

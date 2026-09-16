@@ -246,19 +246,12 @@ export default function ServicesSection({ onOpenProjectModal }) {
                 key={item.id}
                 className={`service-card film-crop-marks ${isActive ? 'is-active' : ''}`}
                 onClick={() => {
-                  soundManager.playClick();
                   const isMobileOrTablet = typeof window !== 'undefined' && window.innerWidth < 1024;
                   if (isMobileOrTablet) {
-                    if (isActive) {
-                      if (onOpenProjectModal) onOpenProjectModal(item.title);
-                    } else {
-                      setActiveCardId(item.id);
-                    }
-                  } else {
-                    if (onOpenProjectModal) onOpenProjectModal(item.title);
+                    soundManager.playClick();
+                    setActiveCardId((prev) => (prev === item.id ? null : item.id));
                   }
                 }}
-                style={{ cursor: 'pointer' }}
               >
                 {/* Background Image Visual */}
                 <img
@@ -288,32 +281,6 @@ export default function ServicesSection({ onOpenProjectModal }) {
                       <p className="body-regular" style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.72)', lineHeight: 1.45 }}>
                         {item.description}
                       </p>
-
-                      <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center' }}>
-                        <span
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '0.35rem',
-                            padding: '0.35rem 0.85rem',
-                            fontSize: '0.7rem',
-                            borderRadius: '20px',
-                            backgroundColor: '#ffffff',
-                            color: '#0a0a0e',
-                            fontWeight: 700,
-                            letterSpacing: '0.04em',
-                            textTransform: 'uppercase',
-                            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                          }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            soundManager.playClick();
-                            if (onOpenProjectModal) onOpenProjectModal(item.title);
-                          }}
-                        >
-                          START PROJECT →
-                        </span>
-                      </div>
                     </div>
                   </div>
                 </div>

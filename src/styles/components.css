@@ -786,8 +786,8 @@
   .hero-section {
     min-height: 100dvh !important;
     min-height: 100vh !important;
-    padding-top: calc(var(--navbar-height, 64px) + 1rem) !important;
-    padding-bottom: 1.75rem !important;
+    padding-top: calc(var(--navbar-height, 60px) + 0.35rem) !important;
+    padding-bottom: 1rem !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
@@ -809,7 +809,7 @@
     justify-content: space-between !important;
     align-items: center !important;
     flex: 1 !important;
-    gap: 1rem !important;
+    gap: 0.45rem !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
@@ -826,6 +826,8 @@
 
   .hero-meta-ribbon .badge-tag {
     margin: 0 auto !important;
+    font-size: 0.65rem !important;
+    padding: 0.35rem 0.85rem !important;
   }
 
   /* Disable reversing letter effect on mobile view for a normal, upright, professional heading */
@@ -846,15 +848,15 @@
     text-align: center !important;
     align-items: center !important;
     justify-content: center !important;
-    margin-top: 0.5rem !important;
-    margin-bottom: 0.5rem !important;
+    margin-top: 0.25rem !important;
+    margin-bottom: 0.25rem !important;
   }
 
   .display-hero {
-    font-size: clamp(2.3rem, 11vw, 3.6rem) !important;
+    font-size: clamp(2.1rem, 9.5vw, 3.2rem) !important;
     line-height: 1.05 !important;
     text-align: center !important;
-    letter-spacing: 0.03em !important;
+    letter-spacing: 0.02em !important;
     justify-content: center !important;
   }
 
@@ -878,8 +880,8 @@
   }
 
   .hero-statement-grid {
-    margin-top: 0.75rem !important;
-    gap: 1rem !important;
+    margin-top: 0.35rem !important;
+    gap: 0.45rem !important;
     width: 100% !important;
     text-align: center !important;
     align-items: center !important;
@@ -890,40 +892,40 @@
     width: 100% !important;
     align-items: center !important;
     text-align: center !important;
-    gap: 0.5rem !important;
+    gap: 0.3rem !important;
   }
 
   .hero-text-col .subheading {
-    font-size: 0.78rem !important;
+    font-size: 0.72rem !important;
     font-weight: 700 !important;
-    letter-spacing: 0.12em !important;
+    letter-spacing: 0.1em !important;
     color: var(--text-primary) !important;
     text-align: center !important;
   }
 
   .hero-text-col .heading-md {
-    font-size: clamp(1.1rem, 4.8vw, 1.45rem) !important;
-    line-height: 1.32 !important;
+    font-size: clamp(1rem, 4.2vw, 1.3rem) !important;
+    line-height: 1.25 !important;
     font-weight: 800 !important;
     text-align: center !important;
   }
 
   .hero-paragraph {
-    font-size: 0.85rem !important;
-    line-height: 1.6 !important;
-    max-width: 480px !important;
+    font-size: 0.8rem !important;
+    line-height: 1.45 !important;
+    max-width: 440px !important;
     opacity: 0.85 !important;
     text-align: center !important;
-    margin: 0.5rem auto 0 !important;
+    margin: 0.25rem auto 0 !important;
     padding-left: 0 !important;
   }
 
   .hero-cta-wrapper {
-    margin-top: 0.85rem !important;
+    margin-top: 0.45rem !important;
     flex-direction: column !important;
     align-items: center !important;
     text-align: center !important;
-    gap: 0.85rem !important;
+    gap: 0.45rem !important;
     width: 100% !important;
   }
 
@@ -933,21 +935,21 @@
     align-items: center !important;
     justify-content: center !important;
     width: 100% !important;
-    gap: 0.6rem !important;
+    gap: 0.45rem !important;
   }
 
   .hero-cta-group .btn-primary,
   .hero-cta-group .btn-secondary {
     width: 100% !important;
-    max-width: 280px !important;
-    padding: 0.75rem 1.4rem !important;
-    font-size: 0.78rem !important;
+    max-width: 260px !important;
+    padding: 0.65rem 1.2rem !important;
+    font-size: 0.75rem !important;
     text-align: center !important;
     justify-content: center !important;
   }
 
   .hero-scroll-cue {
-    margin-top: 0.5rem !important;
+    margin-top: 0.25rem !important;
     justify-content: center !important;
     opacity: 0.75 !important;
   }

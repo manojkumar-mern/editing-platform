@@ -7,26 +7,47 @@ import { soundManager } from '@/lib/audioManager';
 
 export default function CTASection({ onOpenModal, onOpenProjectModal }) {
   const sectionRef = useRef(null);
+  const bgImageRef = useRef(null);
   const titleRef = useRef(null);
   const textRef = useRef(null);
   const marquee1Ref = useRef(null);
   const marquee2Ref = useRef(null);
 
   useEffect(() => {
-    if (!sectionRef.current) return;
+    if (!sectionRef.current || !bgImageRef.current) return;
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
+      // 1. Hardware Accelerated Fixed Viewport Parallax Background on Scroll (Zero Shaking on Mobile)
+      gsap.fromTo(
+        bgImageRef.current,
+        {
+          yPercent: -15,
+        },
+        {
+          yPercent: 15,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.1, // Tight hardware scrub for smooth 100% fixed feel without mobile jitter
+            invalidateOnRefresh: true,
+          },
+        }
+      );
+
+      // 2. Title entrance animation
       gsap.fromTo(
         titleRef.current,
-        { opacity: 0, y: 40, scale: 0.96 },
+        { opacity: 0, y: 35, scale: 0.96 },
         {
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 1.0,
+          duration: 0.9,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -53,18 +74,22 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
         paddingBottom: 'clamp(3.5rem, 8vh, 6rem)',
       }}
     >
-      {/* Rock-solid Hardware Accelerated Background Image Layer (Zero Mobile Shift/Jitter) */}
+      {/* Rock-solid Fixed Viewport Background Image Layer (Parallax Fixed Effect on Scroll) */}
       <div
         className="cta-bg-layer"
         style={{
           position: 'absolute',
-          inset: 0,
+          top: '-15%',
+          left: 0,
+          width: '100%',
+          height: '130%',
           zIndex: 0,
           overflow: 'hidden',
           pointerEvents: 'none',
         }}
       >
         <img
+          ref={bgImageRef}
           src="/images/contact-bg.jpg"
           alt=""
           style={{

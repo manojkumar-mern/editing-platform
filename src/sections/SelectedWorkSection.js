@@ -38,98 +38,73 @@ export default function SelectedWorkSection({ onOpenModal }) {
     ['Generative Synthesis', 'Neural VFX Cleanup', 'AI Upscaling & Motion'],
   ];
 
+  const handlePrevCard = () => {
+    if (activeProjectIndex > 0) {
+      soundManager.playWhoosh();
+      setActiveProjectIndex((prev) => prev - 1);
+    }
+  };
+
+  const handleNextCard = () => {
+    if (activeProjectIndex < projects.length - 1) {
+      soundManager.playWhoosh();
+      setActiveProjectIndex((prev) => prev + 1);
+    }
+  };
+
+  const handleSelectCard = (index) => {
+    if (index !== activeProjectIndex) {
+      soundManager.playWhoosh();
+      setActiveProjectIndex(index);
+    }
+  };
+
+  // Ensure card elements are initially set and animated smoothly on activeProjectIndex change
   useEffect(() => {
-    if (!sectionRef.current || !viewportRef.current) return;
+    const cards = cardsRef.current;
+    if (!cards || cards.length === 0) return;
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
+    cards.forEach((card, index) => {
+      if (!card) return;
 
-    const ctx = gsap.context(() => {
-      const cards = cardsRef.current;
-      const isMobile = window.innerWidth < 768;
-
-      const numCards = projects.length;
-      const HOLD_DURATION = 1.0;
-      const TRANSITION_DURATION = 1.0;
-      const FINAL_HOLD_DURATION = 2.0;
-      const totalDuration = HOLD_DURATION * numCards + TRANSITION_DURATION * (numCards - 1) + FINAL_HOLD_DURATION;
-
-      const masterTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          pin: sectionRef.current,
-          pinSpacing: true,
-          start: 'top top',
-          end: isMobile ? '+=340%' : '+=750%',
-          scrub: 0.5,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const currentTime = self.progress * totalDuration;
-            let currentIdx = 0;
-            for (let i = 1; i < numCards; i++) {
-              const startTime = HOLD_DURATION + (i - 1) * (TRANSITION_DURATION + HOLD_DURATION);
-              if (currentTime >= startTime) {
-                currentIdx = i;
-              } else {
-                break;
-              }
-            }
-            setActiveProjectIndex(currentIdx);
-          },
-        },
-      });
-
-      // Ensure all cards from index 1 onward start off-screen & transparent
-      cards.forEach((card, index) => {
-        if (index > 0 && card) {
-          gsap.set(card, {
-            yPercent: 115,
-            opacity: 0,
-            scale: 0.97,
-          });
-        }
-      });
-
-      // Build sequential 1-by-1 card stacking timeline with equal hold & transition times for all 6 cards
-      for (let i = 1; i < numCards; i++) {
-        const card = cards[i];
-        const prevCard = cards[i - 1];
-        if (!card) continue;
-
-        const startTime = HOLD_DURATION + (i - 1) * (TRANSITION_DURATION + HOLD_DURATION);
-
-        masterTl
-          .to(
-            prevCard,
-            {
-              scale: 0.94,
-              opacity: 0.35,
-              yPercent: -4,
-              ease: 'power2.inOut',
-              duration: TRANSITION_DURATION,
-            },
-            startTime
-          )
-          .to(
-            card,
-            {
-              yPercent: 0,
-              opacity: 1,
-              scale: 1,
-              ease: 'power2.out',
-              duration: TRANSITION_DURATION,
-            },
-            startTime
-          );
+      if (index === activeProjectIndex) {
+        gsap.to(card, {
+          yPercent: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.5,
+          ease: 'power3.out',
+          overwrite: 'all',
+          zIndex: 10,
+          pointerEvents: 'auto',
+        });
+      } else if (index < activeProjectIndex) {
+        // Previous cards -> slide upside (-105%)
+        gsap.to(card, {
+          yPercent: -105,
+          opacity: 0,
+          scale: 0.95,
+          duration: 0.5,
+          ease: 'power3.out',
+          overwrite: 'all',
+          zIndex: index + 1,
+          pointerEvents: 'none',
+        });
+      } else {
+        // Upcoming cards -> waiting downside (+105%)
+        gsap.to(card, {
+          yPercent: 105,
+          opacity: 0,
+          scale: 0.95,
+          duration: 0.5,
+          ease: 'power3.out',
+          overwrite: 'all',
+          zIndex: projects.length - index,
+          pointerEvents: 'none',
+        });
       }
-
-      // Add a generous final hold so Card 6 stays 100% stationary before unpinning cleanly into CTA section
-      masterTl.to({}, { duration: FINAL_HOLD_DURATION });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+    });
+  }, [activeProjectIndex]);
 
   return (
     <section
@@ -140,17 +115,16 @@ export default function SelectedWorkSection({ onOpenModal }) {
         backgroundColor: 'var(--bg-light)',
         color: 'var(--text-dark-primary)',
         position: 'relative',
+        paddingTop: 'clamp(4rem, 8vh, 6rem)',
+        paddingBottom: 'clamp(3.5rem, 7vh, 5rem)',
       }}
     >
-      {/* Pinned Viewport Deck Container */}
       <div
         ref={viewportRef}
         className="site-container flex-col justify-between"
         style={{
-          minHeight: '100vh',
-          paddingTop: 'clamp(6.5rem, 12vh, 8.5rem)',
-          paddingBottom: 'clamp(2rem, 4vh, 3.5rem)',
           boxSizing: 'border-box',
+          gap: '1.75rem',
         }}
       >
         {/* Section Header */}
@@ -178,193 +152,246 @@ export default function SelectedWorkSection({ onOpenModal }) {
           </div>
         </div>
 
-        {/* Premium Work Cards Deck Container */}
-        <div className="cards-deck-stage">
-          {projects.map((project, index) => {
-            const isMediaLeft = index % 2 === 1; // Alternating desktop layout
-            const watermark = projectWatermarks[index % projectWatermarks.length];
-            const specs = projectSpecs[index % projectSpecs.length];
-            const isCurrentOrNext = activeProjectIndex === index || activeProjectIndex + 1 === index;
+        {/* Stage Wrapper holding Cards Deck + Arrow Controls on Right OUTSIDE card */}
+        <div className="portfolio-main-stage-wrapper">
+          {/* Cards Deck Container */}
+          <div className="cards-deck-stage">
+            {projects.map((project, index) => {
+              const isMediaLeft = index % 2 === 1; // Alternating desktop layout
+              const watermark = projectWatermarks[index % projectWatermarks.length];
+              const specs = projectSpecs[index % projectSpecs.length];
+              const isCurrentOrNext = activeProjectIndex === index || activeProjectIndex + 1 === index || activeProjectIndex - 1 === index;
+              const isInitiallyActive = index === 0;
 
-            return (
-              <div
-                key={project.id}
-                ref={(el) => (cardsRef.current[index] = el)}
-                className="crazy-card-item film-crop-marks"
-                style={{
-                  position: index === 0 ? 'relative' : 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  maxWidth: '1200px',
-                  height: '100%',
-                  backgroundColor: '#0f1118',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  borderRadius: '24px',
-                  boxShadow: '0 30px 70px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05)',
-                  zIndex: index + 1,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  willChange: 'transform, opacity',
-                  overflow: 'hidden',
-                  cursor: 'pointer',
-                  boxSizing: 'border-box',
-                }}
-                onClick={() => {
-                  soundManager.playWhoosh();
-                  if (onOpenModal) {
-                    onOpenModal({
-                      title: project.title,
-                      videoSrc: videoSources[index % videoSources.length],
-                      posterSrc: project.poster,
-                    });
-                  }
-                }}
-                data-cursor="WATCH PROJECT"
-              >
-                {/* Background Watermark Text */}
+              return (
                 <div
-                  className="card-background-watermark"
-                  aria-hidden="true"
+                  key={project.id}
+                  ref={(el) => (cardsRef.current[index] = el)}
+                  className="crazy-card-item film-crop-marks"
                   style={{
                     position: 'absolute',
-                    right: '-1%',
-                    bottom: '-8%',
-                    fontSize: 'clamp(5rem, 14vw, 13rem)',
-                    fontWeight: 900,
-                    color: 'rgba(255, 255, 255, 0.035)',
-                    lineHeight: 0.8,
-                    userSelect: 'none',
-                    pointerEvents: 'none',
-                    fontFamily: 'var(--font-display, Impact, sans-serif)',
-                    zIndex: 0,
-                    letterSpacing: '-0.02em',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: '#0f1118',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    borderRadius: '24px',
+                    boxShadow: '0 30px 70px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05)',
+                    zIndex: isInitiallyActive ? 10 : projects.length - index,
+                    opacity: isInitiallyActive ? 1 : 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    willChange: 'transform, opacity',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    boxSizing: 'border-box',
                   }}
+                  onClick={() => {
+                    soundManager.playWhoosh();
+                    if (onOpenModal) {
+                      onOpenModal({
+                        title: project.title,
+                        videoSrc: videoSources[index % videoSources.length],
+                        posterSrc: project.poster,
+                      });
+                    }
+                  }}
+                  data-cursor="WATCH PROJECT"
                 >
-                  {watermark}
-                </div>
-
-                {/* Card Inner Grid: Responsive layout (1 column on mobile, 2 columns on desktop) */}
-                <div className={`stacked-card-grid ${isMediaLeft ? 'media-reversed' : ''}`}>
-                  {/* Visual Media Showcase */}
-                  <div className="stacked-card-media-wrap film-crop-marks">
-                    <LazyVideo
-                      poster={project.poster}
-                      src={isInView && isCurrentOrNext ? videoSources[index % videoSources.length] : undefined}
-                      autoPlay={activeProjectIndex === index}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        display: 'block',
-                      }}
-                    />
-                    <div className="stacked-card-img-overlay" />
+                  {/* Background Watermark Text */}
+                  <div
+                    className="card-background-watermark"
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute',
+                      right: '-1%',
+                      bottom: '-8%',
+                      fontSize: 'clamp(5rem, 14vw, 13rem)',
+                      fontWeight: 900,
+                      color: 'rgba(255, 255, 255, 0.035)',
+                      lineHeight: 0.8,
+                      userSelect: 'none',
+                      pointerEvents: 'none',
+                      fontFamily: 'var(--font-display, Impact, sans-serif)',
+                      zIndex: 0,
+                      letterSpacing: '-0.02em',
+                    }}
+                  >
+                    {watermark}
                   </div>
 
-                  {/* Narrative Body */}
-                  <div className="stacked-card-body">
-                    <div className="flex-col" style={{ gap: '0.5rem' }}>
-
-                      <h3
-                        className="stacked-card-title"
+                  {/* Card Inner Grid */}
+                  <div className={`stacked-card-grid ${isMediaLeft ? 'media-reversed' : ''}`}>
+                    {/* Visual Media Showcase */}
+                    <div className="stacked-card-media-wrap film-crop-marks">
+                      <LazyVideo
+                        poster={project.poster}
+                        src={isInView && isCurrentOrNext ? videoSources[index % videoSources.length] : undefined}
+                        autoPlay={activeProjectIndex === index}
                         style={{
-                          fontSize: 'clamp(1.4rem, 2.8vw, 2.5rem)',
-                          fontWeight: 900,
-                          color: '#ffffff',
-                          lineHeight: 1.12,
-                          letterSpacing: '-0.02em',
-                          textTransform: 'uppercase',
-                          margin: 0,
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block',
                         }}
-                      >
-                        {project.title}
-                      </h3>
-
-                      <p
-                        className="body-lead"
-                        style={{
-                          fontSize: 'clamp(0.85rem, 1.2vw, 1.05rem)',
-                          color: 'rgba(255, 255, 255, 0.9)',
-                          lineHeight: 1.35,
-                          fontWeight: 500,
-                          marginTop: '0.1rem',
-                        }}
-                      >
-                        {project.category} — {project.client}
-                      </p>
-
-                      <p
-                        className="body-regular stacked-card-desc"
-                        style={{
-                          fontSize: 'clamp(0.78rem, 1vw, 0.88rem)',
-                          color: 'rgba(255, 255, 255, 0.65)',
-                          lineHeight: 1.5,
-                          maxWidth: '540px',
-                        }}
-                      >
-                        {project.description}
-                      </p>
+                      />
+                      <div className="stacked-card-img-overlay" />
                     </div>
 
-                    <div className="flex-col stacked-card-specs" style={{ gap: '0.85rem', marginTop: '0.75rem' }}>
-                      <div className="flex-row items-center" style={{ flexWrap: 'wrap', gap: '0.4rem' }}>
-                        {specs.map((spec, sIdx) => (
-                          <span
-                            key={sIdx}
-                            className="stacked-card-spec-pill"
-                            style={{
-                              fontSize: '0.7rem',
-                              fontWeight: 600,
-                              padding: '0.3rem 0.65rem',
-                              borderRadius: '100px',
-                              backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                              border: '1px solid rgba(255, 255, 255, 0.12)',
-                              color: 'rgba(255, 255, 255, 0.85)',
-                            }}
-                          >
-                            ✓ {spec}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="flex-row items-center" style={{ gap: '1rem' }}>
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            soundManager.playWhoosh();
-                            if (onOpenModal) {
-                              onOpenModal({
-                                title: project.title,
-                                videoSrc: videoSources[index % videoSources.length],
-                                posterSrc: project.poster,
-                              });
-                            }
-                          }}
-                          className="btn-primary flex-row items-center"
+                    {/* Narrative Body */}
+                    <div className="stacked-card-body">
+                      <div className="flex-col" style={{ gap: '0.5rem' }}>
+                        <h3
+                          className="stacked-card-title"
                           style={{
-                            padding: '0.55rem 1.25rem',
-                            fontSize: '0.78rem',
-                            fontWeight: 700,
-                            borderRadius: '100px',
-                            cursor: 'pointer',
-                            gap: '0.5rem',
+                            fontSize: 'clamp(1.4rem, 2.8vw, 2.5rem)',
+                            fontWeight: 900,
+                            color: '#ffffff',
+                            lineHeight: 1.12,
+                            letterSpacing: '-0.02em',
+                            textTransform: 'uppercase',
+                            margin: 0,
                           }}
                         >
-                          <span>WATCH FULL CUT</span>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                            <polygon points="5 3 19 12 5 21 5 3" />
-                          </svg>
-                        </button>
+                          {project.title}
+                        </h3>
+
+                        <p
+                          className="body-lead"
+                          style={{
+                            fontSize: 'clamp(0.85rem, 1.2vw, 1.05rem)',
+                            color: 'rgba(255, 255, 255, 0.9)',
+                            lineHeight: 1.35,
+                            fontWeight: 500,
+                            marginTop: '0.1rem',
+                          }}
+                        >
+                          {project.category} — {project.client}
+                        </p>
+
+                        <p
+                          className="body-regular stacked-card-desc"
+                          style={{
+                            fontSize: 'clamp(0.78rem, 1vw, 0.88rem)',
+                            color: 'rgba(255, 255, 255, 0.65)',
+                            lineHeight: 1.5,
+                            maxWidth: '540px',
+                          }}
+                        >
+                          {project.description}
+                        </p>
+                      </div>
+
+                      <div className="flex-col stacked-card-specs" style={{ gap: '0.85rem', marginTop: '0.75rem' }}>
+                        <div className="flex-row items-center" style={{ flexWrap: 'wrap', gap: '0.4rem' }}>
+                          {specs.map((spec, sIdx) => (
+                            <span
+                              key={sIdx}
+                              className="stacked-card-spec-pill"
+                              style={{
+                                fontSize: '0.7rem',
+                                fontWeight: 600,
+                                padding: '0.3rem 0.65rem',
+                                borderRadius: '100px',
+                                backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                                border: '1px solid rgba(255, 255, 255, 0.12)',
+                                color: 'rgba(255, 255, 255, 0.85)',
+                              }}
+                            >
+                              ✓ {spec}
+                            </span>
+                          ))}
+                        </div>
+
+                        <div className="flex-row items-center" style={{ gap: '1rem' }}>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              soundManager.playWhoosh();
+                              if (onOpenModal) {
+                                onOpenModal({
+                                  title: project.title,
+                                  videoSrc: videoSources[index % videoSources.length],
+                                  posterSrc: project.poster,
+                                });
+                              }
+                            }}
+                            className="btn-primary flex-row items-center"
+                            style={{
+                              padding: '0.55rem 1.25rem',
+                              fontSize: '0.78rem',
+                              fontWeight: 700,
+                              borderRadius: '100px',
+                              cursor: 'pointer',
+                              gap: '0.5rem',
+                            }}
+                          >
+                            <span>WATCH FULL CUT</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                              <polygon points="5 3 19 12 5 21 5 3" />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+
+          {/* Right Side Vertical Arrow Controls OUTSIDE card */}
+          <div className="portfolio-arrow-controls" aria-label="Portfolio Navigation">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePrevCard();
+              }}
+              disabled={activeProjectIndex === 0}
+              aria-label="Previous Project (Move Card Down)"
+              className="portfolio-arrow-btn"
+              title="Previous Project"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 15l-6-6-6 6" />
+              </svg>
+            </button>
+
+            <div className="flex-col items-center" style={{ gap: '5px' }}>
+              {projects.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelectCard(idx);
+                  }}
+                  aria-label={`Go to project ${idx + 1}`}
+                  className={`portfolio-step-dot ${activeProjectIndex === idx ? 'active' : ''}`}
+                />
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNextCard();
+              }}
+              disabled={activeProjectIndex === projects.length - 1}
+              aria-label="Next Project (Move Card Up)"
+              className="portfolio-arrow-btn"
+              title="Next Project"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Bottom Progress Nav — dots + bar + counter */}
@@ -375,15 +402,17 @@ export default function SelectedWorkSection({ onOpenModal }) {
             gap: '0.6rem',
             zIndex: 10,
             paddingTop: '0.5rem',
-            maxWidth: '1200px',
+            maxWidth: '1240px',
             width: '100%',
             margin: '0 auto',
           }}
         >
           {/* Dot indicators */}
           {projects.map((proj, idx) => (
-            <span
+            <button
               key={proj.id}
+              type="button"
+              onClick={() => handleSelectCard(idx)}
               style={{
                 display: 'inline-block',
                 width: activeProjectIndex === idx ? '1.5rem' : '0.4rem',
@@ -392,6 +421,9 @@ export default function SelectedWorkSection({ onOpenModal }) {
                 backgroundColor: activeProjectIndex === idx ? 'var(--accent-orange)' : 'rgba(0,0,0,0.25)',
                 transition: 'all 0.4s ease',
                 flexShrink: 0,
+                border: 'none',
+                padding: 0,
+                cursor: 'pointer',
               }}
             />
           ))}

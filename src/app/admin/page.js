@@ -570,7 +570,7 @@ export default function AdminPage() {
                 setMobileMenuOpen(false);
               }}
               className="sidebar-nav-btn sidebar-tooltip-trigger"
-              style={{ color: '#ffffff', marginTop: '0.25rem' }}
+              style={{ color: '#ffffff' }}
             >
               <span className="sidebar-nav-icon">➕</span>
               <span className="sidebar-nav-text">Add New Booking</span>

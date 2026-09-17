@@ -98,6 +98,16 @@
   overflow: visible !important;
 }
 
+.admin-sidebar.collapsed .admin-sidebar-header,
+.admin-sidebar.collapsed .admin-sidebar-nav-container {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+}
+
 .admin-sidebar .sidebar-nav-btn {
   white-space: nowrap !important;
   overflow: hidden !important;
@@ -116,9 +126,11 @@
 .admin-sidebar.collapsed .sidebar-user-info-text {
   opacity: 0 !important;
   width: 0 !important;
+  height: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
   pointer-events: none !important;
+  display: none !important;
 }
 
 .admin-sidebar.collapsed .sidebar-nav-btn {
@@ -126,6 +138,7 @@
   align-items: center !important;
   justify-content: center !important;
   padding: 0 !important;
+  gap: 0 !important;
   width: 44px !important;
   height: 44px !important;
   min-width: 44px !important;
@@ -135,6 +148,7 @@
   margin-left: auto !important;
   margin-right: auto !important;
   box-sizing: border-box !important;
+  overflow: visible !important;
 }
 
 .sidebar-nav-icon {
@@ -150,14 +164,15 @@
 }
 
 .admin-sidebar.collapsed .sidebar-nav-icon {
-  width: 100% !important;
-  height: 100% !important;
+  width: 24px !important;
+  height: 24px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  margin: 0 !important;
+  margin: 0 auto !important;
   padding: 0 !important;
-  font-size: 1.2rem !important;
+  font-size: 1.25rem !important;
+  flex-shrink: 0 !important;
 }
 
 /* Floating Right Tooltips for Collapsed Nav Items */
@@ -168,17 +183,18 @@
   transform: translateY(-50%) translateX(-6px);
   background: #18181c;
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 6px;
-  padding: 0.45rem 0.75rem;
-  font-size: 0.78rem;
-  font-weight: 600;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 120;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 150;
 }
 
 .sidebar-tooltip::before {
@@ -190,13 +206,13 @@
   width: 8px;
   height: 8px;
   background: #18181c;
-  border-left: 1px solid rgba(255, 255, 255, 0.18);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
 }
 
 .sidebar-tooltip-trigger:hover .sidebar-tooltip {
-  opacity: 1;
-  transform: translateY(-50%) translateX(0);
+  opacity: 1 !important;
+  transform: translateY(-50%) translateX(0) !important;
 }
 
 /* Slim Top Logo / Toggle Item */
@@ -234,13 +250,31 @@
   color: #00f2fe;
 }
 
-/* Hovering anywhere on collapsed sidebar reveals the expand double arrow symbol » */
-.admin-sidebar.collapsed:hover .brand-mini-icon {
+/* 1. Hovering top toggle directly reveals double arrow symbol » */
+.admin-sidebar-top-toggle:hover .brand-mini-icon {
   display: none !important;
 }
 
-.admin-sidebar.collapsed:hover .toggle-square-icon {
+.admin-sidebar-top-toggle:hover .toggle-square-icon {
   display: flex !important;
+}
+
+/* 2. Hovering empty space in collapsed sidebar reveals double arrow symbol » on top logo */
+.admin-sidebar.collapsed:hover .admin-sidebar-top-toggle .brand-mini-icon {
+  display: none !important;
+}
+
+.admin-sidebar.collapsed:hover .admin-sidebar-top-toggle .toggle-square-icon {
+  display: flex !important;
+}
+
+/* 3. EXCEPT when hovering any nav item button: keep top logo as 'A' so logo tooltip word is clear */
+.admin-sidebar.collapsed:has(.admin-sidebar-nav-container .sidebar-nav-btn:hover) .admin-sidebar-top-toggle .brand-mini-icon {
+  display: flex !important;
+}
+
+.admin-sidebar.collapsed:has(.admin-sidebar-nav-container .sidebar-nav-btn:hover) .admin-sidebar-top-toggle .toggle-square-icon {
+  display: none !important;
 }
 
 .admin-main-content {

@@ -589,15 +589,12 @@ export default function AdminPage() {
               {sidebarCollapsed && <span className="sidebar-tooltip">Back to Website</span>}
             </Link>
 
-            {/* Sidebar Footer User Info */}
+            {/* Sidebar Footer Log out */}
             <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '1rem', marginTop: '1rem' }}>
-              <div className="sidebar-user-info-text" style={{ fontSize: '0.75rem', color: '#ffffff', fontWeight: 600 }}>
-                {adminUser?.email || 'atzyncmedia@gmail.com'}
-              </div>
               <button
                 onClick={handleLogout}
                 className="sidebar-nav-btn sidebar-tooltip-trigger"
-                style={{ color: '#ff453a', background: 'none', border: 'none', padding: 0, marginTop: '0.4rem', cursor: 'pointer' }}
+                style={{ color: '#ff453a', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
               >
                 <span className="sidebar-nav-icon">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff453a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">

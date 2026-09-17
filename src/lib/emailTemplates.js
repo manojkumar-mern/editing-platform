@@ -171,10 +171,15 @@ export function generateClientEmailHTML(inquiry) {
           <!-- Header Banner -->
           <tr>
             <td style="padding: 36px 40px; background: linear-gradient(180deg, #121520 0%, #0b0d12 100%); border-bottom: 1px solid rgba(255, 255, 255, 0.08); text-align: center;">
-              <h1 style="margin: 0; font-size: 26px; font-weight: 900; letter-spacing: 0.18em; color: #ffffff; text-transform: uppercase;">
-                ATZYNC<span style="color: #eb5e28;">MEDIA</span>
-              </h1>
-              <p style="margin: 8px 0 0 0; font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #8f92a1;">
+              <a href="https://editing-platform.vercel.app" target="_blank" style="text-decoration: none; display: inline-block;">
+                <img
+                  src="https://editing-platform.vercel.app/logo-white.png"
+                  alt="ATZYNC MEDIA"
+                  width="210"
+                  style="display: block; margin: 0 auto; height: auto; max-width: 210px; width: 100%; border: 0; outline: none;"
+                />
+              </a>
+              <p style="margin: 12px 0 0 0; font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #8f92a1;">
                 WE CREATE • WE PROMOTE • WE GROW BRANDS
               </p>
             </td>

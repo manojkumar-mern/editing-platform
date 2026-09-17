@@ -34,6 +34,7 @@ export default function AdminPage() {
   // Active Tab state: 'overview' | 'table'
   const [activeTab, setActiveTab] = useState('overview');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // Dashboard Data state
   const [bookings, setBookings] = useState([]);
@@ -477,22 +478,55 @@ export default function AdminPage() {
     <div className="admin-body-wrap">
       <div className="admin-layout-wrapper">
         {/* CLEAN LEFT SIDEBAR */}
-        <aside className="admin-sidebar">
-          {/* Logo Branding + Mobile Hamburger Toggle */}
-          <div className="admin-sidebar-header flex-row items-center justify-between">
-            <Link href="/" className="brand-logo flex-row items-center" style={{ textDecoration: 'none' }}>
-              <img
-                src="/logo-white.webp"
-                alt="ATZYNC Media"
-                style={{
-                  height: '38px',
-                  width: 'auto',
-                  maxWidth: '175px',
-                  objectFit: 'contain',
-                  display: 'block',
-                }}
-              />
-            </Link>
+        <aside className={`admin-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
+          {/* Logo Branding / ChatGPT-Style Slim Toggle Header */}
+          <div className="admin-sidebar-header flex-row items-center justify-between" style={{ width: '100%', minHeight: '44px', marginBottom: '1.25rem' }}>
+            {sidebarCollapsed ? (
+              <button
+                onClick={() => setSidebarCollapsed(false)}
+                className="admin-sidebar-top-toggle sidebar-tooltip-trigger"
+                title="Expand Sidebar (»)"
+                aria-label="Expand Sidebar"
+              >
+                <span className="brand-mini-icon">A</span>
+                <span className="toggle-square-icon">
+                  {/* Double Right Arrow Icon » */}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m13 17 5-5-5-5" />
+                    <path d="m6 17 5-5-5-5" />
+                  </svg>
+                </span>
+                <span className="sidebar-tooltip">Expand Sidebar (»)</span>
+              </button>
+            ) : (
+              <>
+                <Link href="/" className="brand-logo flex-row items-center" style={{ textDecoration: 'none' }}>
+                  <img
+                    src="/logo-white.webp"
+                    alt="ATZYNC Media"
+                    style={{
+                      height: '38px',
+                      width: 'auto',
+                      maxWidth: '145px',
+                      objectFit: 'contain',
+                      display: 'block',
+                    }}
+                  />
+                </Link>
+
+                <button
+                  onClick={() => setSidebarCollapsed(true)}
+                  className="admin-sidebar-toggle-btn"
+                  title="Collapse Sidebar"
+                  aria-label="Collapse Sidebar"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="4" ry="4" />
+                    <line x1="9" y1="3" x2="9" y2="21" />
+                  </svg>
+                </button>
+              </>
+            )}
 
             <button
               className="admin-mobile-toggle"
@@ -505,19 +539,17 @@ export default function AdminPage() {
 
           {/* Navigation Links */}
           <div className={`admin-sidebar-nav-container flex-col ${mobileMenuOpen ? 'open' : ''}`}>
-            <span className="stat-label" style={{ fontSize: '0.68rem', marginBottom: '0.65rem', paddingLeft: '0.5rem', color: '#888892' }}>
-              NAVIGATION MENU
-            </span>
 
             <button
               onClick={() => {
                 setActiveTab('overview');
                 setMobileMenuOpen(false);
               }}
-              className={`sidebar-nav-btn ${activeTab === 'overview' ? 'active' : ''}`}
+              className={`sidebar-nav-btn sidebar-tooltip-trigger ${activeTab === 'overview' ? 'active' : ''}`}
             >
-              <span>📊</span>
-              <span>Dashboard Overview</span>
+              <span className="sidebar-nav-icon">📊</span>
+              <span className="sidebar-nav-text">Dashboard Overview</span>
+              {sidebarCollapsed && <span className="sidebar-tooltip">Dashboard Overview</span>}
             </button>
 
             <button
@@ -525,10 +557,11 @@ export default function AdminPage() {
                 setActiveTab('table');
                 setMobileMenuOpen(false);
               }}
-              className={`sidebar-nav-btn ${activeTab === 'table' ? 'active' : ''}`}
+              className={`sidebar-nav-btn sidebar-tooltip-trigger ${activeTab === 'table' ? 'active' : ''}`}
             >
-              <span>📋</span>
-              <span>Bookings Registry ({bookings.length})</span>
+              <span className="sidebar-nav-icon">📋</span>
+              <span className="sidebar-nav-text">Bookings Registry ({bookings.length})</span>
+              {sidebarCollapsed && <span className="sidebar-tooltip">Bookings Registry ({bookings.length})</span>}
             </button>
 
             <button
@@ -536,34 +569,45 @@ export default function AdminPage() {
                 setIsAddModalOpen(true);
                 setMobileMenuOpen(false);
               }}
-              className="sidebar-nav-btn"
+              className="sidebar-nav-btn sidebar-tooltip-trigger"
               style={{ color: '#ffffff', marginTop: '0.25rem' }}
             >
-              <span>➕</span>
-              <span>Add New Booking</span>
+              <span className="sidebar-nav-icon">➕</span>
+              <span className="sidebar-nav-text">Add New Booking</span>
+              {sidebarCollapsed && <span className="sidebar-tooltip">Add New Booking</span>}
             </button>
 
             {/* BACK TO SITE LINK IN SIDEBAR */}
             <Link
               href="/"
               onClick={() => setMobileMenuOpen(false)}
-              className="sidebar-nav-btn"
+              className="sidebar-nav-btn sidebar-tooltip-trigger"
               style={{ color: '#a0a0a8', textDecoration: 'none', marginTop: 'auto' }}
             >
-              <span>←</span>
-              <span>Back to Website</span>
+              <span className="sidebar-nav-icon">←</span>
+              <span className="sidebar-nav-text">Back to Website</span>
+              {sidebarCollapsed && <span className="sidebar-tooltip">Back to Website</span>}
             </Link>
 
             {/* Sidebar Footer User Info */}
             <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '1rem', marginTop: '1rem' }}>
-              <div style={{ fontSize: '0.75rem', color: '#ffffff', fontWeight: 600 }}>
+              <div className="sidebar-user-info-text" style={{ fontSize: '0.75rem', color: '#ffffff', fontWeight: 600 }}>
                 {adminUser?.email || 'atzyncmedia@gmail.com'}
               </div>
               <button
                 onClick={handleLogout}
-                style={{ background: 'none', border: 'none', color: '#ff453a', fontSize: '0.725rem', cursor: 'pointer', padding: 0, marginTop: '0.4rem', fontWeight: 600 }}
+                className="sidebar-nav-btn sidebar-tooltip-trigger"
+                style={{ color: '#ff453a', background: 'none', border: 'none', padding: 0, marginTop: '0.4rem', cursor: 'pointer' }}
               >
-                Log out session →
+                <span className="sidebar-nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff453a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                  </svg>
+                </span>
+                <span className="sidebar-nav-text">Log out session →</span>
+                {sidebarCollapsed && <span className="sidebar-tooltip">Log out session</span>}
               </button>
             </div>
           </div>
@@ -573,7 +617,7 @@ export default function AdminPage() {
         <main className="admin-main-content">
           {/* Top Navbar Header */}
           <header className="admin-navbar">
-            <div className="flex-row items-center admin-nav-title-group" style={{ gap: '1rem' }}>
+            <div className="flex-row items-center admin-nav-title-group">
               <h1 className="admin-nav-heading">
                 {activeTab === 'overview' ? 'Dashboard Analytics & Insights' : 'Bookings & Inquiries Registry'}
               </h1>

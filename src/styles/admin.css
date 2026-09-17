@@ -36,11 +36,41 @@
   box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7);
 }
 
-/* Sidebar Layout Structure */
+/* Sidebar Toggle Button */
+.admin-sidebar-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #a0a0a8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.admin-sidebar-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.admin-sidebar-toggle-btn.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Sidebar Layout Structure & ChatGPT-Style Slim State */
 .admin-layout-wrapper {
   display: flex;
   min-height: 100vh;
   background-color: #0a0a0c;
+  width: 100%;
 }
 
 .admin-sidebar {
@@ -54,8 +84,163 @@
   position: sticky;
   top: 0;
   z-index: 90;
-  padding: 1.5rem 1.25rem;
+  padding: 1.25rem 1.15rem;
   box-sizing: border-box;
+  will-change: width, min-width;
+  transition: width 0.32s cubic-bezier(0.16, 1, 0.3, 1), min-width 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.admin-sidebar.collapsed {
+  width: 68px !important;
+  min-width: 68px !important;
+  padding: 1.25rem 0.65rem !important;
+  align-items: center !important;
+  overflow: visible !important;
+}
+
+.admin-sidebar .sidebar-nav-btn {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+
+.admin-sidebar .sidebar-nav-text,
+.admin-sidebar .sidebar-section-title,
+.admin-sidebar .sidebar-user-info-text {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  transition: opacity 0.18s ease;
+}
+
+.admin-sidebar.collapsed .sidebar-nav-text,
+.admin-sidebar.collapsed .sidebar-section-title,
+.admin-sidebar.collapsed .sidebar-user-info-text {
+  opacity: 0 !important;
+  width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: none !important;
+}
+
+.admin-sidebar.collapsed .sidebar-nav-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  border-radius: 10px !important;
+  position: relative !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+.sidebar-nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  text-align: center;
+  line-height: 1;
+}
+
+.admin-sidebar.collapsed .sidebar-nav-icon {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1.2rem !important;
+}
+
+/* Floating Right Tooltips for Collapsed Nav Items */
+.sidebar-tooltip {
+  position: absolute;
+  left: 54px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-6px);
+  background: #18181c;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 120;
+}
+
+.sidebar-tooltip::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 8px;
+  height: 8px;
+  background: #18181c;
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.sidebar-tooltip-trigger:hover .sidebar-tooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Slim Top Logo / Toggle Item */
+.admin-sidebar-top-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #ffffff;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.admin-sidebar-top-toggle:hover {
+  background: rgba(0, 242, 254, 0.12);
+  border-color: rgba(0, 242, 254, 0.35);
+}
+
+.admin-sidebar-top-toggle .brand-mini-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.25rem;
+  color: #ffffff;
+}
+
+.admin-sidebar-top-toggle .toggle-square-icon {
+  display: none;
+  color: #00f2fe;
+}
+
+/* Hovering anywhere on collapsed sidebar reveals the expand double arrow symbol » */
+.admin-sidebar.collapsed:hover .brand-mini-icon {
+  display: none !important;
+}
+
+.admin-sidebar.collapsed:hover .toggle-square-icon {
+  display: flex !important;
 }
 
 .admin-main-content {
@@ -64,6 +249,8 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  will-change: width;
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* Sidebar Navigation Items */

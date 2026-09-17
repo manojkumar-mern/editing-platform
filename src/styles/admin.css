@@ -952,3 +952,392 @@ select option {
     padding: 1.5rem 1.15rem !important;
   }
 }
+
+/* ============================================================ */
+/* SUN / MOON THEME TOGGLE BUTTON & LIGHT MODE STYLES           */
+/* ============================================================ */
+.admin-theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffb703;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.admin-theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 0 16px rgba(255, 183, 3, 0.3);
+}
+
+.admin-theme-toggle-btn svg {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease;
+}
+
+.admin-theme-toggle-btn:active svg {
+  transform: rotate(180deg) scale(0.85);
+}
+
+/* LIGHT MODE OVERRIDES */
+.admin-body-wrap.light-mode {
+  background-color: #f4f5f8 !important;
+  color: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .admin-layout-wrapper {
+  background-color: #f4f5f8 !important;
+}
+
+.admin-body-wrap.light-mode .admin-sidebar {
+  background: #ffffff !important;
+  border-right-color: #e2e8f0 !important;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.03) !important;
+}
+
+.admin-body-wrap.light-mode .sidebar-nav-btn {
+  color: #475569 !important;
+}
+
+.admin-body-wrap.light-mode .sidebar-nav-btn:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .sidebar-nav-btn.active {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: inset 3px 0 0 #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .admin-sidebar-toggle-btn {
+  background: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+}
+
+.admin-body-wrap.light-mode .admin-sidebar-toggle-btn:hover {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+  border-color: #94a3b8 !important;
+}
+
+.admin-body-wrap.light-mode .admin-sidebar-top-toggle {
+  color: #0f172a !important;
+  background: transparent !important;
+}
+
+.admin-body-wrap.light-mode .admin-sidebar-top-toggle .brand-mini-icon {
+  color: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .admin-sidebar-top-toggle .toggle-square-icon {
+  color: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .admin-sidebar-top-toggle:hover {
+  background: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+.admin-body-wrap.light-mode .admin-sidebar-header {
+  border-bottom-color: #e2e8f0 !important;
+}
+
+.admin-body-wrap.light-mode .sidebar-tooltip {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border-color: #334155 !important;
+}
+
+.admin-body-wrap.light-mode .sidebar-tooltip::before {
+  background: #0f172a !important;
+  border-left-color: #334155 !important;
+  border-bottom-color: #334155 !important;
+}
+
+.admin-body-wrap.light-mode .admin-navbar {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-bottom-color: #e2e8f0 !important;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.04) !important;
+}
+
+.admin-body-wrap.light-mode .admin-nav-heading {
+  color: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .admin-card {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+.admin-body-wrap.light-mode .admin-card:hover {
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+.admin-body-wrap.light-mode .stat-val {
+  color: #0f172a;
+}
+
+.admin-body-wrap.light-mode .stat-val-total {
+  color: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .stat-val-pending {
+  color: #d97706 !important;
+}
+
+.admin-body-wrap.light-mode .stat-val-contacted {
+  color: #059669 !important;
+}
+
+.admin-body-wrap.light-mode .stat-val-reviewed {
+  color: #4f46e5 !important;
+}
+
+.admin-body-wrap.light-mode .stat-label {
+  color: #64748b !important;
+}
+
+.admin-body-wrap.light-mode .chart-bar-active {
+  background: linear-gradient(180deg, #0f172a 0%, #475569 100%) !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.2) !important;
+}
+
+.admin-body-wrap.light-mode .chart-bar-empty {
+  background: #e2e8f0 !important;
+}
+
+.admin-body-wrap.light-mode .chart-bar:hover {
+  background: linear-gradient(180deg, #1e293b 0%, #334155 100%) !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.3) !important;
+}
+
+.admin-body-wrap.light-mode .chart-tooltip {
+  background: #0f172a !important;
+  color: #ffffff !important;
+}
+
+.admin-body-wrap.light-mode .admin-table-container {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+.admin-body-wrap.light-mode .admin-table th {
+  background: #f8fafc !important;
+  color: #475569 !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+.admin-body-wrap.light-mode .admin-table td {
+  color: #1e293b !important;
+  border-bottom-color: #f1f5f9 !important;
+}
+
+.admin-body-wrap.light-mode .admin-table tr:hover td {
+  background: #f8fafc !important;
+}
+
+.admin-body-wrap.light-mode .admin-input {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .admin-input:focus {
+  border-color: #0f172a !important;
+  background: #ffffff !important;
+}
+
+.admin-body-wrap.light-mode .admin-input::placeholder {
+  color: #94a3b8 !important;
+}
+
+.admin-body-wrap.light-mode select.admin-input,
+.admin-body-wrap.light-mode select.admin-select,
+.admin-body-wrap.light-mode .admin-input option,
+.admin-body-wrap.light-mode .admin-select option,
+.admin-body-wrap.light-mode select option {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .admin-modal-content {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.15) !important;
+  color: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .admin-btn-primary {
+  background: #0f172a !important;
+  color: #ffffff !important;
+}
+
+.admin-body-wrap.light-mode .admin-btn-primary:hover {
+  background: #1e293b !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.25) !important;
+}
+
+.admin-body-wrap.light-mode .admin-btn-secondary {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+.admin-body-wrap.light-mode .admin-btn-secondary:hover {
+  background: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+}
+
+.admin-body-wrap.light-mode .admin-theme-toggle-btn {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #4f46e5 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+.admin-body-wrap.light-mode .admin-theme-toggle-btn:hover {
+  background: #f8fafc !important;
+  border-color: #94a3b8 !important;
+  color: #4338ca !important;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.2) !important;
+}
+
+.admin-body-wrap.light-mode .admin-filter-tabs-wrapper {
+  background: #e2e8f0 !important;
+}
+
+.admin-body-wrap.light-mode .admin-filter-tab-btn {
+  color: #475569 !important;
+}
+
+.admin-body-wrap.light-mode .admin-filter-tab-btn.active {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+}
+
+.admin-body-wrap.light-mode .brand-logo img {
+  filter: invert(1) brightness(0.2) !important;
+}
+
+.admin-body-wrap.light-mode .donut-center-val {
+  color: #0f172a !important;
+}
+
+/* HIGH CONTRAST CARD TEXT & RED LOGOUT BUTTON IN LIGHT MODE */
+.admin-body-wrap.light-mode .admin-card h3 {
+  color: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .stat-label {
+  color: #1e293b !important;
+  font-weight: 800 !important;
+}
+
+.admin-body-wrap.light-mode .admin-card p,
+.admin-body-wrap.light-mode .admin-card div[style*="color"],
+.admin-body-wrap.light-mode .admin-card span[style*="color: #a0a0a8"],
+.admin-body-wrap.light-mode .admin-card span[style*="color: '#a0a0a8'"] {
+  color: #475569 !important;
+  font-weight: 600 !important;
+}
+
+.admin-body-wrap.light-mode .admin-card strong {
+  color: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .chart-bar-container span {
+  color: #334155 !important;
+  font-weight: 700 !important;
+}
+
+.admin-body-wrap.light-mode .bar-chart-wrapper {
+  border-bottom-color: #cbd5e1 !important;
+}
+
+.admin-body-wrap.light-mode .admin-dashboard-card div[style*="border-top"],
+.admin-body-wrap.light-mode .admin-dashboard-card div[style*="borderTop"] {
+  border-top-color: #e2e8f0 !important;
+  color: #475569 !important;
+}
+
+.admin-body-wrap.light-mode .demand-metrics-legend div[style*="background"] {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+.admin-body-wrap.light-mode .demand-metrics-legend span {
+  color: #1e293b !important;
+  font-weight: 700 !important;
+}
+
+/* PRESERVE VIBRANT RED LOGOUT BUTTON IN SIDEBAR */
+.admin-body-wrap.light-mode .admin-sidebar-logout-btn,
+.admin-body-wrap.light-mode .admin-sidebar-logout-btn span,
+.admin-body-wrap.light-mode .admin-sidebar-logout-btn .sidebar-nav-text {
+  color: #dc2626 !important;
+}
+
+.admin-body-wrap.light-mode .admin-sidebar-logout-btn svg {
+  stroke: #dc2626 !important;
+}
+
+/* DONUT PIE CHART LIGHT MODE INNER TEXT & TRACK STYLES */
+.admin-body-wrap.light-mode .donut-bg-circle {
+  stroke: #e2e8f0 !important;
+}
+
+.admin-body-wrap.light-mode .donut-hover-title {
+  color: #0f172a !important;
+  font-weight: 800 !important;
+}
+
+.admin-body-wrap.light-mode .donut-hover-count {
+  color: #475569 !important;
+  font-weight: 700 !important;
+}
+
+.admin-body-wrap.light-mode .donut-center-label {
+  color: #64748b !important;
+  font-weight: 700 !important;
+}
+
+.admin-body-wrap.light-mode .donut-hover-pct {
+  text-shadow: none !important;
+  filter: brightness(0.78) saturate(1.4) !important;
+}
+
+/* LIGHT MODE MODAL DETAILS STYLES */
+.admin-body-wrap.light-mode .modal-client-title {
+  color: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .modal-detail-val {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+.admin-body-wrap.light-mode .modal-desc-box {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .modal-footer-date {
+  color: #64748b !important;
+}
+

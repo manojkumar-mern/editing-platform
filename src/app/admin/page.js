@@ -36,6 +36,26 @@ export default function AdminPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
+  // Admin Theme state: 'dark' | 'light'
+  const [adminTheme, setAdminTheme] = useState('dark');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('atzync_admin_theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        setAdminTheme(savedTheme);
+      }
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = adminTheme === 'dark' ? 'light' : 'dark';
+    setAdminTheme(nextTheme);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('atzync_admin_theme', nextTheme);
+    }
+  };
+
   // Dashboard Data state
   const [bookings, setBookings] = useState([]);
   const [loadingBookings, setLoadingBookings] = useState(false);
@@ -346,7 +366,7 @@ export default function AdminPage() {
   // -------------------------------------------------------------
   if (!isAuthenticated) {
     return (
-      <div className="admin-body-wrap">
+      <div className={`admin-body-wrap ${adminTheme === 'light' ? 'light-mode' : ''}`}>
         <div className="admin-login-container">
           <div className="admin-card" style={{ width: '100%', maxWidth: '420px', padding: '2.5rem' }}>
             <div className="flex-col items-center" style={{ gap: '0.5rem', marginBottom: '2rem', textAlign: 'center' }}>
@@ -460,7 +480,7 @@ export default function AdminPage() {
   // DASHBOARD SCREEN WITH BACK TO SITE LINK & CONTACTED RETURN
   // -------------------------------------------------------------
   return (
-    <div className="admin-body-wrap">
+    <div className={`admin-body-wrap ${adminTheme === 'light' ? 'light-mode' : ''}`}>
       <div className="admin-layout-wrapper">
         {/* CLEAN LEFT SIDEBAR */}
         <aside className={`admin-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
@@ -578,7 +598,7 @@ export default function AdminPage() {
             <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '1rem', marginTop: '1rem' }}>
               <button
                 onClick={handleLogout}
-                className="sidebar-nav-btn sidebar-tooltip-trigger"
+                className="sidebar-nav-btn sidebar-tooltip-trigger admin-sidebar-logout-btn"
                 style={{ color: '#ff453a', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
               >
                 <span className="sidebar-nav-icon">
@@ -616,6 +636,34 @@ export default function AdminPage() {
                 />
               )}
 
+              {/* Sun / Moon Theme Toggle Button */}
+              <button
+                onClick={toggleTheme}
+                className="admin-theme-toggle-btn"
+                title={`Switch to ${adminTheme === 'dark' ? 'Light' : 'Dark'} Mode`}
+                aria-label={`Switch to ${adminTheme === 'dark' ? 'Light' : 'Dark'} Mode`}
+              >
+                {adminTheme === 'dark' ? (
+                  /* Moon Icon for Dark Mode */
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                  </svg>
+                ) : (
+                  /* Sun Icon for Light Mode */
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="5" />
+                    <line x1="12" y1="1" x2="12" y2="3" />
+                    <line x1="12" y1="21" x2="12" y2="23" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                    <line x1="1" y1="12" x2="3" y2="12" />
+                    <line x1="21" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                  </svg>
+                )}
+              </button>
+
               <button onClick={() => setIsAddModalOpen(true)} className="admin-btn admin-btn-primary">
                 + ADD BOOKING
               </button>
@@ -632,13 +680,13 @@ export default function AdminPage() {
             <div className="admin-stats-grid">
               <div className="admin-card flex-col justify-between">
                 <span className="stat-label">Total Booked Clients</span>
-                <div className="stat-val">{stats.total}</div>
+                <div className="stat-val stat-val-total">{stats.total}</div>
                 <div style={{ fontSize: '0.75rem', color: '#a0a0a8', marginTop: '0.6rem' }}>All Recorded Inquiries</div>
               </div>
 
               <div className="admin-card flex-col justify-between">
                 <span className="stat-label">Pending Action</span>
-                <div className="stat-val" style={{ color: '#ffc107' }}>
+                <div className="stat-val stat-val-pending" style={{ color: '#ffc107' }}>
                   {stats.pending}
                 </div>
                 <div style={{ fontSize: '0.75rem', color: '#a0a0a8', marginTop: '0.6rem' }}>Needs Review</div>
@@ -646,7 +694,7 @@ export default function AdminPage() {
 
               <div className="admin-card flex-col justify-between">
                 <span className="stat-label">Contacted Clients</span>
-                <div className="stat-val" style={{ color: '#10b981' }}>
+                <div className="stat-val stat-val-contacted" style={{ color: '#10b981' }}>
                   {stats.contacted}
                 </div>
                 <div style={{ fontSize: '0.75rem', color: '#a0a0a8', marginTop: '0.6rem' }}>In Negotiation</div>
@@ -654,7 +702,7 @@ export default function AdminPage() {
 
               <div className="admin-card flex-col justify-between">
                 <span className="stat-label">Reviewed Inquiries</span>
-                <div className="stat-val" style={{ color: '#ffffff' }}>
+                <div className="stat-val stat-val-reviewed" style={{ color: '#818cf8' }}>
                   {stats.reviewed}
                 </div>
                 <div style={{ fontSize: '0.75rem', color: '#a0a0a8', marginTop: '0.6rem' }}>Scoped & Ready</div>
@@ -718,6 +766,7 @@ export default function AdminPage() {
                     >
                       {/* Background track circle */}
                       <circle
+                        className="donut-bg-circle"
                         cx="110"
                         cy="110"
                         r="78"
@@ -778,6 +827,7 @@ export default function AdminPage() {
                       {hoveredServiceIndex !== null && pieSegments[hoveredServiceIndex] ? (
                         <>
                           <span
+                            className="donut-hover-pct"
                             style={{
                               fontSize: '1.6rem',
                               fontWeight: 900,
@@ -789,6 +839,7 @@ export default function AdminPage() {
                             {pieSegments[hoveredServiceIndex].pct}%
                           </span>
                           <span
+                            className="donut-hover-title"
                             style={{
                               fontSize: '0.6875rem',
                               fontWeight: 700,
@@ -802,16 +853,16 @@ export default function AdminPage() {
                           >
                             {pieSegments[hoveredServiceIndex].service}
                           </span>
-                          <span style={{ fontSize: '0.625rem', color: '#a0a0a8', marginTop: '0.12rem', fontWeight: 600 }}>
+                          <span className="donut-hover-count" style={{ fontSize: '0.625rem', color: '#a0a0a8', marginTop: '0.12rem', fontWeight: 600 }}>
                             {pieSegments[hoveredServiceIndex].count} {pieSegments[hoveredServiceIndex].count === 1 ? 'Inquiry' : 'Inquiries'}
                           </span>
                         </>
                       ) : (
                         <>
-                          <span style={{ fontSize: '1.85rem', fontWeight: 900, color: '#ffffff', lineHeight: 1 }}>
+                          <span className="donut-center-val" style={{ fontSize: '1.85rem', fontWeight: 900, color: '#ffffff', lineHeight: 1 }}>
                             {stats.total}
                           </span>
-                          <span style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.08em', color: '#a0a0a8', marginTop: '0.25rem' }}>
+                          <span className="donut-center-label" style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.08em', color: '#a0a0a8', marginTop: '0.25rem' }}>
                             TOTAL INQUIRIES
                           </span>
                         </>
@@ -1033,7 +1084,7 @@ export default function AdminPage() {
                 <span className={`status-pill status-${selectedBooking.status}`} style={{ fontSize: '0.65rem', marginBottom: '0.25rem' }}>
                   {selectedBooking.inquiryId}
                 </span>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', marginTop: '0.25rem' }}>{selectedBooking.clientName}</h3>
+                <h3 className="modal-client-title" style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', marginTop: '0.25rem' }}>{selectedBooking.clientName}</h3>
                 {selectedBooking.companyName && <p style={{ fontSize: '0.8125rem', color: '#a0a0a8' }}>{selectedBooking.companyName}</p>}
               </div>
 
@@ -1045,7 +1096,7 @@ export default function AdminPage() {
             <div className="grid-2col" style={{ gap: '1rem' }}>
               <div>
                 <label className="stat-label">Email Address</label>
-                <div style={{ color: '#ffffff', fontWeight: 600, marginTop: '0.2rem' }}>{selectedBooking.email}</div>
+                <div className="modal-detail-val" style={{ color: '#ffffff', fontWeight: 600, marginTop: '0.2rem' }}>{selectedBooking.email}</div>
               </div>
               <div>
                 <label className="stat-label">Phone / WhatsApp</label>
@@ -1053,11 +1104,11 @@ export default function AdminPage() {
               </div>
               <div>
                 <label className="stat-label">Service Type</label>
-                <div style={{ color: '#ffffff', fontWeight: 600, marginTop: '0.2rem' }}>{selectedBooking.serviceType}</div>
+                <div className="modal-detail-val" style={{ color: '#ffffff', fontWeight: 600, marginTop: '0.2rem' }}>{selectedBooking.serviceType}</div>
               </div>
               <div>
                 <label className="stat-label">Company / Brand</label>
-                <div style={{ color: '#ffffff', fontWeight: 600, marginTop: '0.2rem' }}>
+                <div className="modal-detail-val" style={{ color: '#ffffff', fontWeight: 600, marginTop: '0.2rem' }}>
                   {selectedBooking.companyName || 'N/A'}
                 </div>
               </div>
@@ -1066,6 +1117,7 @@ export default function AdminPage() {
             <div>
               <label className="stat-label">Project Description</label>
               <div
+                className="modal-desc-box"
                 style={{
                   background: 'rgba(255, 255, 255, 0.04)',
                   padding: '1rem',
@@ -1083,7 +1135,7 @@ export default function AdminPage() {
             </div>
 
             <div className="flex-row items-center justify-between" style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '1rem', marginTop: '0.5rem' }}>
-              <span style={{ fontSize: '0.75rem', color: '#666670' }}>
+              <span className="modal-footer-date" style={{ fontSize: '0.75rem', color: '#666670' }}>
                 Date Received: {new Date(selectedBooking.createdAt).toLocaleString()}
               </span>
 

@@ -53,10 +53,7 @@ export default function AdminPage() {
     email: '',
     phone: '',
     serviceType: siteData.services?.[0]?.title || 'Commercial Ad Film',
-    budgetRange: '$3,000 - $5,000',
-    timeline: 'Standard (2-4 Weeks)',
     description: '',
-    footageLink: '',
     status: 'pending',
   });
 
@@ -200,11 +197,8 @@ export default function AdminPage() {
           companyName: '',
           email: '',
           phone: '',
-          serviceType: 'Branding Film & Commercial',
-          budgetRange: '$3,000 - $5,000',
-          timeline: 'Standard (2-4 Weeks)',
+          serviceType: 'Commercial Ad Film',
           description: '',
-          footageLink: '',
           status: 'pending',
         });
       } else {
@@ -225,16 +219,7 @@ export default function AdminPage() {
     const contacted = bookings.filter((b) => b.status === 'contacted').length;
     const archived = bookings.filter((b) => b.status === 'archived').length;
 
-    let pipelineVal = 0;
-    bookings.forEach((b) => {
-      if (b.budgetRange?.includes('10,000')) pipelineVal += 8000;
-      else if (b.budgetRange?.includes('5,000')) pipelineVal += 4000;
-      else if (b.budgetRange?.includes('3,000')) pipelineVal += 2500;
-      else if (b.budgetRange?.includes('1,500')) pipelineVal += 1800;
-      else pipelineVal += 1500;
-    });
-
-    return { total, pending, reviewed, contacted, archived, pipelineVal };
+    return { total, pending, reviewed, contacted, archived };
   }, [bookings]);
 
   // Chart 1: Monthly Volume distribution
@@ -1071,9 +1056,9 @@ export default function AdminPage() {
                 <div style={{ color: '#ffffff', fontWeight: 600, marginTop: '0.2rem' }}>{selectedBooking.serviceType}</div>
               </div>
               <div>
-                <label className="stat-label">Budget Range & Timeline</label>
+                <label className="stat-label">Company / Brand</label>
                 <div style={{ color: '#ffffff', fontWeight: 600, marginTop: '0.2rem' }}>
-                  {selectedBooking.budgetRange} ({selectedBooking.timeline})
+                  {selectedBooking.companyName || 'N/A'}
                 </div>
               </div>
             </div>
@@ -1096,17 +1081,6 @@ export default function AdminPage() {
                 {selectedBooking.description}
               </div>
             </div>
-
-            {selectedBooking.footageLink && (
-              <div>
-                <label className="stat-label">Raw Footage / Assets Link</label>
-                <div style={{ marginTop: '0.4rem' }}>
-                  <a href={selectedBooking.footageLink} target="_blank" rel="noreferrer" style={{ color: '#ffffff', textDecoration: 'underline', wordBreak: 'break-all', fontSize: '0.875rem' }}>
-                    {selectedBooking.footageLink} ↗
-                  </a>
-                </div>
-              </div>
-            )}
 
             <div className="flex-row items-center justify-between" style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '1rem', marginTop: '0.5rem' }}>
               <span style={{ fontSize: '0.75rem', color: '#666670' }}>
@@ -1216,17 +1190,6 @@ export default function AdminPage() {
                   onChange={(e) => setNewForm({ ...newForm, description: e.target.value })}
                   placeholder="Details about project scope, goals, reference videos..."
                 ></textarea>
-              </div>
-
-              <div className="flex-col" style={{ gap: '0.4rem' }}>
-                <label className="stat-label">Footage / Assets Link (Drive/Dropbox/Frame.io)</label>
-                <input
-                  type="url"
-                  className="admin-input"
-                  value={newForm.footageLink}
-                  onChange={(e) => setNewForm({ ...newForm, footageLink: e.target.value })}
-                  placeholder="https://drive.google.com/..."
-                />
               </div>
 
               <div className="flex-row items-center justify-end" style={{ gap: '1rem', marginTop: '1rem' }}>

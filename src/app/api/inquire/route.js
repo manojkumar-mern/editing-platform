@@ -12,10 +12,7 @@ export async function POST(request) {
       phone,
       companyName = '',
       serviceType,
-      budgetRange = 'Flexible',
-      timeline = 'Standard',
       description,
-      footageLink = '',
     } = body;
 
     // Server-side validation for required fields
@@ -38,10 +35,7 @@ export async function POST(request) {
       phone: phone.trim(),
       companyName: companyName.trim(),
       serviceType,
-      budgetRange,
-      timeline,
       description: description.trim(),
-      footageLink: footageLink.trim(),
       status: 'pending',
     };
 

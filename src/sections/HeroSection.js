@@ -153,7 +153,7 @@ export default function HeroSection({ isLoaded, onOpenModal, onOpenProjectModal 
           playsInline
           preload={isLoaded ? 'metadata' : 'none'}
           src={isLoaded ? '/videos/project-01.mp4' : undefined}
-          poster="/images/hero-poster.jpg"
+          poster="/images/hero-poster.webp"
           style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(24px) brightness(0.7)' }}
         />
       </div>

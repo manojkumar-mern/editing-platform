@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
+import { siteData } from '@/data/siteData';
 
 export default function AdminPage() {
   const [checkingAuth, setCheckingAuth] = useState(true);
@@ -34,7 +35,7 @@ export default function AdminPage() {
     companyName: '',
     email: '',
     phone: '',
-    serviceType: 'Branding Films',
+    serviceType: siteData.services?.[0]?.title || 'Commercial Ad Film',
     budgetRange: '$3,000 - $5,000',
     timeline: 'Standard (2-4 Weeks)',
     description: '',
@@ -908,11 +909,12 @@ export default function AdminPage() {
                   value={newForm.serviceType}
                   onChange={(e) => setNewForm({ ...newForm, serviceType: e.target.value })}
                 >
-                  <option value="Branding Films">Branding Films</option>
-                  <option value="Commercial Ads">Commercial Ads</option>
-                  <option value="Social Media Videos">Social Media Videos</option>
-                  <option value="Real Estate Video Editing">Real Estate Video Editing</option>
-                  <option value="AI Video Production">AI Video Production</option>
+                  {siteData.services?.map((srv) => (
+                    <option key={srv.id || srv.title} value={srv.title}>
+                      {srv.title}
+                    </option>
+                  ))}
+                  <option value="Other Video Editing">Other Video Editing</option>
                 </select>
               </div>
 

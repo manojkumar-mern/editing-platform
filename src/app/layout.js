@@ -3,9 +3,9 @@ import '@/styles/admin.css';
 import SmoothScroll from '@/components/SmoothScroll';
 
 export const metadata = {
-  title: 'ATZYNC MEDIA | Creative Video Editing & Visual Studio',
-  description: 'ATZYNC MEDIA — A Mint of Creativity. IDEAS → VISUALS → IMPACT. Creative video editing and visual content studio specializing in Branding Films, Commercials, and Social Media Videos.',
-  keywords: ['Video Editing', 'Branding Films', 'Commercials', 'Social Media Videos', 'Post Production', 'Visual Content', 'ATZYNC MEDIA'],
+  title: 'ATZYNC MEDIA | Creative Video Production & Digital Marketing',
+  description: 'ATZYNC MEDIA — A Mint of Creativity. IDEAS → VISUALS → IMPACT. Premium video production and visual studio specializing in Commercial Ad Films, Product Photography, Corporate Videos, Real Estate Videos, Promotional Videos, and Meta Ads.',
+  keywords: ['Video Editing', 'Commercial Ad Film', 'Product Photography', 'Corporate Videos', 'Real Estate Videos', 'Promotional Videos', 'Meta Ads', 'Post Production', 'Visual Content', 'ATZYNC MEDIA'],
   authors: [{ name: 'ATZYNC MEDIA' }],
   robots: 'index, follow',
   icons: {

@@ -146,9 +146,9 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
                 width: 'max-content',
               }}
             >
-              <span>WE CREATE • WE PROMOTE • WE GROW BRANDS • BRANDING FILMS • COMMERCIAL ADS • </span>
-              <span>WE CREATE • WE PROMOTE • WE GROW BRANDS • BRANDING FILMS • COMMERCIAL ADS • </span>
-              <span>WE CREATE • WE PROMOTE • WE GROW BRANDS • BRANDING FILMS • COMMERCIAL ADS • </span>
+              <span>WE CREATE • WE PROMOTE • WE GROW BRANDS • COMMERCIAL AD FILM • PRODUCT PHOTOGRAPHY • CORPORATE VIDEOS • </span>
+              <span>WE CREATE • WE PROMOTE • WE GROW BRANDS • COMMERCIAL AD FILM • PRODUCT PHOTOGRAPHY • CORPORATE VIDEOS • </span>
+              <span>WE CREATE • WE PROMOTE • WE GROW BRANDS • COMMERCIAL AD FILM • PRODUCT PHOTOGRAPHY • CORPORATE VIDEOS • </span>
             </div>
           </div>
 
@@ -169,9 +169,9 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
                 width: 'max-content',
               }}
             >
-              <span>REAL ESTATE VIDEO EDITING • AI VIDEO PRODUCTION • BRANDING FILMS • COMMERCIAL ADS • </span>
-              <span>REAL ESTATE VIDEO EDITING • AI VIDEO PRODUCTION • BRANDING FILMS • COMMERCIAL ADS • </span>
-              <span>REAL ESTATE VIDEO EDITING • AI VIDEO PRODUCTION • BRANDING FILMS • COMMERCIAL ADS • </span>
+              <span>REAL ESTATE VIDEOS • PROMOTIONAL VIDEOS • META ADS • COMMERCIAL AD FILM • </span>
+              <span>REAL ESTATE VIDEOS • PROMOTIONAL VIDEOS • META ADS • COMMERCIAL AD FILM • </span>
+              <span>REAL ESTATE VIDEOS • PROMOTIONAL VIDEOS • META ADS • COMMERCIAL AD FILM • </span>
             </div>
           </div>
         </div>
@@ -223,7 +223,7 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
           </div>
 
           <p ref={textRef} className="body-lead" style={{ maxWidth: '720px', opacity: 0.88, fontSize: 'clamp(0.85rem, 1.2vw, 1.125rem)', color: 'rgba(255, 255, 255, 0.85)', textShadow: '0 2px 15px rgba(0,0,0,0.7)', textAlign: 'center' }}>
-            Connect directly with Atzyncmedia for branding films, commercial ads, real estate video editing, or AI video production.
+            Connect directly with Atzyncmedia for commercial ad films, product photography, corporate videos, real estate videos, promotional videos, or Meta ads.
           </p>
 
           <div

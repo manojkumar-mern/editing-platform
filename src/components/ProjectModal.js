@@ -5,12 +5,14 @@ import { siteData } from '@/data/siteData';
 import { soundManager } from '@/lib/audioManager';
 
 export default function ProjectModal({ isOpen, onClose, initialService = '' }) {
+  const defaultService = siteData.services?.[0]?.title || 'Commercial Ad Film';
+
   const [formData, setFormData] = useState({
     clientName: '',
     email: '',
     phone: '',
     companyName: '',
-    serviceType: initialService || 'Branding Films',
+    serviceType: initialService || defaultService,
     description: '',
   });
 
@@ -22,10 +24,11 @@ export default function ProjectModal({ isOpen, onClose, initialService = '' }) {
   const modalRef = useRef(null);
 
   useEffect(() => {
-    if (initialService) {
-      setFormData((prev) => ({ ...prev, serviceType: initialService }));
-    }
-  }, [initialService]);
+    setFormData((prev) => ({
+      ...prev,
+      serviceType: initialService || defaultService,
+    }));
+  }, [initialService, defaultService]);
 
   useEffect(() => {
     if (isOpen) {
@@ -54,13 +57,7 @@ export default function ProjectModal({ isOpen, onClose, initialService = '' }) {
 
   if (!isOpen) return null;
 
-  const servicesList = [
-    'Branding Films',
-    'Commercial Ads',
-    'Social Media Videos',
-    'Real Estate Video Editing',
-    'AI Video Production',
-  ];
+  const servicesList = siteData.services ? siteData.services.map((s) => s.title) : [];
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

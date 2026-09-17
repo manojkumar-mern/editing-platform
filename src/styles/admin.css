@@ -776,7 +776,8 @@ select option {
     border-bottom: none !important;
   }
 
-  .admin-sidebar-top-toggle {
+  .admin-sidebar-top-toggle,
+  .admin-sidebar-toggle-btn {
     display: none !important;
   }
 

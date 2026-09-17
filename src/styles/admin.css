@@ -136,72 +136,39 @@
 /* Metric Stats Grid */
 .admin-stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.25rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.admin-stats-grid .admin-card {
+  padding: 1.1rem 1.25rem;
 }
 
 .stat-val {
   font-family: var(--font-heading, sans-serif);
-  font-size: 2.5rem;
+  font-size: 2.1rem;
   font-weight: 800;
   color: #ffffff;
-  margin-top: 0.65rem;
+  margin-top: 0.4rem;
   line-height: 1;
   letter-spacing: -0.02em;
 }
 
 .stat-label {
-  font-size: 0.725rem;
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: #a0a0a8;
 }
 
-/* Status Badges */
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.725rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.status-pending {
-  background: rgba(255, 193, 7, 0.12);
-  color: #ffc107;
-  border: 1px solid rgba(255, 193, 7, 0.3);
-}
-
-.status-reviewed {
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.status-contacted {
-  background: rgba(16, 185, 129, 0.12);
-  color: #10b981;
-  border: 1px solid rgba(16, 185, 129, 0.3);
-}
-
-.status-archived {
-  background: rgba(148, 163, 184, 0.12);
-  color: #94a3b8;
-  border: 1px solid rgba(148, 163, 184, 0.3);
-}
-
 /* STYLISH BAR CHART */
 .bar-chart-wrapper {
   position: relative;
   width: 100%;
-  height: 260px;
-  margin-top: 1.5rem;
+  height: 245px;
+  margin-top: 3.6rem;
 }
 
 .chart-bar-container {
@@ -258,6 +225,66 @@
 .chart-bar-container:hover .chart-tooltip {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Fixed Dashboard Layout & Donut Pie Chart */
+.admin-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.admin-dashboard-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 465px;
+  max-height: 465px;
+  padding: 1.5rem 1.65rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.donut-chart-wrapper {
+  position: relative;
+  width: 190px;
+  height: 190px;
+  margin: 0.5rem auto;
+  flex-shrink: 0;
+}
+
+.demand-metrics-legend {
+  flex: 1;
+  min-height: 0;
+  max-height: 165px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-right: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+/* Scrollbar styling for legend */
+.demand-metrics-legend::-webkit-scrollbar {
+  width: 5px;
+}
+
+.demand-metrics-legend::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+}
+
+.demand-metrics-legend::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.demand-metrics-legend::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
 }
 
 /* Admin Table */

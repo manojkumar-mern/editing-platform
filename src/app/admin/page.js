@@ -4,6 +4,21 @@ import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { siteData } from '@/data/siteData';
 
+const SERVICE_COLORS = [
+  { main: '#00f2fe', bg: 'rgba(0, 242, 254, 0.12)', border: 'rgba(0, 242, 254, 0.35)', text: '#00f2fe' }, // Electric Cyan
+  { main: '#10b981', bg: 'rgba(16, 185, 129, 0.12)', border: 'rgba(16, 185, 129, 0.35)', text: '#34d399' }, // Emerald
+  { main: '#ffc107', bg: 'rgba(255, 193, 7, 0.12)', border: 'rgba(255, 193, 7, 0.35)', text: '#ffc107' }, // Amber
+  { main: '#f43f5e', bg: 'rgba(244, 63, 94, 0.12)', border: 'rgba(244, 63, 94, 0.35)', text: '#fb7185' }, // Neon Rose
+  { main: '#8b5cf6', bg: 'rgba(139, 92, 246, 0.12)', border: 'rgba(139, 92, 246, 0.35)', text: '#c084fc' }, // Violet
+  { main: '#3b82f6', bg: 'rgba(59, 130, 246, 0.12)', border: 'rgba(59, 130, 246, 0.35)', text: '#60a5fa' }, // Blue
+  { main: '#f97316', bg: 'rgba(249, 115, 22, 0.12)', border: 'rgba(249, 115, 22, 0.35)', text: '#fb923c' }, // Orange
+  { main: '#06b6d4', bg: 'rgba(6, 182, 212, 0.12)', border: 'rgba(6, 182, 212, 0.35)', text: '#22d3ee' }, // Teal / Cyan
+  { main: '#ec4899', bg: 'rgba(236, 72, 153, 0.12)', border: 'rgba(236, 72, 153, 0.35)', text: '#f472b6' }, // Pink
+  { main: '#eab308', bg: 'rgba(234, 179, 8, 0.12)', border: 'rgba(234, 179, 8, 0.35)', text: '#fde047' }, // Yellow
+  { main: '#6366f1', bg: 'rgba(99, 102, 241, 0.12)', border: 'rgba(99, 102, 241, 0.35)', text: '#818cf8' }, // Indigo
+  { main: '#a855f7', bg: 'rgba(168, 85, 247, 0.12)', border: 'rgba(168, 85, 247, 0.35)', text: '#d8b4fe' }, // Purple
+];
+
 export default function AdminPage() {
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -26,6 +41,7 @@ export default function AdminPage() {
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [hoveredServiceIndex, setHoveredServiceIndex] = useState(null);
 
   // Add Booking Modal state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -239,21 +255,78 @@ export default function AdminPage() {
     }));
   }, [bookings]);
 
-  // Chart 2: Service Distribution
+  // 6 Official Services list from siteData
+  const OFFICIAL_SERVICES = useMemo(
+    () =>
+      siteData.services?.map((s) => s.title) || [
+        'Commercial Ad Film',
+        'Product Photography',
+        'Corporate Videos',
+        'Real Estate Videos',
+        'Promotional Videos',
+        'Meta Ads',
+      ],
+    []
+  );
+
+  // Chart 2: Service Distribution & Donut Pie Segments (Strictly 6 Official Services)
   const serviceStats = useMemo(() => {
     const map = {};
-    bookings.forEach((b) => {
-      const st = b.serviceType || 'Other Video Editing';
-      map[st] = (map[st] || 0) + 1;
+    OFFICIAL_SERVICES.forEach((s) => {
+      map[s] = 0;
     });
 
-    const total = bookings.length || 1;
-    return Object.entries(map).map(([service, count]) => ({
-      service,
-      count,
-      pct: Math.round((count / total) * 100),
-    }));
-  }, [bookings]);
+    bookings.forEach((b) => {
+      const rawSt = b.serviceType || '';
+      let matched = OFFICIAL_SERVICES.find((s) => s.toLowerCase() === rawSt.toLowerCase());
+      if (!matched) {
+        const lower = rawSt.toLowerCase();
+        if (lower.includes('photo')) matched = 'Product Photography';
+        else if (lower.includes('corp')) matched = 'Corporate Videos';
+        else if (lower.includes('estate') || lower.includes('real')) matched = 'Real Estate Videos';
+        else if (lower.includes('promo')) matched = 'Promotional Videos';
+        else if (lower.includes('meta')) matched = 'Meta Ads';
+        else matched = 'Commercial Ad Film';
+      }
+      map[matched] = (map[matched] || 0) + 1;
+    });
+
+    const total = bookings.length;
+    return OFFICIAL_SERVICES.map((service) => {
+      const count = map[service] || 0;
+      return {
+        service,
+        count,
+        pct: total > 0 ? Math.round((count / total) * 100) : 0,
+      };
+    });
+  }, [bookings, OFFICIAL_SERVICES]);
+
+  const pieSegments = useMemo(() => {
+    const total = bookings.length;
+    const radius = 78;
+    const circumference = 2 * Math.PI * radius;
+    let accumulatedOffset = 0;
+
+    return serviceStats.map((st, idx) => {
+      const color = SERVICE_COLORS[idx % SERVICE_COLORS.length];
+      const ratio = total > 0 ? st.count / total : 0;
+      const rawStrokeLength = ratio * circumference;
+      const gap = total > 1 && serviceStats.length > 1 ? 2.5 : 0;
+      const strokeLength = Math.max(0, rawStrokeLength - gap);
+      const strokeOffset = -accumulatedOffset;
+      accumulatedOffset += rawStrokeLength;
+
+      return {
+        ...st,
+        color,
+        ratio,
+        strokeLength,
+        strokeOffset,
+        circumference,
+      };
+    });
+  }, [serviceStats, bookings.length]);
 
   // Filtered Bookings for Table
   const filteredBookings = useMemo(() => {
@@ -564,65 +637,240 @@ export default function AdminPage() {
 
             {/* TAB 1: DASHBOARD OVERVIEW ONLY */}
             {activeTab === 'overview' && (
-              <div className="grid-2col admin-dashboard-grid" style={{ gap: '1.75rem' }}>
+              <div className="admin-dashboard-grid">
                 {/* Chart 1: STYLISH METALLIC BAR GRAPH */}
-                <div className="admin-card">
-                  <div className="flex-row items-center justify-between" style={{ marginBottom: '1rem' }}>
-                    <div>
-                      <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#ffffff' }}>Booking Velocity & Trends</h3>
-                      <p style={{ fontSize: '0.75rem', color: '#a0a0a8', marginTop: '0.2rem' }}>12-Month distribution of client inquiries</p>
+                <div className="admin-card admin-dashboard-card">
+                  <div>
+                    <div className="flex-row items-center justify-between" style={{ marginBottom: '0.75rem' }}>
+                      <div>
+                        <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#ffffff' }}>Booking Velocity & Trends</h3>
+                        <p style={{ fontSize: '0.75rem', color: '#a0a0a8', marginTop: '0.2rem' }}>12-Month distribution of client inquiries</p>
+                      </div>
+                      <span className="badge-tag" style={{ fontSize: '0.65rem' }}>BAR GRAPH</span>
                     </div>
-                    <span className="badge-tag" style={{ fontSize: '0.65rem' }}>BAR GRAPH</span>
+
+                    {/* STYLISH BAR CHART */}
+                    <div className="bar-chart-wrapper flex-row items-end justify-between" style={{ paddingBottom: '1rem', borderBottom: '1px dashed rgba(255, 255, 255, 0.15)', gap: '0.35rem' }}>
+                      {chartData.map((item, idx) => (
+                        <div key={idx} className="chart-bar-container">
+                          <div className="chart-tooltip">{item.count} Bookings</div>
+                          <div
+                            className={`chart-bar ${item.count > 0 ? 'chart-bar-active' : 'chart-bar-empty'}`}
+                            style={{
+                              height: `${Math.max(item.heightPct, 12)}%`,
+                            }}
+                          ></div>
+                          <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#a0a0a8' }}>{item.month}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
-                  {/* STYLISH BAR CHART */}
-                  <div className="bar-chart-wrapper flex-row items-end justify-between" style={{ paddingBottom: '1.5rem', borderBottom: '1px dashed rgba(255, 255, 255, 0.15)', gap: '0.35rem' }}>
-                    {chartData.map((item, idx) => (
-                      <div key={idx} className="chart-bar-container">
-                        <div className="chart-tooltip">{item.count} Bookings</div>
-                        <div
-                          className={`chart-bar ${item.count > 0 ? 'chart-bar-active' : 'chart-bar-empty'}`}
-                          style={{
-                            height: `${Math.max(item.heightPct, 12)}%`,
-                          }}
-                        ></div>
-                        <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#a0a0a8' }}>{item.month}</span>
-                      </div>
-                    ))}
+                  {/* Bar Chart Summary Footer */}
+                  <div className="flex-row items-center justify-between" style={{ marginTop: '0.85rem', paddingTop: '0.5rem', borderTop: '1px solid rgba(255, 255, 255, 0.06)', fontSize: '0.75rem', color: '#a0a0a8' }}>
+                    <span>Peak Month: <strong style={{ color: '#ffffff' }}>Sep 2026</strong></span>
+                    <span>Recorded Inquiries: <strong style={{ color: '#ffffff' }}>{stats.total} Clients</strong></span>
                   </div>
                 </div>
 
-                {/* Chart 2: Service Demand Breakdown */}
-                <div className="admin-card">
-                  <div className="flex-row items-center justify-between" style={{ marginBottom: '1rem' }}>
+                {/* Chart 2: Service Demand Breakdown - Interactive Donut Circle Pie Chart */}
+                <div className="admin-card admin-dashboard-card">
+                  <div className="flex-row items-center justify-between" style={{ marginBottom: '0.5rem' }}>
                     <div>
                       <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#ffffff' }}>Service Type Demand</h3>
-                      <p style={{ fontSize: '0.75rem', color: '#a0a0a8', marginTop: '0.2rem' }}>Category demand analytics</p>
+                      <p style={{ fontSize: '0.75rem', color: '#a0a0a8', marginTop: '0.2rem' }}>Category demand distribution</p>
                     </div>
                     <span className="badge-tag" style={{ fontSize: '0.65rem' }}>DEMAND METRICS</span>
                   </div>
 
-                  <div className="flex-col" style={{ gap: '1.35rem', marginTop: '1.25rem' }}>
-                    {serviceStats.map((st, idx) => (
-                      <div key={idx} className="flex-col" style={{ gap: '0.4rem' }}>
-                        <div className="flex-row items-center justify-between" style={{ fontSize: '0.85rem' }}>
-                          <span style={{ color: '#ffffff', fontWeight: 600 }}>{st.service}</span>
-                          <span style={{ color: '#a0a0a8', fontWeight: 700 }}>
-                            {st.count} ({st.pct}%)
-                          </span>
-                        </div>
-                        <div style={{ width: '100%', height: '8px', background: 'rgba(255, 255, 255, 0.06)', borderRadius: '4px', overflow: 'hidden' }}>
-                          <div
+                  {/* CIRCULAR DONUT PIE CHART GRAPH */}
+                  <div className="donut-chart-wrapper">
+                    <svg
+                      viewBox="0 0 220 220"
+                      onMouseLeave={() => setHoveredServiceIndex(null)}
+                      style={{ width: '100%', height: '100%', transform: 'rotate(-90deg)', overflow: 'visible' }}
+                    >
+                      {/* Background track circle */}
+                      <circle
+                        cx="110"
+                        cy="110"
+                        r="78"
+                        fill="transparent"
+                        stroke="rgba(255, 255, 255, 0.06)"
+                        strokeWidth="18"
+                        style={{ pointerEvents: 'none' }}
+                      />
+
+                      {/* Donut Segments - ONLY stroke triggers hover */}
+                      {pieSegments.map((seg, idx) => {
+                        const isHovered = hoveredServiceIndex === idx;
+                        const isAnyHovered = hoveredServiceIndex !== null;
+
+                        return (
+                          <circle
+                            key={idx}
+                            cx="110"
+                            cy="110"
+                            r="78"
+                            fill="transparent"
+                            stroke={seg.color.main}
+                            strokeWidth={isHovered ? 24 : 18}
+                            strokeDasharray={`${seg.strokeLength} ${seg.circumference - seg.strokeLength}`}
+                            strokeDashoffset={seg.strokeOffset}
+                            onMouseEnter={() => setHoveredServiceIndex(idx)}
+                            onMouseLeave={() => setHoveredServiceIndex(null)}
                             style={{
-                              width: `${Math.max(st.pct, 8)}%`,
-                              height: '100%',
-                              background: idx === 0 ? 'linear-gradient(90deg, #ffffff 0%, #d4d4d8 100%)' : idx === 1 ? 'linear-gradient(90deg, #10b981 0%, #34d399 100%)' : idx === 2 ? 'linear-gradient(90deg, #ffc107 0%, #ffe082 100%)' : 'linear-gradient(90deg, #94a3b8 0%, #cbd5e1 100%)',
-                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              pointerEvents: 'stroke',
+                              transition: 'stroke-width 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, filter 0.25s ease',
+                              opacity: isAnyHovered ? (isHovered ? 1 : 0.35) : 1,
+                              filter: isHovered ? `drop-shadow(0 0 10px ${seg.color.main})` : 'none',
                             }}
-                          ></div>
-                        </div>
+                          />
+                        );
+                      })}
+                    </svg>
+
+                    {/* Center Hover Details / Summary Text - pointerEvents: none */}
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        pointerEvents: 'none',
+                        textAlign: 'center',
+                        padding: '0.5rem',
+                        boxSizing: 'border-box',
+                      }}
+                    >
+                      {hoveredServiceIndex !== null && pieSegments[hoveredServiceIndex] ? (
+                        <>
+                          <span
+                            style={{
+                              fontSize: '1.6rem',
+                              fontWeight: 900,
+                              color: pieSegments[hoveredServiceIndex].color.text,
+                              lineHeight: 1,
+                              textShadow: `0 0 12px ${pieSegments[hoveredServiceIndex].color.main}66`,
+                            }}
+                          >
+                            {pieSegments[hoveredServiceIndex].pct}%
+                          </span>
+                          <span
+                            style={{
+                              fontSize: '0.6875rem',
+                              fontWeight: 700,
+                              color: '#ffffff',
+                              marginTop: '0.25rem',
+                              maxWidth: '115px',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
+                            {pieSegments[hoveredServiceIndex].service}
+                          </span>
+                          <span style={{ fontSize: '0.625rem', color: '#a0a0a8', marginTop: '0.12rem', fontWeight: 600 }}>
+                            {pieSegments[hoveredServiceIndex].count} {pieSegments[hoveredServiceIndex].count === 1 ? 'Inquiry' : 'Inquiries'}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span style={{ fontSize: '1.85rem', fontWeight: 900, color: '#ffffff', lineHeight: 1 }}>
+                            {stats.total}
+                          </span>
+                          <span style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.08em', color: '#a0a0a8', marginTop: '0.25rem' }}>
+                            TOTAL INQUIRIES
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* SCROLLABLE LEGEND BREAKDOWN */}
+                  <div
+                    className="demand-metrics-legend"
+                    data-lenis-prevent="true"
+                    data-lenis-prevent-touch="true"
+                  >
+                    {pieSegments.length === 0 ? (
+                      <div style={{ textAlign: 'center', color: '#a0a0a8', fontSize: '0.8rem', padding: '1rem' }}>
+                        No service demand data yet.
                       </div>
-                    ))}
+                    ) : (
+                      pieSegments.map((seg, idx) => {
+                        const isHovered = hoveredServiceIndex === idx;
+
+                        return (
+                          <div
+                            key={idx}
+                            onMouseEnter={() => setHoveredServiceIndex(idx)}
+                            onMouseLeave={() => setHoveredServiceIndex(null)}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              padding: '0.45rem 0.65rem',
+                              borderRadius: '8px',
+                              background: isHovered ? seg.color.bg : 'rgba(255, 255, 255, 0.03)',
+                              border: `1px solid ${isHovered ? seg.color.border : 'rgba(255, 255, 255, 0.05)'}`,
+                              transition: 'all 0.2s ease',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', minWidth: 0 }}>
+                              <span
+                                style={{
+                                  width: '10px',
+                                  height: '10px',
+                                  borderRadius: '50%',
+                                  background: seg.color.main,
+                                  boxShadow: isHovered ? `0 0 8px ${seg.color.main}` : 'none',
+                                  flexShrink: 0,
+                                }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: '0.78rem',
+                                  fontWeight: isHovered ? 700 : 600,
+                                  color: isHovered ? '#ffffff' : '#d4d4d8',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  whiteSpace: 'nowrap',
+                                }}
+                              >
+                                {seg.service}
+                              </span>
+                            </div>
+
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
+                              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#a0a0a8' }}>
+                                {seg.count}
+                              </span>
+                              <span
+                                style={{
+                                  fontSize: '0.7rem',
+                                  fontWeight: 800,
+                                  padding: '0.15rem 0.45rem',
+                                  borderRadius: '5px',
+                                  background: seg.color.bg,
+                                  color: seg.color.text,
+                                  border: `1px solid ${seg.color.border}`,
+                                }}
+                              >
+                                {seg.pct}%
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })
+                    )}
                   </div>
                 </div>
               </div>

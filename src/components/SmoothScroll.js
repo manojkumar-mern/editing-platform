@@ -109,7 +109,16 @@ export default function SmoothScroll({ children }) {
         }
       });
       ScrollTrigger.refresh();
-    }, 100);
+
+      // Automatically scroll to hash target if coming from another page (e.g., /work -> /#work or /#cta)
+      if (typeof window !== 'undefined' && window.location.hash) {
+        const hash = window.location.hash;
+        const targetEl = document.querySelector(hash);
+        if (targetEl && window.lenis) {
+          window.lenis.scrollTo(targetEl, { offset: 0, duration: 1.2 });
+        }
+      }
+    }, 150);
 
     return () => clearTimeout(timer);
   }, [pathname]);

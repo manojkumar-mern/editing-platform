@@ -347,6 +347,7 @@ export default function WorkPage() {
 
       {/* Bottom Conversion CTA Strip */}
       <section
+        id="cta"
         style={{
           borderTop: '1px solid var(--border-subtle)',
           backgroundColor: '#0a0b10',

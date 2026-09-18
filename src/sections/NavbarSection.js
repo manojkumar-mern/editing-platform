@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import { gsap } from '@/lib/gsap';
 import { siteData } from '@/data/siteData';
 
@@ -8,6 +9,8 @@ export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navRef = useRef(null);
+  const pathname = usePathname();
+  const isWorkPage = pathname === '/work';
 
   // Scroll listener for sticky background transition
   useEffect(() => {
@@ -62,6 +65,21 @@ export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
     };
   }, [mobileMenuOpen]);
 
+  const handleNavClick = (e, item) => {
+    if (pathname === '/') {
+      const hashIndex = item.href.indexOf('#');
+      if (hashIndex !== -1) {
+        const hash = item.href.substring(hashIndex);
+        const targetEl = document.querySelector(hash);
+        if (targetEl && typeof window !== 'undefined' && window.lenis) {
+          e.preventDefault();
+          window.history.pushState(null, '', item.href);
+          window.lenis.scrollTo(targetEl, { offset: 0, duration: 1.2 });
+        }
+      }
+    }
+  };
+
   const navItems = [
     { label: 'HOME', href: '/#hero', number: '01' },
     { label: 'ABOUT', href: '/#about', number: '02' },
@@ -97,7 +115,12 @@ export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
           <nav className="desktop-nav flex-row items-center" style={{ gap: '2.5rem' }}>
             <div className="flex-row items-center" style={{ gap: '2rem' }}>
               {navItems.map((item) => (
-                <a key={item.label} href={item.href} className="nav-link-item">
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="nav-link-item"
+                  onClick={(e) => handleNavClick(e, item)}
+                >
                   {item.label}
                 </a>
               ))}
@@ -144,7 +167,10 @@ export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
               key={item.label}
               href={item.href}
               className="mobile-nav-link"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => {
+                setMobileMenuOpen(false);
+                handleNavClick(e, item);
+              }}
             >
               <span className="meta-tag" style={{ fontSize: '0.875rem' }}>
                 {item.number}

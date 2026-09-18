@@ -65,10 +65,11 @@
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Sidebar Layout Structure & ChatGPT-Style Slim State */
 .admin-layout-wrapper {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
   background-color: #0a0a0c;
   width: 100%;
 }
@@ -81,11 +82,13 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  position: sticky;
-  top: 0;
+  max-height: 100vh;
+  overflow-y: auto;
+  position: relative;
   z-index: 90;
   padding: 1.25rem 1.15rem;
   box-sizing: border-box;
+  flex-shrink: 0;
   will-change: width, min-width;
   transition: width 0.32s cubic-bezier(0.16, 1, 0.3, 1), min-width 0.32s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -283,9 +286,40 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
   will-change: width;
   transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Custom Sleek Scrollbar for Admin Content & Sidebar */
+.admin-main-content::-webkit-scrollbar,
+.admin-sidebar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.admin-main-content::-webkit-scrollbar-track,
+.admin-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.admin-main-content::-webkit-scrollbar-thumb,
+.admin-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.admin-main-content::-webkit-scrollbar-thumb:hover,
+.admin-sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.admin-body-wrap.light-mode .admin-main-content::-webkit-scrollbar-thumb,
+.admin-body-wrap.light-mode .admin-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
 }
 
 /* Sidebar Navigation Items */

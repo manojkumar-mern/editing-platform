@@ -67,9 +67,7 @@
 
 .admin-layout-wrapper {
   display: flex;
-  height: 100vh;
-  max-height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
   background-color: #0a0a0c;
   width: 100%;
 }
@@ -82,13 +80,12 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  max-height: 100vh;
-  overflow-y: auto;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   z-index: 90;
   padding: 1.25rem 1.15rem;
   box-sizing: border-box;
-  flex-shrink: 0;
   will-change: width, min-width;
   transition: width 0.32s cubic-bezier(0.16, 1, 0.3, 1), min-width 0.32s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -286,12 +283,14 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  max-height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  will-change: width;
-  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  min-height: 100vh;
+  margin-left: 260px;
+  will-change: margin-left, width;
+  transition: margin-left 0.32s cubic-bezier(0.16, 1, 0.3, 1), width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.admin-sidebar.collapsed ~ .admin-main-content {
+  margin-left: 68px;
 }
 
 /* Custom Sleek Scrollbar for Admin Content & Sidebar */
@@ -806,6 +805,11 @@ select option {
 @media (max-width: 992px) {
   .admin-layout-wrapper {
     flex-direction: column;
+  }
+
+  .admin-main-content,
+  .admin-sidebar.collapsed ~ .admin-main-content {
+    margin-left: 0 !important;
   }
 
   .admin-sidebar,

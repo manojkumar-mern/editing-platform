@@ -367,6 +367,22 @@
   padding: 1.1rem 1.25rem;
 }
 
+.admin-stats-grid .admin-card:nth-child(1) {
+  border-top: 3px solid #ffffff;
+}
+
+.admin-stats-grid .admin-card:nth-child(2) {
+  border-top: 3px solid #ffc107;
+}
+
+.admin-stats-grid .admin-card:nth-child(3) {
+  border-top: 3px solid #10b981;
+}
+
+.admin-stats-grid .admin-card:nth-child(4) {
+  border-top: 3px solid #818cf8;
+}
+
 .stat-val {
   font-family: var(--font-heading, sans-serif);
   font-size: 2.1rem;
@@ -479,34 +495,37 @@
 .demand-metrics-legend {
   flex: 1;
   min-height: 0;
-  max-height: 165px;
-  overflow-y: auto;
+  max-height: 140px;
+  overflow-y: scroll;
   overscroll-behavior: contain;
   touch-action: pan-y;
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-  padding-right: 0.35rem;
+  padding-right: 0.45rem;
   margin-top: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.08);
 }
 
 /* Scrollbar styling for legend */
 .demand-metrics-legend::-webkit-scrollbar {
-  width: 5px;
+  width: 7px;
+  display: block;
 }
 
 .demand-metrics-legend::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
 }
 
 .demand-metrics-legend::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 99px;
 }
 
 .demand-metrics-legend::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.75);
 }
 
 /* Admin Table */
@@ -988,20 +1007,80 @@ select option {
   transform: rotate(180deg) scale(0.85);
 }
 
-/* LIGHT MODE OVERRIDES */
+/* LIGHT MODE OVERRIDES - COLORFUL, VIBRANT & 100% VISIBLE */
 .admin-body-wrap.light-mode {
-  background-color: #f4f5f8 !important;
+  background-color: #f1f5f9 !important;
   color: #0f172a !important;
 }
 
-.admin-body-wrap.light-mode .admin-layout-wrapper {
-  background-color: #f4f5f8 !important;
+/* VISIBLE VIBRANT SCROLLBARS FOR LIGHT MODE */
+.admin-body-wrap.light-mode,
+.admin-body-wrap.light-mode * {
+  scrollbar-width: thin !important;
+  scrollbar-color: #475569 #e2e8f0 !important;
 }
 
+.admin-body-wrap.light-mode::-webkit-scrollbar,
+.admin-body-wrap.light-mode *::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+  display: block !important;
+}
+
+.admin-body-wrap.light-mode::-webkit-scrollbar-track,
+.admin-body-wrap.light-mode *::-webkit-scrollbar-track {
+  background: #e2e8f0 !important;
+  border-radius: 4px !important;
+}
+
+.admin-body-wrap.light-mode::-webkit-scrollbar-thumb,
+.admin-body-wrap.light-mode *::-webkit-scrollbar-thumb {
+  background: #475569 !important;
+  border-radius: 4px !important;
+  border: 1px solid #334155 !important;
+}
+
+.admin-body-wrap.light-mode::-webkit-scrollbar-thumb:hover,
+.admin-body-wrap.light-mode *::-webkit-scrollbar-thumb:hover {
+  background: #1e293b !important;
+}
+
+.admin-body-wrap.light-mode .demand-metrics-legend {
+  max-height: 140px !important;
+  overflow-y: scroll !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: #334155 #cbd5e1 !important;
+}
+
+.admin-body-wrap.light-mode .demand-metrics-legend::-webkit-scrollbar {
+  width: 7px !important;
+  display: block !important;
+}
+
+.admin-body-wrap.light-mode .demand-metrics-legend::-webkit-scrollbar-track {
+  background: #cbd5e1 !important;
+  border-radius: 99px !important;
+}
+
+.admin-body-wrap.light-mode .demand-metrics-legend::-webkit-scrollbar-thumb {
+  background: #334155 !important;
+  border-radius: 99px !important;
+  border: none !important;
+}
+
+.admin-body-wrap.light-mode .demand-metrics-legend::-webkit-scrollbar-thumb:hover {
+  background: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .admin-layout-wrapper {
+  background-color: #f1f5f9 !important;
+}
+
+/* SIDEBAR LIGHT MODE */
 .admin-body-wrap.light-mode .admin-sidebar {
   background: #ffffff !important;
   border-right-color: #e2e8f0 !important;
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.03) !important;
+  box-shadow: 2px 0 16px rgba(15, 23, 42, 0.04) !important;
 }
 
 .admin-body-wrap.light-mode .sidebar-nav-btn {
@@ -1018,6 +1097,11 @@ select option {
   color: #0f172a !important;
   border-color: #cbd5e1 !important;
   box-shadow: inset 3px 0 0 #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .sidebar-nav-btn.active .sidebar-nav-icon,
+.admin-body-wrap.light-mode .sidebar-nav-btn.active .sidebar-nav-text {
+  color: #0f172a !important;
 }
 
 .admin-body-wrap.light-mode .admin-sidebar-toggle-btn {
@@ -1066,51 +1150,76 @@ select option {
   border-bottom-color: #334155 !important;
 }
 
+/* NAVBAR LIGHT MODE */
 .admin-body-wrap.light-mode .admin-navbar {
   background: rgba(255, 255, 255, 0.95) !important;
   border-bottom-color: #e2e8f0 !important;
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.04) !important;
+  box-shadow: 0 1px 12px rgba(15, 23, 42, 0.05) !important;
 }
 
 .admin-body-wrap.light-mode .admin-nav-heading {
   color: #0f172a !important;
+  font-weight: 800 !important;
 }
 
+/* CARDS LIGHT MODE */
 .admin-body-wrap.light-mode .admin-card {
   background: #ffffff !important;
   border-color: #e2e8f0 !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05) !important;
 }
 
 .admin-body-wrap.light-mode .admin-card:hover {
   border-color: #cbd5e1 !important;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08) !important;
 }
 
-.admin-body-wrap.light-mode .stat-val {
-  color: #0f172a;
+/* STAT CARDS VIBRANT ACCENTS */
+.admin-body-wrap.light-mode .stat-label {
+  color: #475569 !important;
+  font-weight: 800 !important;
 }
 
 .admin-body-wrap.light-mode .stat-val-total {
-  color: #0f172a !important;
+  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900 !important;
 }
 
 .admin-body-wrap.light-mode .stat-val-pending {
   color: #d97706 !important;
+  font-weight: 900 !important;
 }
 
 .admin-body-wrap.light-mode .stat-val-contacted {
   color: #059669 !important;
+  font-weight: 900 !important;
 }
 
 .admin-body-wrap.light-mode .stat-val-reviewed {
-  color: #4f46e5 !important;
+  color: #7c3aed !important;
+  font-weight: 900 !important;
 }
 
-.admin-body-wrap.light-mode .stat-label {
-  color: #64748b !important;
+/* STAT CARDS TOP BORDER COLOR ACCENTS */
+.admin-body-wrap.light-mode .admin-stats-grid .admin-card:nth-child(1) {
+  border-top: 3px solid #0284c7 !important;
 }
 
+.admin-body-wrap.light-mode .admin-stats-grid .admin-card:nth-child(2) {
+  border-top: 3px solid #f59e0b !important;
+}
+
+.admin-body-wrap.light-mode .admin-stats-grid .admin-card:nth-child(3) {
+  border-top: 3px solid #10b981 !important;
+}
+
+.admin-body-wrap.light-mode .admin-stats-grid .admin-card:nth-child(4) {
+  border-top: 3px solid #8b5cf6 !important;
+}
+
+/* BAR CHART IN LIGHT MODE */
 .admin-body-wrap.light-mode .chart-bar-active {
   background: linear-gradient(180deg, #0f172a 0%, #475569 100%) !important;
   box-shadow: 0 4px 16px rgba(15, 23, 42, 0.2) !important;
@@ -1130,6 +1239,15 @@ select option {
   color: #ffffff !important;
 }
 
+/* BADGES & TAGS IN LIGHT MODE */
+.admin-body-wrap.light-mode .badge-tag {
+  background: #e0e7ff !important;
+  color: #4338ca !important;
+  border-color: #c7d2fe !important;
+  font-weight: 700 !important;
+}
+
+/* TABLE & INPUTS LIGHT MODE */
 .admin-body-wrap.light-mode .admin-table-container {
   background: #ffffff !important;
   border-color: #e2e8f0 !important;
@@ -1137,7 +1255,8 @@ select option {
 
 .admin-body-wrap.light-mode .admin-table th {
   background: #f8fafc !important;
-  color: #475569 !important;
+  color: #334155 !important;
+  font-weight: 700 !important;
   border-bottom-color: #e2e8f0 !important;
 }
 
@@ -1150,6 +1269,14 @@ select option {
   background: #f8fafc !important;
 }
 
+.admin-body-wrap.light-mode .admin-table td div[style*="color"],
+.admin-body-wrap.light-mode .admin-table td a[style*="color: '#ffffff'"],
+.admin-body-wrap.light-mode .admin-table td a[style*="color: #ffffff"],
+.admin-body-wrap.light-mode .admin-table td[style*="color: '#ffffff'"],
+.admin-body-wrap.light-mode .admin-table td[style*="color: #ffffff"] {
+  color: #0f172a !important;
+}
+
 .admin-body-wrap.light-mode .admin-input {
   background: #ffffff !important;
   border-color: #cbd5e1 !important;
@@ -1157,7 +1284,8 @@ select option {
 }
 
 .admin-body-wrap.light-mode .admin-input:focus {
-  border-color: #0f172a !important;
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
   background: #ffffff !important;
 }
 
@@ -1177,43 +1305,49 @@ select option {
 .admin-body-wrap.light-mode .admin-modal-content {
   background: #ffffff !important;
   border-color: #e2e8f0 !important;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 24px 64px rgba(15, 23, 42, 0.15) !important;
   color: #0f172a !important;
 }
 
+/* BUTTONS IN LIGHT MODE */
 .admin-body-wrap.light-mode .admin-btn-primary {
   background: #0f172a !important;
   color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2) !important;
+  font-weight: 700 !important;
 }
 
 .admin-body-wrap.light-mode .admin-btn-primary:hover {
   background: #1e293b !important;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.25) !important;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.3) !important;
 }
 
 .admin-body-wrap.light-mode .admin-btn-secondary {
   background: #ffffff !important;
   color: #0f172a !important;
   border-color: #cbd5e1 !important;
+  font-weight: 600 !important;
 }
 
 .admin-body-wrap.light-mode .admin-btn-secondary:hover {
-  background: #f1f5f9 !important;
+  background: #f8fafc !important;
   border-color: #94a3b8 !important;
+  color: #4338ca !important;
 }
 
 .admin-body-wrap.light-mode .admin-theme-toggle-btn {
   background: #ffffff !important;
   border-color: #cbd5e1 !important;
   color: #4f46e5 !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06) !important;
 }
 
 .admin-body-wrap.light-mode .admin-theme-toggle-btn:hover {
   background: #f8fafc !important;
   border-color: #94a3b8 !important;
   color: #4338ca !important;
-  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.2) !important;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.25) !important;
 }
 
 .admin-body-wrap.light-mode .admin-filter-tabs-wrapper {
@@ -1226,8 +1360,9 @@ select option {
 
 .admin-body-wrap.light-mode .admin-filter-tab-btn.active {
   background: #ffffff !important;
-  color: #0f172a !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+  color: #4338ca !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08) !important;
 }
 
 .admin-body-wrap.light-mode .brand-logo img {
@@ -1243,16 +1378,12 @@ select option {
   color: #0f172a !important;
 }
 
-.admin-body-wrap.light-mode .stat-label {
-  color: #1e293b !important;
-  font-weight: 800 !important;
-}
-
 .admin-body-wrap.light-mode .admin-card p,
-.admin-body-wrap.light-mode .admin-card div[style*="color"],
+.admin-body-wrap.light-mode .admin-card div[style*="color: #a0a0a8"],
+.admin-body-wrap.light-mode .admin-card div[style*="color: '#a0a0a8'"],
 .admin-body-wrap.light-mode .admin-card span[style*="color: #a0a0a8"],
 .admin-body-wrap.light-mode .admin-card span[style*="color: '#a0a0a8'"] {
-  color: #475569 !important;
+  color: #64748b !important;
   font-weight: 600 !important;
 }
 
@@ -1273,16 +1404,6 @@ select option {
 .admin-body-wrap.light-mode .admin-dashboard-card div[style*="borderTop"] {
   border-top-color: #e2e8f0 !important;
   color: #475569 !important;
-}
-
-.admin-body-wrap.light-mode .demand-metrics-legend div[style*="background"] {
-  background: #f8fafc !important;
-  border-color: #e2e8f0 !important;
-}
-
-.admin-body-wrap.light-mode .demand-metrics-legend span {
-  color: #1e293b !important;
-  font-weight: 700 !important;
 }
 
 /* PRESERVE VIBRANT RED LOGOUT BUTTON IN SIDEBAR */
@@ -1316,11 +1437,6 @@ select option {
   font-weight: 700 !important;
 }
 
-.admin-body-wrap.light-mode .donut-hover-pct {
-  text-shadow: none !important;
-  filter: brightness(0.78) saturate(1.4) !important;
-}
-
 /* LIGHT MODE MODAL DETAILS STYLES */
 .admin-body-wrap.light-mode .modal-client-title {
   color: #0f172a !important;
@@ -1340,4 +1456,5 @@ select option {
 .admin-body-wrap.light-mode .modal-footer-date {
   color: #64748b !important;
 }
+
 

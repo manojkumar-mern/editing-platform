@@ -5,18 +5,18 @@ import Link from 'next/link';
 import { siteData } from '@/data/siteData';
 
 const SERVICE_COLORS = [
-  { main: '#00f2fe', bg: 'rgba(0, 242, 254, 0.12)', border: 'rgba(0, 242, 254, 0.35)', text: '#00f2fe' }, // Electric Cyan
-  { main: '#10b981', bg: 'rgba(16, 185, 129, 0.12)', border: 'rgba(16, 185, 129, 0.35)', text: '#34d399' }, // Emerald
-  { main: '#ffc107', bg: 'rgba(255, 193, 7, 0.12)', border: 'rgba(255, 193, 7, 0.35)', text: '#ffc107' }, // Amber
-  { main: '#f43f5e', bg: 'rgba(244, 63, 94, 0.12)', border: 'rgba(244, 63, 94, 0.35)', text: '#fb7185' }, // Neon Rose
-  { main: '#8b5cf6', bg: 'rgba(139, 92, 246, 0.12)', border: 'rgba(139, 92, 246, 0.35)', text: '#c084fc' }, // Violet
-  { main: '#3b82f6', bg: 'rgba(59, 130, 246, 0.12)', border: 'rgba(59, 130, 246, 0.35)', text: '#60a5fa' }, // Blue
-  { main: '#f97316', bg: 'rgba(249, 115, 22, 0.12)', border: 'rgba(249, 115, 22, 0.35)', text: '#fb923c' }, // Orange
-  { main: '#06b6d4', bg: 'rgba(6, 182, 212, 0.12)', border: 'rgba(6, 182, 212, 0.35)', text: '#22d3ee' }, // Teal / Cyan
-  { main: '#ec4899', bg: 'rgba(236, 72, 153, 0.12)', border: 'rgba(236, 72, 153, 0.35)', text: '#f472b6' }, // Pink
-  { main: '#eab308', bg: 'rgba(234, 179, 8, 0.12)', border: 'rgba(234, 179, 8, 0.35)', text: '#fde047' }, // Yellow
-  { main: '#6366f1', bg: 'rgba(99, 102, 241, 0.12)', border: 'rgba(99, 102, 241, 0.35)', text: '#818cf8' }, // Indigo
-  { main: '#a855f7', bg: 'rgba(168, 85, 247, 0.12)', border: 'rgba(168, 85, 247, 0.35)', text: '#d8b4fe' }, // Purple
+  { main: '#00f2fe', bg: 'rgba(0, 242, 254, 0.12)', border: 'rgba(0, 242, 254, 0.35)', text: '#00f2fe', lightBg: '#e0f2fe', lightText: '#0284c7', lightBorder: '#93c5fd' }, // Electric Cyan
+  { main: '#10b981', bg: 'rgba(16, 185, 129, 0.12)', border: 'rgba(16, 185, 129, 0.35)', text: '#34d399', lightBg: '#d1fae5', lightText: '#047857', lightBorder: '#6ee7b7' }, // Emerald
+  { main: '#ffc107', bg: 'rgba(255, 193, 7, 0.12)', border: 'rgba(255, 193, 7, 0.35)', text: '#ffc107', lightBg: '#fef3c7', lightText: '#b45309', lightBorder: '#fcd34d' }, // Amber
+  { main: '#f43f5e', bg: 'rgba(244, 63, 94, 0.12)', border: 'rgba(244, 63, 94, 0.35)', text: '#fb7185', lightBg: '#ffe4e6', lightText: '#e11d48', lightBorder: '#fda4af' }, // Neon Rose
+  { main: '#8b5cf6', bg: 'rgba(139, 92, 246, 0.12)', border: 'rgba(139, 92, 246, 0.35)', text: '#c084fc', lightBg: '#ede9fe', lightText: '#6d28d9', lightBorder: '#c4b5fd' }, // Violet
+  { main: '#3b82f6', bg: 'rgba(59, 130, 246, 0.12)', border: 'rgba(59, 130, 246, 0.35)', text: '#60a5fa', lightBg: '#dbeafe', lightText: '#1d4ed8', lightBorder: '#93c5fd' }, // Blue
+  { main: '#f97316', bg: 'rgba(249, 115, 22, 0.12)', border: 'rgba(249, 115, 22, 0.35)', text: '#fb923c', lightBg: '#ffedd5', lightText: '#c2410c', lightBorder: '#fdba74' }, // Orange
+  { main: '#06b6d4', bg: 'rgba(6, 182, 212, 0.12)', border: 'rgba(6, 182, 212, 0.35)', text: '#22d3ee', lightBg: '#cffafe', lightText: '#0e7490', lightBorder: '#67e8f9' }, // Teal
+  { main: '#ec4899', bg: 'rgba(236, 72, 153, 0.12)', border: 'rgba(236, 72, 153, 0.35)', text: '#f472b6', lightBg: '#fce7f3', lightText: '#be185d', lightBorder: '#f9a8d4' }, // Pink
+  { main: '#eab308', bg: 'rgba(234, 179, 8, 0.12)', border: 'rgba(234, 179, 8, 0.35)', text: '#fde047', lightBg: '#fef9c3', lightText: '#a16207', lightBorder: '#fde047' }, // Yellow
+  { main: '#6366f1', bg: 'rgba(99, 102, 241, 0.12)', border: 'rgba(99, 102, 241, 0.35)', text: '#818cf8', lightBg: '#e0e7ff', lightText: '#4338ca', lightBorder: '#a5b4fc' }, // Indigo
+  { main: '#a855f7', bg: 'rgba(168, 85, 247, 0.12)', border: 'rgba(168, 85, 247, 0.35)', text: '#d8b4fe', lightBg: '#f3e8ff', lightText: '#7e22ce', lightBorder: '#d8b4fe' }, // Purple
 ];
 
 export default function AdminPage() {
@@ -831,9 +831,9 @@ export default function AdminPage() {
                             style={{
                               fontSize: '1.6rem',
                               fontWeight: 900,
-                              color: pieSegments[hoveredServiceIndex].color.text,
+                              color: adminTheme === 'light' ? (pieSegments[hoveredServiceIndex].color.lightText || pieSegments[hoveredServiceIndex].color.text) : pieSegments[hoveredServiceIndex].color.text,
                               lineHeight: 1,
-                              textShadow: `0 0 12px ${pieSegments[hoveredServiceIndex].color.main}66`,
+                              textShadow: adminTheme === 'light' ? 'none' : `0 0 12px ${pieSegments[hoveredServiceIndex].color.main}66`,
                             }}
                           >
                             {pieSegments[hoveredServiceIndex].pct}%
@@ -883,6 +883,7 @@ export default function AdminPage() {
                     ) : (
                       pieSegments.map((seg, idx) => {
                         const isHovered = hoveredServiceIndex === idx;
+                        const isLight = adminTheme === 'light';
 
                         return (
                           <div
@@ -895,8 +896,14 @@ export default function AdminPage() {
                               justifyContent: 'space-between',
                               padding: '0.45rem 0.65rem',
                               borderRadius: '8px',
-                              background: isHovered ? seg.color.bg : 'rgba(255, 255, 255, 0.03)',
-                              border: `1px solid ${isHovered ? seg.color.border : 'rgba(255, 255, 255, 0.05)'}`,
+                              background: isHovered
+                                ? (isLight ? (seg.color.lightBg || seg.color.bg) : seg.color.bg)
+                                : (isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.03)'),
+                              border: `1px solid ${
+                                isHovered
+                                  ? (isLight ? (seg.color.lightBorder || seg.color.border) : seg.color.border)
+                                  : (isLight ? '#e2e8f0' : 'rgba(255, 255, 255, 0.05)')
+                              }`,
                               transition: 'all 0.2s ease',
                               cursor: 'pointer',
                             }}
@@ -916,7 +923,9 @@ export default function AdminPage() {
                                 style={{
                                   fontSize: '0.78rem',
                                   fontWeight: isHovered ? 700 : 600,
-                                  color: isHovered ? '#ffffff' : '#d4d4d8',
+                                  color: isLight
+                                    ? (isHovered ? (seg.color.lightText || '#0f172a') : '#1e293b')
+                                    : (isHovered ? '#ffffff' : '#d4d4d8'),
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis',
                                   whiteSpace: 'nowrap',
@@ -927,7 +936,7 @@ export default function AdminPage() {
                             </div>
 
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
-                              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#a0a0a8' }}>
+                              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: isLight ? '#475569' : '#a0a0a8' }}>
                                 {seg.count}
                               </span>
                               <span
@@ -936,9 +945,9 @@ export default function AdminPage() {
                                   fontWeight: 800,
                                   padding: '0.15rem 0.45rem',
                                   borderRadius: '5px',
-                                  background: seg.color.bg,
-                                  color: seg.color.text,
-                                  border: `1px solid ${seg.color.border}`,
+                                  background: isLight ? (seg.color.lightBg || seg.color.bg) : seg.color.bg,
+                                  color: isLight ? (seg.color.lightText || seg.color.text) : seg.color.text,
+                                  border: `1px solid ${isLight ? (seg.color.lightBorder || seg.color.border) : seg.color.border}`,
                                 }}
                               >
                                 {seg.pct}%

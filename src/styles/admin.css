@@ -1116,6 +1116,22 @@ select option {
   border-color: #94a3b8 !important;
 }
 
+.admin-body-wrap.light-mode .admin-mobile-toggle {
+  background: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .admin-mobile-toggle:hover {
+  background: #e2e8f0 !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+.admin-body-wrap.light-mode .admin-sidebar-nav-container {
+  border-top-color: #e2e8f0 !important;
+}
+
 .admin-body-wrap.light-mode .admin-sidebar-top-toggle {
   color: #0f172a !important;
   background: transparent !important;

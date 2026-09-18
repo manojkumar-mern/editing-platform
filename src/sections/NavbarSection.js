@@ -8,7 +8,9 @@ import { siteData } from '@/data/siteData';
 export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
   const navRef = useRef(null);
+  const isNavClickRef = useRef(false);
   const pathname = usePathname();
   const isWorkPage = pathname === '/work';
 
@@ -65,6 +67,63 @@ export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
     };
   }, [mobileMenuOpen]);
 
+  // Scroll Spy effect to highlight active nav item and sync URL hash on scroll
+  useEffect(() => {
+    if (pathname !== '/') return;
+
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const hashId = window.location.hash.replace('#', '');
+      const valid = ['hero', 'about', 'services', 'work', 'cta'];
+      if (valid.includes(hashId)) {
+        setActiveSection(hashId);
+      }
+    }
+
+    const sectionIds = ['hero', 'about', 'services', 'work', 'cta'];
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (isNavClickRef.current) return;
+
+        // If at the very top of the page, keep hero active
+        if (typeof window !== 'undefined' && window.scrollY < 120) {
+          setActiveSection('hero');
+          if (window.location.hash !== '' && window.location.hash !== '#hero') {
+            window.history.replaceState(null, '', '/#hero');
+          }
+          return;
+        }
+
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            setActiveSection(id);
+            if (typeof window !== 'undefined') {
+              window.history.replaceState(null, '', `/#${id}`);
+            }
+          }
+        });
+      },
+      {
+        // Require section to cross the vertical center (middle 20%) of the screen
+        rootMargin: '-40% 0px -40% 0px',
+        threshold: 0,
+      }
+    );
+
+    sections.forEach((sec) => observer.observe(sec));
+
+    return () => {
+      sections.forEach((sec) => observer.unobserve(sec));
+      observer.disconnect();
+    };
+  }, [pathname]);
+
   const handleNavClick = (e, item) => {
     if (pathname === '/') {
       const hashIndex = item.href.indexOf('#');
@@ -73,19 +132,30 @@ export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
         const targetEl = document.querySelector(hash);
         if (targetEl && typeof window !== 'undefined' && window.lenis) {
           e.preventDefault();
+          isNavClickRef.current = true;
+          setActiveSection(item.id);
           window.history.pushState(null, '', item.href);
-          window.lenis.scrollTo(targetEl, { offset: 0, duration: 1.2 });
+          window.lenis.scrollTo(targetEl, {
+            offset: 0,
+            duration: 1.2,
+            onComplete: () => {
+              isNavClickRef.current = false;
+            },
+          });
+          setTimeout(() => {
+            isNavClickRef.current = false;
+          }, 1400);
         }
       }
     }
   };
 
   const navItems = [
-    { label: 'HOME', href: '/#hero', number: '01' },
-    { label: 'ABOUT', href: '/#about', number: '02' },
-    { label: 'SERVICES', href: '/#services', number: '03' },
-    { label: 'WORK', href: '/#work', number: '04' },
-    { label: 'CONTACT', href: '/#cta', number: '05' },
+    { label: 'HOME', href: '/#hero', id: 'hero', number: '01' },
+    { label: 'ABOUT', href: '/#about', id: 'about', number: '02' },
+    { label: 'SERVICES', href: '/#services', id: 'services', number: '03' },
+    { label: 'WORK', href: '/#work', id: 'work', number: '04' },
+    { label: 'CONTACT', href: '/#cta', id: 'cta', number: '05' },
   ];
 
   return (
@@ -118,7 +188,7 @@ export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="nav-link-item"
+                  className={`nav-link-item ${activeSection === item.id ? 'active' : ''}`}
                   onClick={(e) => handleNavClick(e, item)}
                 >
                   {item.label}
@@ -166,7 +236,7 @@ export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
             <a
               key={item.label}
               href={item.href}
-              className="mobile-nav-link"
+              className={`mobile-nav-link ${activeSection === item.id ? 'active' : ''}`}
               onClick={(e) => {
                 setMobileMenuOpen(false);
                 handleNavClick(e, item);

@@ -36,7 +36,7 @@ export const metadata = {
     siteName: 'ATZYNC MEDIA',
     images: [
       {
-        url: '/logo-black.png',
+        url: '/logo-black.webp',
         width: 1200,
         height: 630,
         alt: 'ATZYNC MEDIA Studio Logo',
@@ -49,12 +49,12 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'ATZYNC MEDIA | Creative Video Production & Digital Marketing',
     description: 'ATZYNC MEDIA — A Mint of Creativity. Premium Video Production & Visual Studio.',
-    images: ['/logo-black.png'],
+    images: ['/logo-black.webp'],
   },
   icons: {
     icon: [
       { url: '/favicon.png', type: 'image/png' },
-      { url: '/logo-black.png', type: 'image/png' },
+      { url: '/logo-black.webp', type: 'image/webp' },
     ],
     shortcut: '/favicon.png',
     apple: '/favicon.png',

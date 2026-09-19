@@ -135,7 +135,7 @@ export default function AboutSection() {
             {/* Background Portrait Image */}
             {isInView ? (
               <img
-                src="/images/about-portrait.jpg"
+                src="/images/about-portrait.webp"
                 alt="ATZYNC Media Founder & Creative Director"
                 loading="lazy"
                 decoding="async"

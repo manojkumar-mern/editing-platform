@@ -113,7 +113,7 @@ export default function PreloaderSection({ onComplete }) {
           }}
         >
           <img
-            src="/logo-white.png"
+            src="/logo-white.webp"
             alt="ATZYNC Media"
             style={{
               height: 'clamp(70px, 10vw, 120px)',

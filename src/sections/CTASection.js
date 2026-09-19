@@ -72,7 +72,7 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
         }}
       >
         <img
-          src="/images/contact-bg.jpg"
+          src="/images/contact-bg.webp"
           alt=""
           style={{
             width: '100%',

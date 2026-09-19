@@ -110,8 +110,8 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
         >
           <div className="flex-row items-center" style={{ gap: '0.75rem' }}>
             <span className="status-dot"></span>
-            <span className="badge-tag">CINEMATIC REAL PLAYER</span>
-            <span className="meta-tag" style={{ color: 'var(--text-primary)' }}>{title}</span>
+            <span className="badge-tag video-modal-header-badge">CINEMATIC REAL PLAYER</span>
+            <span className="meta-tag video-modal-title" style={{ color: 'var(--text-primary)' }}>{title}</span>
           </div>
 
           <button
@@ -209,7 +209,7 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
 
         {/* Control Bar */}
         <div
-          className="flex-col"
+          className="video-modal-control-bar flex-col"
           style={{
             padding: '1rem 1.25rem',
             backgroundColor: 'rgba(12, 12, 15, 0.95)',
@@ -247,30 +247,33 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
             />
           </div>
 
-          <div className="flex-row items-center justify-between">
-            <div className="flex-row items-center" style={{ gap: '1rem' }}>
+          <div className="video-modal-controls flex-row items-center justify-between">
+            <div className="flex-row items-center video-modal-buttons-group" style={{ gap: '0.65rem' }}>
               <button
                 onClick={togglePlay}
                 className="btn-primary"
-                style={{ padding: '0.4rem 1rem', fontSize: '0.75rem', borderRadius: '20px' }}
+                style={{ padding: '0.4rem 0.85rem', fontSize: '0.75rem', borderRadius: '20px', whiteSpace: 'nowrap' }}
               >
                 {isPlaying ? 'PAUSE' : 'PLAY'}
               </button>
               <button
                 onClick={toggleMute}
                 className="btn-secondary"
-                style={{ padding: '0.4rem 1rem', fontSize: '0.75rem', borderRadius: '20px' }}
+                style={{ padding: '0.4rem 0.85rem', fontSize: '0.75rem', borderRadius: '20px', whiteSpace: 'nowrap' }}
               >
-                {isMuted ? 'UNMUTE AUDIO' : 'MUTE AUDIO 🔊'}
+                {isMuted ? 'UNMUTE' : 'MUTE 🔊'}
               </button>
-              <span className="timecode-tag">
+            </div>
+
+            <div className="video-modal-timecode-container">
+              <span className="timecode-tag video-modal-timecode" style={{ whiteSpace: 'nowrap' }}>
                 {formatTime(currentTime)} // {formatTime(duration)}
               </span>
             </div>
 
-            <div className="flex-row items-center" style={{ gap: '1rem' }}>
-              <span className="meta-tag">4K DCI // 24FPS</span>
-              <span className="badge-tag" style={{ borderRadius: '20px' }}>REAL EDITORIAL CUT</span>
+            <div className="flex-row items-center video-modal-right-controls" style={{ gap: '0.75rem' }}>
+              <span className="meta-tag video-modal-meta" style={{ whiteSpace: 'nowrap' }}>4K DCI // 24FPS</span>
+              <span className="badge-tag video-modal-editorial-tag" style={{ borderRadius: '20px', whiteSpace: 'nowrap' }}>REAL EDITORIAL CUT</span>
             </div>
           </div>
         </div>

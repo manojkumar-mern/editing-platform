@@ -172,6 +172,7 @@ export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
             <img
               src="/logo-white.webp"
               alt="ATZYNC Media"
+              fetchPriority="high"
               style={{
                 height: 'clamp(34px, 3.6vw, 44px)',
                 width: 'auto',

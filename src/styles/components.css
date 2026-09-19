@@ -1375,6 +1375,21 @@
   padding: 0;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.portfolio-step-dot::before,
+.portfolio-bottom-dot::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  background: transparent;
 }
 
 .portfolio-step-dot.active {
@@ -1382,6 +1397,10 @@
   height: 16px;
   background: var(--accent-orange, #ff5500);
   box-shadow: 0 0 10px rgba(255, 85, 0, 0.6);
+}
+
+.portfolio-bottom-dot {
+  position: relative;
 }
 
 @media (max-width: 768px) {

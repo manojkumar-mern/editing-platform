@@ -428,6 +428,9 @@ export default function SelectedWorkSection({ onOpenModal }) {
               key={proj.id}
               type="button"
               onClick={() => handleSelectCard(idx)}
+              aria-label={`Go to ${proj.title} (project ${idx + 1} of ${projects.length})`}
+              title={`Go to ${proj.title}`}
+              className="portfolio-bottom-dot"
               style={{
                 display: 'inline-block',
                 width: activeProjectIndex === idx ? '1.5rem' : '0.4rem',

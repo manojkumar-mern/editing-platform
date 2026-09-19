@@ -10,8 +10,10 @@ import ServicesSection from '@/sections/ServicesSection';
 import SelectedWorkSection from '@/sections/SelectedWorkSection';
 import CTASection from '@/sections/CTASection';
 import FooterSection from '@/sections/FooterSection';
-import VideoModal from '@/components/VideoModal';
-import ProjectModal from '@/components/ProjectModal';
+import dynamic from 'next/dynamic';
+
+const VideoModal = dynamic(() => import('@/components/VideoModal'), { ssr: false });
+const ProjectModal = dynamic(() => import('@/components/ProjectModal'), { ssr: false });
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);

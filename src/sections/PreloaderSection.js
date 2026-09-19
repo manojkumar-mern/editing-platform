@@ -115,6 +115,7 @@ export default function PreloaderSection({ onComplete }) {
           <img
             src="/logo-white.webp"
             alt="ATZYNC Media"
+            fetchPriority="high"
             style={{
               height: 'clamp(70px, 10vw, 120px)',
               width: 'auto',

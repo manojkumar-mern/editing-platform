@@ -8,6 +8,8 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const modalContentRef = useRef(null);
   const videoRef = useRef(null);
 
   const activeVideo = videoSrc || '/videos/showreel.mp4';
@@ -30,6 +32,30 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
     };
   }, [isOpen, onClose]);
 
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isFS = !!(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement
+      );
+      setIsFullscreen(isFS);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+    };
+  }, []);
+
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
@@ -47,6 +73,33 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
       videoRef.current.muted = !isMuted;
       setIsMuted(!isMuted);
       soundManager.playClick();
+    }
+  };
+
+  const toggleFullscreen = () => {
+    soundManager.playClick();
+    const container = modalContentRef.current;
+
+    if (!document.fullscreenElement && !document.webkitFullscreenElement && !isFullscreen) {
+      if (container?.requestFullscreen) {
+        container.requestFullscreen().catch(() => {
+          setIsFullscreen(true);
+        });
+      } else if (container?.webkitRequestFullscreen) {
+        container.webkitRequestFullscreen();
+      } else if (videoRef.current?.webkitEnterFullscreen) {
+        videoRef.current.webkitEnterFullscreen();
+      } else {
+        setIsFullscreen(true);
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => setIsFullscreen(false));
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else {
+        setIsFullscreen(false);
+      }
     }
   };
 
@@ -78,24 +131,26 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 'var(--space-md)',
+        padding: isFullscreen ? '0' : 'var(--space-md)',
         animation: 'fadeIn 0.3s ease-out forwards',
       }}
       onClick={onClose}
     >
       <div
-        className="video-modal-content film-crop-marks silver-sheen"
+        ref={modalContentRef}
+        className={`video-modal-content film-crop-marks silver-sheen ${isFullscreen ? 'video-modal-fullscreen' : ''}`}
         style={{
           position: 'relative',
           width: '100%',
-          maxWidth: '1100px',
+          maxWidth: isFullscreen ? '100vw' : '1100px',
           backgroundColor: '#0a0a0c',
-          border: '1px solid var(--border-strong)',
-          borderRadius: '16px',
+          border: isFullscreen ? 'none' : '1px solid var(--border-strong)',
+          borderRadius: isFullscreen ? '0' : '16px',
           boxShadow: '0 25px 80px rgba(0,0,0,0.95)',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
+          height: isFullscreen ? '100vh' : 'auto',
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -135,11 +190,13 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
 
         {/* Video Canvas Stage */}
         <div
+          className="video-stage-container"
           style={{
             position: 'relative',
             width: '100%',
-            aspectRatio: '16/9',
-            maxHeight: '65vh',
+            aspectRatio: isFullscreen ? 'auto' : '16/9',
+            maxHeight: isFullscreen ? 'none' : '65vh',
+            flex: isFullscreen ? 1 : 'none',
             backgroundColor: '#000',
             overflow: 'hidden',
           }}
@@ -157,7 +214,7 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
+              objectFit: isFullscreen ? 'contain' : 'cover',
               cursor: 'pointer',
             }}
           />
@@ -274,6 +331,35 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
             <div className="flex-row items-center video-modal-right-controls" style={{ gap: '0.75rem' }}>
               <span className="meta-tag video-modal-meta" style={{ whiteSpace: 'nowrap' }}>4K DCI // 24FPS</span>
               <span className="badge-tag video-modal-editorial-tag" style={{ borderRadius: '20px', whiteSpace: 'nowrap' }}>REAL EDITORIAL CUT</span>
+              <button
+                onClick={toggleFullscreen}
+                className="video-control-fullscreen-btn"
+                title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+                aria-label="Toggle Fullscreen"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  color: '#ffffff',
+                  borderRadius: '20px',
+                  padding: '0.38rem 0.65rem',
+                  fontSize: '0.75rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                {isFullscreen ? (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
+                  </svg>
+                ) : (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                  </svg>
+                )}
+              </button>
             </div>
           </div>
         </div>
@@ -281,3 +367,4 @@ export default function VideoModal({ isOpen, onClose, videoSrc, posterSrc, title
     </div>
   );
 }
+

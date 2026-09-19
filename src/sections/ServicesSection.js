@@ -37,34 +37,37 @@ export default function ServicesSection({ onOpenProjectModal }) {
     const ctx = gsap.context(() => {
       const cards = cardsGridRef.current.querySelectorAll('.service-card');
       const isMobile = window.innerWidth < 768;
-      const targetScale = isMobile ? 22 : 45; // Smooth GPU-optimized scale for mobile and desktop
+      const targetScale = isMobile ? 12 : 36; // GPU-optimized scale factor for buttery smooth performance
 
       // Pin section during zoom phase so cards assemble seamlessly on screen
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: isMobile ? '+=70%' : '+=85%',
+          end: isMobile ? '+=60%' : '+=85%',
           pin: true,
           pinSpacing: true,
-          scrub: isMobile ? 0.2 : 0.4, // Responsive tight scrub for zero lag/shaking
+          scrub: isMobile ? true : 0.35, // Direct touch tracking on mobile for zero lag/shaking
           anticipatePin: 1,
+          fastScrollEnd: true,
           invalidateOnRefresh: true,
         },
       });
 
-      // 1. Kinetic Typography Zoom on "SERVICES" (scale 1x -> 22x/45x with pure opacity fade)
+      // 1. Kinetic Typography Zoom on "SERVICES" (hardware accelerated)
       tl.fromTo(
         zoomTextRef.current,
         {
           scale: 1,
           opacity: 1,
+          force3D: true,
         },
         {
           scale: targetScale,
           opacity: 0,
           ease: 'power1.in',
           duration: 1.0,
+          force3D: true,
         },
         0
       );
@@ -74,11 +77,13 @@ export default function ServicesSection({ onOpenProjectModal }) {
         zoomStageRef.current,
         {
           opacity: 1,
+          force3D: true,
         },
         {
           opacity: 0,
           duration: 0.4,
           ease: 'power1.out',
+          force3D: true,
         },
         0.45
       );
@@ -109,6 +114,7 @@ export default function ServicesSection({ onOpenProjectModal }) {
             x: startX,
             y: startY,
             scale: 0.95,
+            force3D: true,
           },
           {
             opacity: 1,
@@ -117,6 +123,7 @@ export default function ServicesSection({ onOpenProjectModal }) {
             scale: 1,
             ease: 'power2.out',
             duration: 0.45,
+            force3D: true,
           },
           0.25 + (idx * (isMobile ? 0.05 : 0.07))
         );
@@ -160,23 +167,23 @@ export default function ServicesSection({ onOpenProjectModal }) {
           justifyContent: 'center',
           overflow: 'hidden',
           backgroundColor: '#0a0a0e',
-          transform: 'translateZ(0)',
+          transform: 'translate3d(0,0,0)',
           willChange: 'opacity',
         }}
       >
-        {/* Subtle Ambient Radial Glow */}
+        {/* Ambient Radial Glow (Hardware Accelerated, No expensive CSS blur filters) */}
         <div
           style={{
             position: 'absolute',
-            width: '60vw',
-            height: '60vw',
+            width: '80vw',
+            height: '80vw',
             maxWidth: '650px',
             maxHeight: '650px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(235, 94, 40, 0.14) 0%, rgba(10, 10, 14, 0) 70%)',
-            filter: 'blur(50px)',
+            background: 'radial-gradient(circle, rgba(235, 94, 40, 0.16) 0%, rgba(235, 94, 40, 0.04) 50%, rgba(10, 10, 14, 0) 75%)',
             pointerEvents: 'none',
             zIndex: 1,
+            transform: 'translate3d(0, 0, 0)',
           }}
         />
 
@@ -200,7 +207,7 @@ export default function ServicesSection({ onOpenProjectModal }) {
           }}
         >
           <svg
-            viewBox="0 0 1000 240"
+            viewBox="0 0 1080 240"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             style={{

@@ -17,12 +17,15 @@ export default function ZoomWordSection() {
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
+      const isMobile = window.innerWidth < 768;
+      const targetScale = isMobile ? 14 : 50;
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 0.6,
+          scrub: isMobile ? true : 0.35,
           invalidateOnRefresh: true,
         },
       });
@@ -35,34 +38,38 @@ export default function ZoomWordSection() {
           y: -15,
           duration: 0.2,
           ease: 'power2.out',
+          force3D: true,
         },
         0
       );
 
-      // 2. Ultra-smooth kinetic scale (CrazyPencilz Scribblez effect: 1x -> 75x)
+      // 2. Hardware accelerated kinetic scale
       tl.fromTo(
         zoomTextRef.current,
         {
           scale: 1,
           autoAlpha: 1,
+          force3D: true,
         },
         {
-          scale: 75,
+          scale: targetScale,
           ease: 'power1.in',
           duration: 1.0,
+          force3D: true,
         },
         0
       );
 
-      // 3. Smooth opacity release right at the exit edge (0.88 -> 1.0)
+      // 3. Smooth opacity release right at the exit edge
       tl.to(
         zoomTextRef.current,
         {
           autoAlpha: 0,
-          duration: 0.12,
+          duration: 0.15,
           ease: 'power1.out',
+          force3D: true,
         },
-        0.88
+        0.85
       );
     }, containerRef);
 
@@ -94,21 +101,22 @@ export default function ZoomWordSection() {
           justifyContent: 'center',
           boxSizing: 'border-box',
           isolation: 'isolate',
+          transform: 'translate3d(0,0,0)',
         }}
       >
-        {/* Subtle Ambient Background Glow */}
+        {/* Ambient Background Glow (Hardware Accelerated) */}
         <div
           style={{
             position: 'absolute',
-            width: '60vw',
-            height: '60vw',
+            width: '80vw',
+            height: '80vw',
             maxWidth: '700px',
             maxHeight: '700px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(235, 94, 40, 0.12) 0%, rgba(10, 11, 16, 0) 70%)',
-            filter: 'blur(60px)',
+            background: 'radial-gradient(circle, rgba(235, 94, 40, 0.14) 0%, rgba(235, 94, 40, 0.03) 45%, rgba(10, 11, 16, 0) 75%)',
             pointerEvents: 'none',
             zIndex: 1,
+            transform: 'translate3d(0,0,0)',
           }}
         />
 
@@ -154,7 +162,7 @@ export default function ZoomWordSection() {
           }}
         >
           <svg
-            viewBox="0 0 1000 240"
+            viewBox="0 0 1060 240"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             style={{

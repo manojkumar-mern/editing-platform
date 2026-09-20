@@ -1859,6 +1859,32 @@
   border-color: rgba(255, 255, 255, 0.4) !important;
 }
 
+/* CTA Background Image Layer (Rock-Solid Fixed Viewport Layer - Zero Shaking on Mobile & Desktop) */
+.cta-bg-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100lvh;
+  z-index: 0;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+@supports not (height: 100lvh) {
+  .cta-bg-layer {
+    height: 100vh;
+  }
+}
+
+
 
 
 

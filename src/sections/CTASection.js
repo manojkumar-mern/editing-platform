@@ -57,20 +57,8 @@ export default function CTASection({ onOpenModal, onOpenProjectModal }) {
         paddingBottom: 'clamp(3.5rem, 8vh, 6rem)',
       }}
     >
-      {/* Rock-solid Fixed Viewport Background Image Layer (Zero Movement / 100% Fixed Window Effect) */}
-      <div
-        className="cta-bg-layer"
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100vh',
-          height: '100dvh',
-          zIndex: 0,
-          pointerEvents: 'none',
-        }}
-      >
+      {/* Responsive Background Image Layer (Fixed Curtain Reveal on Desktop, Rock-Solid Absolute on Mobile) */}
+      <div className="cta-bg-layer">
         <img
           src="/images/contact-bg.webp"
           alt=""

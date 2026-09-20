@@ -11,6 +11,24 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none;
+}
+
+/* Disable blue focus boxes & tap highlight overlays on mouse/touch interactions */
+button,
+a,
+input,
+textarea,
+select,
+div,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+:focus:not(:focus-visible) {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 html {

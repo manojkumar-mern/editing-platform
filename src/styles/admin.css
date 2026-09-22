@@ -67,7 +67,9 @@
 
 .admin-layout-wrapper {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
   background-color: #0a0a0c;
   width: 100%;
 }
@@ -283,7 +285,9 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
   margin-left: 260px;
   will-change: margin-left, width;
   transition: margin-left 0.32s cubic-bezier(0.16, 1, 0.3, 1), width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -293,30 +297,35 @@
   margin-left: 68px;
 }
 
-/* Custom Sleek Scrollbar for Admin Content & Sidebar */
+/* Custom Sleek Scrollbar for Admin Content, Body & Sidebar */
 .admin-main-content::-webkit-scrollbar,
+.admin-content-body::-webkit-scrollbar,
 .admin-sidebar::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 .admin-main-content::-webkit-scrollbar-track,
+.admin-content-body::-webkit-scrollbar-track,
 .admin-sidebar::-webkit-scrollbar-track {
   background: transparent;
 }
 
 .admin-main-content::-webkit-scrollbar-thumb,
+.admin-content-body::-webkit-scrollbar-thumb,
 .admin-sidebar::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.15);
   border-radius: 4px;
 }
 
 .admin-main-content::-webkit-scrollbar-thumb:hover,
+.admin-content-body::-webkit-scrollbar-thumb:hover,
 .admin-sidebar::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
 .admin-body-wrap.light-mode .admin-main-content::-webkit-scrollbar-thumb,
+.admin-body-wrap.light-mode .admin-content-body::-webkit-scrollbar-thumb,
 .admin-body-wrap.light-mode .admin-sidebar::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.18);
 }
@@ -364,6 +373,7 @@
   position: sticky;
   top: 0;
   z-index: 80;
+  flex-shrink: 0;
 }
 
 .admin-logo {
@@ -772,6 +782,8 @@ select option {
 .admin-content-body {
   padding: 2.25rem 2.5rem;
   flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .admin-filter-tabs-wrapper {
@@ -805,11 +817,17 @@ select option {
 @media (max-width: 992px) {
   .admin-layout-wrapper {
     flex-direction: column;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
   }
 
   .admin-main-content,
   .admin-sidebar.collapsed ~ .admin-main-content {
     margin-left: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
   }
 
   .admin-sidebar,
@@ -892,9 +910,9 @@ select option {
     flex-direction: column;
     align-items: stretch;
     gap: 0.75rem;
-    position: relative;
-    top: 0;
-    z-index: 80;
+    position: sticky !important;
+    top: 57px !important;
+    z-index: 80 !important;
   }
 
   .admin-nav-title-group {

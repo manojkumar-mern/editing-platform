@@ -675,7 +675,7 @@ export default function AdminPage() {
           </header>
 
           {/* Workspace Body Container */}
-          <div className="admin-content-body">
+          <div className="admin-content-body" data-lenis-prevent>
             {/* Metric Stats Cards Row */}
             <div className="admin-stats-grid">
               <div className="admin-card flex-col justify-between">

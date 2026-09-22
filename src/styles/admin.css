@@ -784,6 +784,8 @@ select option {
   flex: 1;
   overflow-y: auto;
   overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 .admin-filter-tabs-wrapper {

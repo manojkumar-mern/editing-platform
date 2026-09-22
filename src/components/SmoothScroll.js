@@ -9,23 +9,44 @@ export default function SmoothScroll({ children }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Initialize Lenis smooth scroll with exponential cinematic easing
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.0,
-      syncTouch: false,
-    });
+    let activeLenis = null;
 
-    lenis.on('scroll', ScrollTrigger.update);
-    window.lenis = lenis;
+    const initLenis = () => {
+      if (activeLenis) {
+        activeLenis.destroy();
+        activeLenis = null;
+      }
+
+      const isAdmin = pathname?.startsWith('/admin');
+      const adminWrapper = isAdmin ? document.querySelector('.admin-content-body') : null;
+
+      const options = {
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1.0,
+        touchMultiplier: 1.0,
+        syncTouch: false,
+      };
+
+      if (adminWrapper) {
+        options.wrapper = adminWrapper;
+        options.content = adminWrapper;
+      }
+
+      activeLenis = new Lenis(options);
+      activeLenis.on('scroll', ScrollTrigger.update);
+      window.lenis = activeLenis;
+    };
+
+    initLenis();
 
     const updateTicker = (time) => {
-      lenis.raf(time * 1000);
+      if (activeLenis) {
+        activeLenis.raf(time * 1000);
+      }
     };
 
     gsap.ticker.add(updateTicker);
@@ -56,7 +77,6 @@ export default function SmoothScroll({ children }) {
         if (el.classList.contains('is-revealed')) return;
 
         const rect = el.getBoundingClientRect();
-        // If element is already visible inside the active viewport at load, reveal it
         if (rect.top <= windowHeight * 0.9 && rect.bottom >= 0) {
           el.classList.add('is-revealed');
         } else {
@@ -68,10 +88,18 @@ export default function SmoothScroll({ children }) {
     // Run initial observation check
     const initTimer = setTimeout(observeElements, 50);
 
-    // MutationObserver to automatically catch dynamically mounted elements
+    // MutationObserver to automatically catch dynamically mounted elements or admin wrapper
     const mutationObserver = new MutationObserver(() => {
       observeElements();
+
+      if (pathname?.startsWith('/admin')) {
+        const adminWrapper = document.querySelector('.admin-content-body');
+        if (adminWrapper && activeLenis && activeLenis.options?.wrapper !== adminWrapper) {
+          initLenis();
+        }
+      }
     });
+
     if (document.body) {
       mutationObserver.observe(document.body, { childList: true, subtree: true });
     }
@@ -85,16 +113,18 @@ export default function SmoothScroll({ children }) {
     window.addEventListener('focus', handleResizeOrFocus);
 
     return () => {
-      if (window.lenis === lenis) window.lenis = null;
+      if (window.lenis === activeLenis) window.lenis = null;
       gsap.ticker.remove(updateTicker);
       clearTimeout(initTimer);
       revealObserver.disconnect();
       mutationObserver.disconnect();
       window.removeEventListener('resize', handleResizeOrFocus);
       window.removeEventListener('focus', handleResizeOrFocus);
-      lenis.destroy();
+      if (activeLenis) {
+        activeLenis.destroy();
+      }
     };
-  }, []);
+  }, [pathname]);
 
   // On route changes (pathname changes), re-observe elements and refresh GSAP ScrollTrigger
   useEffect(() => {
@@ -110,7 +140,7 @@ export default function SmoothScroll({ children }) {
       });
       ScrollTrigger.refresh();
 
-      // Automatically scroll to hash target if coming from another page (e.g., /work -> /#work or /#cta)
+      // Automatically scroll to hash target if coming from another page
       if (typeof window !== 'undefined' && window.location.hash) {
         const hash = window.location.hash;
         const targetEl = document.querySelector(hash);

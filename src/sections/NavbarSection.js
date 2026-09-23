@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { gsap } from '@/lib/gsap';
 import { siteData } from '@/data/siteData';
 
@@ -12,6 +12,7 @@ export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
   const navRef = useRef(null);
   const isNavClickRef = useRef(false);
   const pathname = usePathname();
+  const router = useRouter();
   const isWorkPage = pathname === '/work';
 
   // Scroll listener for sticky background transition
@@ -125,28 +126,53 @@ export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
   }, [pathname]);
 
   const handleNavClick = (e, item) => {
+    // If mobile menu is open, close it and restore scrolling immediately
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (typeof window !== 'undefined' && window.lenis) {
+        window.lenis.start();
+      }
+    }
+
     if (pathname === '/') {
       const hashIndex = item.href.indexOf('#');
       if (hashIndex !== -1) {
         const hash = item.href.substring(hashIndex);
         const targetEl = document.querySelector(hash);
-        if (targetEl && typeof window !== 'undefined' && window.lenis) {
-          e.preventDefault();
+        if (targetEl) {
+          if (e) e.preventDefault();
           isNavClickRef.current = true;
           setActiveSection(item.id);
           window.history.pushState(null, '', item.href);
-          window.lenis.scrollTo(targetEl, {
-            offset: 0,
-            duration: 1.2,
-            onComplete: () => {
-              isNavClickRef.current = false;
-            },
-          });
+
+          const triggerScroll = () => {
+            if (typeof window !== 'undefined' && window.lenis) {
+              window.lenis.start();
+              window.lenis.scrollTo(targetEl, {
+                offset: 0,
+                duration: 1.2,
+                onComplete: () => {
+                  isNavClickRef.current = false;
+                },
+              });
+            } else if (targetEl) {
+              targetEl.scrollIntoView({ behavior: 'smooth' });
+            }
+          };
+
+          triggerScroll();
+          setTimeout(triggerScroll, 50);
+
           setTimeout(() => {
             isNavClickRef.current = false;
           }, 1400);
         }
       }
+    } else {
+      if (e) e.preventDefault();
+      router.push(item.href);
     }
   };
 
@@ -238,10 +264,7 @@ export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
               key={item.label}
               href={item.href}
               className={`mobile-nav-link ${activeSection === item.id ? 'active' : ''}`}
-              onClick={(e) => {
-                setMobileMenuOpen(false);
-                handleNavClick(e, item);
-              }}
+              onClick={(e) => handleNavClick(e, item)}
             >
               <span className="meta-tag" style={{ fontSize: '0.875rem' }}>
                 {item.number}
@@ -267,6 +290,11 @@ export default function NavbarSection({ isLoaded, onOpenProjectModal }) {
             style={{ width: '100%', marginTop: '0.5rem' }}
             onClick={() => {
               setMobileMenuOpen(false);
+              document.body.style.overflow = '';
+              document.documentElement.style.overflow = '';
+              if (typeof window !== 'undefined' && window.lenis) {
+                window.lenis.start();
+              }
               if (onOpenProjectModal) onOpenProjectModal();
             }}
           >

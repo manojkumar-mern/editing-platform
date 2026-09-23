@@ -58,7 +58,7 @@ export default function FooterSection() {
 
             {/* Instagram Pill */}
             <a
-              href={siteData.contact.instagramUrl || 'https://instagram.com/atzyncmedia'}
+              href={siteData.contact.instagramUrl || 'https://www.instagram.com/atzyncmedia?stkn=NXJyZDZiNXFjYjg5'}
               target="_blank"
               rel="noopener noreferrer"
               className="footer-pill"

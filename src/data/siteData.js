@@ -22,7 +22,7 @@ export const siteData = {
     whatsappUrlSecondary: "https://wa.me/918838737598",
     email: "atzyncmedia@gmail.com",
     youtubeUrl: "https://youtube.com/@atzyncmedia",
-    instagramUrl: "https://instagram.com/atzyncmedia",
+    instagramUrl: "https://www.instagram.com/atzyncmedia?stkn=NXJyZDZiNXFjYjg5",
     linkedinUrl: "https://linkedin.com/company/atzyncmedia",
     location: "Global Remote Studio",
   },

@@ -354,11 +354,13 @@
   color: #ffffff;
 }
 
-.sidebar-nav-btn.active {
+.sidebar-nav-btn.active,
+.sidebar-nav-btn.active:focus,
+.sidebar-nav-btn.active:focus-visible {
   background: rgba(255, 255, 255, 0.08);
   color: #ffffff;
   border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: inset 3px 0 0 #ffffff;
+  box-shadow: inset 3px 0 0 #ffffff !important;
 }
 
 /* Top Navbar Ribbon */

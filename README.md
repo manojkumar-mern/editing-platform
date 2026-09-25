@@ -35,7 +35,6 @@
 
 Below is the end-to-end user navigation, inquiry dispatch, and backend processing flow:
 
-````markdown
 ```mermaid
 flowchart TD
     A[User Visits Site] --> B[Camera Viewfinder Preloader]

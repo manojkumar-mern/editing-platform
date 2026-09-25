@@ -87,23 +87,3 @@ export async function POST(request) {
   }
 }
 
-export async function GET() {
-  try {
-    if (!process.env.MONGODB_URI) {
-      console.warn('[API Diagnostic]: MONGODB_URI environment variable is missing.');
-      return NextResponse.json(
-        { success: false, error: 'Database configuration missing' },
-        { status: 500 }
-      );
-    }
-    await connectToDatabase();
-    const inquiries = await Inquiry.find({}).sort({ createdAt: -1 }).limit(50);
-    return NextResponse.json({ success: true, count: inquiries.length, inquiries });
-  } catch (error) {
-    console.error('[API GET Error /api/inquire]:', error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to fetch inquiries from database' },
-      { status: 500 }
-    );
-  }
-}

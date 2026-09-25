@@ -1,6 +1,13 @@
 import crypto from 'crypto';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'atzync-media-admin-jwt-secret-key-2026-secure';
+function getJwtSecret() {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    console.error('[JWT Error]: JWT_SECRET environment variable is missing.');
+    return null;
+  }
+  return secret;
+}
 
 function base64UrlEncode(str) {
   return Buffer.from(str)
@@ -25,6 +32,11 @@ function base64UrlDecode(str) {
  * @returns {string} token
  */
 export function signJwt(payload, expiresInMs = 24 * 60 * 60 * 1000) {
+  const secret = getJwtSecret();
+  if (!secret) {
+    throw new Error('JWT_SECRET environment variable is missing.');
+  }
+
   const header = { alg: 'HS256', typ: 'JWT' };
   const exp = Date.now() + expiresInMs;
   const fullPayload = { ...payload, exp, iat: Date.now() };
@@ -34,7 +46,7 @@ export function signJwt(payload, expiresInMs = 24 * 60 * 60 * 1000) {
 
   const signatureInput = `${encodedHeader}.${encodedPayload}`;
   const signature = crypto
-    .createHmac('sha256', JWT_SECRET)
+    .createHmac('sha256', secret)
     .update(signatureInput)
     .digest('base64')
     .replace(/=/g, '')
@@ -52,6 +64,9 @@ export function signJwt(payload, expiresInMs = 24 * 60 * 60 * 1000) {
 export function verifyJwt(token) {
   if (!token || typeof token !== 'string') return null;
 
+  const secret = getJwtSecret();
+  if (!secret) return null;
+
   const parts = token.split('.');
   if (parts.length !== 3) return null;
 
@@ -59,7 +74,7 @@ export function verifyJwt(token) {
   const signatureInput = `${encodedHeader}.${encodedPayload}`;
 
   const expectedSignature = crypto
-    .createHmac('sha256', JWT_SECRET)
+    .createHmac('sha256', secret)
     .update(signatureInput)
     .digest('base64')
     .replace(/=/g, '')

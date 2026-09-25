@@ -1,11 +1,19 @@
 import { NextResponse } from 'next/server';
 import { signJwt } from '@/lib/jwt';
 
-const ADMIN_EMAIL = 'atzyncmedia@gmail.com';
-const ADMIN_PASSWORD = 'Thomash@99';
-
 export async function POST(request) {
   try {
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminPassword = process.env.ADMIN_PASSWORD;
+
+    if (!adminEmail || !adminPassword) {
+      console.error('[API Error /api/admin/login]: ADMIN_EMAIL or ADMIN_PASSWORD environment variable is missing.');
+      return NextResponse.json(
+        { success: false, error: 'Server authentication configuration error.' },
+        { status: 500 }
+      );
+    }
+
     const body = await request.json();
     const { email, password } = body;
 
@@ -18,7 +26,7 @@ export async function POST(request) {
 
     const cleanEmail = email.trim().toLowerCase();
 
-    if (cleanEmail !== ADMIN_EMAIL.toLowerCase() || password !== ADMIN_PASSWORD) {
+    if (cleanEmail !== adminEmail.trim().toLowerCase() || password !== adminPassword) {
       return NextResponse.json(
         { success: false, error: 'Invalid admin email or password credentials.' },
         { status: 401 }
@@ -28,7 +36,7 @@ export async function POST(request) {
     const token = signJwt(
       {
         role: 'admin',
-        email: ADMIN_EMAIL,
+        email: adminEmail,
         name: 'ATZYNC Admin',
       },
       24 * 60 * 60 * 1000 // 24 hours
@@ -39,7 +47,7 @@ export async function POST(request) {
         success: true,
         message: 'Admin authentication successful.',
         user: {
-          email: ADMIN_EMAIL,
+          email: adminEmail,
           name: 'ATZYNC Admin',
           role: 'admin',
         },

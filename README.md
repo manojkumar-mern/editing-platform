@@ -35,6 +35,7 @@
 
 Below is the end-to-end user navigation, inquiry dispatch, and backend processing flow:
 
+````markdown
 ```mermaid
 flowchart TD
     A[User Visits Site] --> B[Camera Viewfinder Preloader]
@@ -54,9 +55,9 @@ flowchart TD
     L --> M[Option: Direct WhatsApp Chat]
     
     subgraph Admin Portal
-        N[Studio Admin /admin] --> O[Fetch Inquiries /api/admin/inquiries]
+        N[Studio Admin /admin] --> O[Fetch Inquiries /api/admin/bookings]
         O --> P[Filter, Update Status & Archive]
-    End
+    end
 ```
 
 ---
